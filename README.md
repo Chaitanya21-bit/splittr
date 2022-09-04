@@ -1,4 +1,4 @@
-# splitter
+# splittr
 
 A new Flutter project.
 
