@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "68709953361",
+    "project_id": "splittr-ccdeb",
+    "storage_bucket": "splittr-ccdeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68709953361:android:47da2e1bc3705e15c9ad70",
+        "android_client_info": {
+          "package_name": "com.example.splitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68709953361-6e4t2ion856jgg77lj4m894pm1vjbqqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJUvmhit1s6rJdK9vVBJxHZ_kk8asTvz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68709953361-6e4t2ion856jgg77lj4m894pm1vjbqqq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "68709953361-0kqkm37kjrmvh2p8mv5g8do568fsvhoi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.company.splittr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
