@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'auth/firebase_options.dart';
+import 'auth/firebase_manager.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -30,7 +35,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    FirebaseManager();
+  }
+
+  Future<void> _incrementCounter() async {
+    print("after");
+    print(FirebaseManager.auth);
+    final snapshot = await FirebaseManager.database.ref().child("data").get();
+    print(snapshot.value);
     setState(() {
       _counter++;
     });
@@ -61,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-      drawer: Drawer(
+      drawer: const Drawer(
         child: Text('Hi'),
       ),
     );
