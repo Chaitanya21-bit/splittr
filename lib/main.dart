@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print(FirebaseManager.auth);
     final snapshot = await FirebaseManager.database.ref().child("data").get();
     print(snapshot.value);
+    print("Maa chuda");
     setState(() {
       _counter++;
     });
