@@ -1,15 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:splitter/auth/firebase_manager.dart';
+import 'package:splitter/main.dart';
 
-class SignUpScreen extends StatelessWidget{
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController aliasController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController cnfPasswordController = TextEditingController();
+  final FirebaseAuth auth = FirebaseManager.auth;
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/login.png'),
-              fit: BoxFit.fitHeight
-          ),),
-        child : Scaffold(
+              image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
+        ),
+        child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Stack(
             children: [
@@ -19,31 +29,33 @@ class SignUpScreen extends StatelessWidget{
                   right: 10,
                   left: 50,
                 ),
-                child: Text("Sign Up",
-                  style: TextStyle(color: Colors.black,fontSize: 40),
+                child: const Text(
+                  "Sign Up",
+                  style: TextStyle(color: Colors.black, fontSize: 40),
                 ),
               ),
               SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3,
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.3,
                       right: 30,
                       left: 30),
                   child: Column(
                     children: [
-
                       TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          labelText: "Phone Number",
+                              borderRadius: BorderRadius.circular(5)),
+                          labelText: "Email",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
-                        obscureText: true ,
+                        controller: nameController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -51,11 +63,12 @@ class SignUpScreen extends StatelessWidget{
                           labelText: "Name",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
-                        obscureText: true ,
+                        controller: aliasController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -63,11 +76,12 @@ class SignUpScreen extends StatelessWidget{
                           labelText: "Alias",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
-                        obscureText: true ,
+                        controller: passwordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -75,11 +89,12 @@ class SignUpScreen extends StatelessWidget{
                           labelText: "Password",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       TextField(
-                        obscureText: true ,
+                        controller: cnfPasswordController,
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -87,22 +102,24 @@ class SignUpScreen extends StatelessWidget{
                           labelText: "Confirm Password",
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
-
                       ElevatedButton(
-                        onPressed: () => {},
-                        child: Text("Sign Up"),
+                        onPressed: () => registerUser(context),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Color(0xff1870B5)),
-                          overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xff1870B5)),
+                          overlayColor:
+                              MaterialStateProperty.all<Color>(Colors.pink),
                         ),
+                        child: const Text("Sign Up"),
                       ),
                       Row(
                         children: [
-                          Text("Already have an Account ? "),
-                          TextButton(onPressed: () => {}, child: Text("Sign In"))
+                          const Text("Already have an Account ? "),
+                          TextButton(
+                              onPressed: () => {}, child: const Text("Sign In"))
                         ],
                       )
                     ],
@@ -111,32 +128,26 @@ class SignUpScreen extends StatelessWidget{
               )
             ],
           ),
-        )
-    );
+        ));
+  }
+
+  Future<void> registerUser(BuildContext context) async {
+    try {
+      NavigatorState state = Navigator.of(context);
+      final credential = await auth.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      state.pushReplacement(MaterialPageRoute(
+          builder: (context) => const MyHomePage(title: "title")));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
