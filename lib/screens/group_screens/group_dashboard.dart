@@ -9,6 +9,7 @@ class GroupDashboard extends StatelessWidget{
             image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
       ),
     );
+
   }
 
 }
