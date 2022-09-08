@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
+import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'auth/firebase_options.dart';
 import 'auth/firebase_manager.dart';
+import 'screens/auth_screens/signup_screen.dart';
+import 'screens/group_screens/group_dashboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'Login',
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          primarySwatch: Colors.blue,
         ),
         home: LoginScreen(),
       );
@@ -31,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'FlDemo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Splittr'),
     );
@@ -80,6 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            TextButton(
+                onPressed: () => {
+                  Navigator.of(context).push(
+                      MaterialPageRoute( builder: (context) => GroupDashboard()))
+                },
+                child: const Text("Group Dashboard"))
           ],
         ),
       ),

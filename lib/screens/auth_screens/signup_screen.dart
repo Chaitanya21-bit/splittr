@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/main.dart';
+import 'package:splitter/screens/auth_screens/login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -119,7 +120,10 @@ class SignUpScreen extends StatelessWidget {
                         children: [
                           const Text("Already have an Account ? "),
                           TextButton(
-                              onPressed: () => {}, child: const Text("Sign In"))
+                              onPressed: () => { Navigator.of(context).push(
+                                  MaterialPageRoute( builder: (context) => LoginScreen()))
+                              },
+                              child: const Text("Sign In"))
                         ],
                       )
                     ],
@@ -128,7 +132,8 @@ class SignUpScreen extends StatelessWidget {
               )
             ],
           ),
-        ));
+        )
+    );
   }
 
   Future<void> registerUser(BuildContext context) async {
