@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 
-class GroupDashboard extends StatelessWidget{
+import '../popup_screens/add_money_popup.dart';
+
+class GroupDashboard extends StatelessWidget {
+  const GroupDashboard({Key? key}) : super(key: key);
+
+
+
+
+
+
   @override
-  Widget build(BuildContext){
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('first'),
+        centerTitle: true,
+        backgroundColor: Colors.deepOrange,
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await openDialogue(context);
+        },
+        backgroundColor: Colors.deepOrange,
+        child: const Icon(Icons.add),
       ),
     );
-
   }
-
 }
