@@ -23,7 +23,7 @@ class GroupDashboard extends StatelessWidget {
         onPressed: () async {
           await openDialogue(context);
         },
-        backgroundColor: Colors.deepOrange,
+        backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
       ),
     );
