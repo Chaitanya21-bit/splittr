@@ -16,12 +16,8 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
-        ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           body: Stack(
             children: [
               Container(
@@ -30,19 +26,43 @@ class SignUpScreen extends StatelessWidget {
                   right: 10,
                   left: 50,
                 ),
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(color: Colors.black, fontSize: 40),
-                ),
+              ),
+
+              Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Image.asset("assets/SignupTop BlobImg.png")
+              ),
+              // Logo
+              Positioned(
+                  top: MediaQuery.of(context).size.height * 0.1,
+                  left: MediaQuery.of(context).size.width*0.3,
+                  width:MediaQuery.of(context).size.height * 0.2,
+                  child: Image.asset("assets/WhiteSplittrLogo.png")
+              ),
+
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Image.asset("assets/SignupBottom BlobImg.png"),
               ),
               SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.3,
+                      top: MediaQuery.of(context).size.height * 0.265,
                       right: 30,
                       left: 30),
                   child: Column(
-                    children: [
+
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      const Text(
+                        "Sign Up",
+                        style: TextStyle(color: Colors.black, fontSize: 40),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -52,7 +72,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       TextField(
                         controller: nameController,
@@ -65,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       TextField(
                         controller: aliasController,
@@ -78,7 +98,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       TextField(
                         controller: passwordController,
@@ -91,7 +111,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       TextField(
                         controller: cnfPasswordController,
@@ -104,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       ElevatedButton(
                         onPressed: () => registerUser(context),
@@ -117,6 +137,7 @@ class SignUpScreen extends StatelessWidget {
                         child: const Text("Sign Up"),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text("Already have an Account ? "),
                           TextButton(
@@ -125,12 +146,15 @@ class SignUpScreen extends StatelessWidget {
                               },
                               child: const Text("Sign In"))
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
+
+
             ],
+
           ),
         )
     );
