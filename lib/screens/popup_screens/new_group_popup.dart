@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import '../group_screens/group_dashboard.dart';
 
 Future<void> newGroup(BuildContext context) async{
   return await showDialog(context: context,
@@ -26,14 +26,12 @@ Future<void> newGroup(BuildContext context) async{
                   ),
 
                   TextFormField(
-
                     controller:groupNameController ,
 
                     decoration: const InputDecoration(
                       labelText: 'Group Name',
                       border: OutlineInputBorder(),
                     ),
-
                   ),
                   const SizedBox(
                     height: 20,
@@ -44,11 +42,7 @@ Future<void> newGroup(BuildContext context) async{
                     decoration: const InputDecoration(
                       labelText: 'About',
                       border: OutlineInputBorder(),
-
-
-
                     ),
-
                   ),
                   const SizedBox(
                     height: 20,
@@ -56,15 +50,11 @@ Future<void> newGroup(BuildContext context) async{
                   Row(children:  [
                     Expanded(
                       child: TextFormField(
-
                         controller:groupLimitController ,
                         decoration: const InputDecoration(
                           labelText: 'Group Limit',
                           border: OutlineInputBorder(),
-
-
                         ),
-
                       ),
                     ),
                     const SizedBox(
@@ -72,40 +62,23 @@ Future<void> newGroup(BuildContext context) async{
                     ),
                     Expanded(
                       child: TextFormField(
-
                         controller:personalLimitController ,
                         decoration: const InputDecoration(
                           labelText: 'Personal Limit',
                           border: OutlineInputBorder(),
-
-
                         ),
-
                       ),
-                      ),
-
+                    ),
                   ]),
-
-
                   const SizedBox(
                     height: 20,
                   ),
-
-
                   TextFormField(
-
-
                     decoration: const InputDecoration(
                       labelText: 'Generated Code',
                       border: OutlineInputBorder(),
-
-
                     ),
-
                   ),
-
-
-
                 ],
               )
           ),
@@ -123,7 +96,9 @@ Future<void> newGroup(BuildContext context) async{
 
 
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.of(context).push(
+                    MaterialPageRoute( builder: (context) => const GroupDashboard()))},
               style: ButtonStyle(
                 // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),

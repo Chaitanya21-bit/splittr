@@ -75,7 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title,
+          style: TextStyle(color: Color(0xff1870B5))),
+        backgroundColor:Colors.transparent,
       ),
 
       body: Center(
@@ -84,13 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             TextButton(
                 onPressed: () => {
                   Navigator.of(context).push(
@@ -115,8 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 await newGroup(context);
               },
               style: ButtonStyle(
-                // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
-                backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
+                backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
+                // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
               ),
               child: const Text("New Group"),
@@ -131,6 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
+
+
       drawer: const Drawer(
         child: Text('Hi'),
       ),

@@ -14,7 +14,7 @@ class GroupDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('first'),
+        title: const Text('Group Dashboard'),
         centerTitle: true,
         backgroundColor: Colors.deepOrange,
       ),

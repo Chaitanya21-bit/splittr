@@ -13,35 +13,57 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //       image: AssetImage('assets/login.png'), fit: BoxFit.fitHeight),
+        // ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           body: Stack(
             children: [
               Container(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.4,
-                  right: 10,
-                  left: 50,
-                  bottom: 5,
-                ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(color: Colors.black, fontSize: 40),
-                ),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.4,
+                right: 10,
+                left: 50,
+                bottom: 5,
+              ),
+            ),
+
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Image.asset("assets/LoginTop BlobImg.png")
+              ),
+              // Logo
+              Positioned(
+                  top: MediaQuery.of(context).size.height * 0.2,
+                  left: MediaQuery.of(context).size.width*0.3,
+                  width:MediaQuery.of(context).size.height * 0.2,
+                  child: Image.asset("assets/SplittrLogo.png")
+              ),
+              Positioned(
+                bottom: 0,
+                  right: 0,
+                  child: Image.asset("assets/LoginBottom BlobImg.png")
               ),
               SingleChildScrollView(
                 child: Container(
                   margin: const EdgeInsets.all(25),
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.5,
+                      top: MediaQuery.of(context).size.height * 0.3,
                       right: 30,
                       left: 30),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      const Text(
+                        "Login",
+                        style: TextStyle(color: Colors.black, fontSize: 40 ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
                       TextFormField(
                         controller: emailController,
                         decoration: InputDecoration(
@@ -51,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       TextField(
                         controller: passwordController,
@@ -64,7 +86,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 50,
                       ),
                       ElevatedButton(
                         onPressed: () => login(context),
@@ -78,8 +100,9 @@ class LoginScreen extends StatelessWidget {
                         child: const Text("Login"),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an Account ? "),
+                          const Text("Don't have an Account ? ",),
                           TextButton(
                               onPressed: () => {
                                     Navigator.of(context).push(
@@ -96,7 +119,8 @@ class LoginScreen extends StatelessWidget {
               )
             ],
           ),
-        ));
+        )
+    );
   }
 
   login(BuildContext context) async {
