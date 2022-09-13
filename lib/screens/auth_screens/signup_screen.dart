@@ -76,7 +76,6 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       TextField(
                         controller: nameController,
-                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
@@ -89,7 +88,6 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       TextField(
                         controller: aliasController,
-                        obscureText: true,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
