@@ -153,7 +153,8 @@ class SignUpScreen extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    )
+    );
   }
 
   Future<void> registerUser(BuildContext context) async {
