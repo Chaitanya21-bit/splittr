@@ -7,8 +7,6 @@ import 'package:splitter/screens/popup_screens/join_group_popup.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
 import 'auth/firebase_options.dart';
 import 'auth/firebase_manager.dart';
-import 'screens/auth_screens/signup_screen.dart';
-import 'screens/group_screens/group_dashboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,44 +71,39 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-        title: Text(widget.title,
-          style: TextStyle(color: Color(0xff1870B5))),
-        backgroundColor:Colors.transparent,
+        title: Text(widget.title, style: TextStyle(color: Color(0xff1870B5))),
+        backgroundColor: Colors.transparent,
       ),
-
       body: Center(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: <Widget>[
             TextButton(
                 onPressed: () => {
-                  Navigator.of(context).push(
-                      MaterialPageRoute( builder: (context) => const GroupDashboard()))
-                },
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const GroupDashboard()))
+                    },
                 child: const Text("Group Dashboard")),
             ElevatedButton(
-
-              onPressed: () async{
-                  await joinGroup(context);
+              onPressed: () async {
+                await joinGroup(context);
               },
               style: ButtonStyle(
                 // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
-                backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
+                backgroundColor:
+                    MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
               ),
               child: const Text("Join Group"),
             ),
             ElevatedButton(
-
-              onPressed: () async{
+              onPressed: () async {
                 await newGroup(context);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
               ),
@@ -119,15 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-
-
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-
-
       drawer: const Drawer(
         child: Text('Hi'),
       ),
