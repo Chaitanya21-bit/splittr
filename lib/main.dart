@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/screens/popup_screens/join_group_popup.dart';
@@ -38,41 +40,48 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Splittr'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
+  FirebaseDatabase database = FirebaseManager.database;
+  FirebaseAuth auth = FirebaseManager.auth;
+  late final Person person;
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> _incrementCounter() async {
+  Future<void> setPerson() async {
+    final snapshot =
+        await database.ref().child('Users/${auth.currentUser!.uid}').get();
+    if (snapshot.exists) {
+      // person = Person.fromJson(snapshot.value as Map<String, dynamic>);
+      print(snapshot.value);
+    }
+  }
+
+  void _incrementCounter() {
     FirebaseManager.auth.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
-    setState(() {
-      _counter++;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    setPerson();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Color(0xff1870B5))),
+        title: Text("nqwuc", style: TextStyle()),
         backgroundColor: Colors.transparent,
       ),
       body: Center(
