@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/popup_screens/what_for_dropdown.dart';
 
 Future<void> openDialogue(BuildContext context) async{
+
   return await showDialog(context: context,
       builder: (context){
         final TextEditingController addMoneyController = TextEditingController();
@@ -23,11 +25,9 @@ Future<void> openDialogue(BuildContext context) async{
                     height: 20,
                   ),
                   Row(
-                    children: [
-
-                      TextButton(onPressed: () => {},
-                          child: const Text('What for?'))
-                    ],
+                    children:  const [
+                       Expanded(child: WhatForDropdown())
+                  ],
                   ),
                   const SizedBox(
                     height: 30,
