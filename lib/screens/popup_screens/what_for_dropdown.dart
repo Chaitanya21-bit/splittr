@@ -1,35 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// DropdownButton<String> dropdown(){
-//   var dropdownValue = 'What For?';
-//   return DropdownButton<String>(
-//     value: dropdownValue,
-//     icon: const Icon(Icons.arrow_downward),
-//     iconSize: 24,
-//     elevation: 16,
-//     style: const TextStyle(
-//         color: Colors.deepPurple
-//     ),
-//     underline: Container(
-//       height: 2,
-//       color: Colors.deepPurpleAccent,
-//     ),
-//     onChanged: (String? newValue) {
-//       setState(() {
-//         dropdownValue = newValue!;
-//       });
-//     },
-//     items: <String>['One', 'Two', 'Free', 'Four']
-//         .map<DropdownMenuItem<String>>((String value) {
-//       return DropdownMenuItem<String>(
-//         value: value,
-//         child: Text(value),
-//       );
-//     })
-//         .toList(),
-//   );
-// }
+
 
 class WhatForDropdown extends StatefulWidget{
 
@@ -49,38 +21,7 @@ class MyDropDown extends State<WhatForDropdown>{
 
 
     final items =  ['Apple','Banana','Grapes','Orange','watermelon','Pineapple'];
-    // return Container(
-    //     height: 1,
-    //     child: DropdownButtonHideUnderline(
-    //       child: DropdownButton<String>(
-    //         isExpanded: true,
-    //         value: dropdownValue,
-    //         icon: const Icon(Icons.arrow_downward),
-    //       // iconSize: 24,
-    //       // elevation: 16,
-    //       // style: const TextStyle(
-    //       //     color: Colors.deepPurple
-    //       // ),
-    //       // underline: Container(
-    //       //   height: 2,
-    //       //   color: Colors.deepPurpleAccent,
-    //       // ),
-    //           onChanged: (String? newValue) {
-    //             setState(() {
-    //               dropdownValue = newValue!;
-    //             });
-    //           },
-    //           items: <String>['One', 'Two', 'Free', 'Four']
-    //               .map<DropdownMenuItem<String>>((String value) {
-    //             return DropdownMenuItem<String>(
-    //               value: value,
-    //               child: Text(value),
-    //             );
-    //           }).toList(),
-    //         ),
-    //         ),
-    //
-    // );
+
     return  Container(
 
       padding: const EdgeInsets.all(10.0),
