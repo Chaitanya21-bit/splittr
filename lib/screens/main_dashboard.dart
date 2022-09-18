@@ -25,6 +25,12 @@ class _MainDashboardState extends State<MainDashboard> {
     });
   }
 
+  void _deleteTransaction(String transId) {
+    setState(() {
+      _transactionsList.removeWhere((index) => (index.tid == transId));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container();
