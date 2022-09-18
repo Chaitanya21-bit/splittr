@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/dataclass/transactions.dart';
+import 'package:splitter/widgets/transaction_list.dart';
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({super.key});
@@ -33,6 +34,20 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final dynamic appBar = AppBar(
+      title: const Text('Dashboard'),
+    );
+
+    final txList = SizedBox(
+        height: ((mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.7),
+        child: TransactionList(
+            transactions: _transactionsList,
+            deleteTransaction: _deleteTransaction));
+
     return Container();
   }
 }
