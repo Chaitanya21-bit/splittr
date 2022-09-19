@@ -7,6 +7,7 @@ import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/screens/popup_screens/join_group_popup.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
+import 'package:splitter/widgets/navigation_drawer.dart';
 import 'auth/firebase_options.dart';
 import 'auth/firebase_manager.dart';
 
@@ -126,9 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
-      drawer: const Drawer(
-        child: Text('Hi'),
-      ),
+      drawer: const NavigationDrawerWidget(),
     );
   }
 }
