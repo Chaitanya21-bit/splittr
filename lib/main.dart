@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
+import 'package:splitter/screens/main_dashboard.dart';
 import 'package:splitter/screens/popup_screens/join_group_popup.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
 import 'package:splitter/widgets/navigation_drawer.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'FlDemo',
+      title: 'LoggedIn',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -71,24 +72,33 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void _incrementCounter() {
-    FirebaseManager.auth.signOut();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen()));
-  }
-
   @override
   Widget build(BuildContext context) {
     setPerson();
     return Scaffold(
       appBar: AppBar(
-        title: Text("nqwuc", style: TextStyle()),
+        title: Text("MAIN.dart", style: TextStyle()),
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseManager.auth.signOut();
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              },
+              icon: const Icon(Icons.logout))
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton(
+                onPressed: () => {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MainDashboard()))
+                    },
+                child: const Text("Main Dashboard")),
             TextButton(
                 onPressed: () => {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -121,11 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
       drawer: const NavigationDrawerWidget(),
     );

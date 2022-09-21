@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/transactions.dart';
+import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/widgets/transaction_list.dart';
+import 'popup_screens/add_money_popup.dart';
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({super.key});
@@ -37,6 +40,17 @@ class _MainDashboardState extends State<MainDashboard> {
     final mediaQuery = MediaQuery.of(context);
     final dynamic appBar = AppBar(
       title: const Text('Dashboard'),
+      centerTitle: true,
+      backgroundColor: Colors.teal,
+      actions: [
+        IconButton(
+            onPressed: () {
+              FirebaseManager.auth.signOut();
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            },
+            icon: const Icon(Icons.logout))
+      ],
     );
 
     final txList = SizedBox(
@@ -48,6 +62,14 @@ class _MainDashboardState extends State<MainDashboard> {
             transactions: _transactionsList,
             deleteTransaction: _deleteTransaction));
 
-    return Container();
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await openDialogue(context);
+        },
+        backgroundColor: Colors.deepPurple,
+        child: const Icon(Icons.add),
+      ),
+    );
   }
 }
