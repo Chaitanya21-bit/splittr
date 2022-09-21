@@ -63,12 +63,23 @@ class _MainDashboardState extends State<MainDashboard> {
             deleteTransaction: _deleteTransaction));
 
     return Scaffold(
+      appBar: appBar,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await openDialogue(context);
+          // _addTransaction(transTitle, amount, selectedDate, expInc, transRemarks);
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add),
+      ),
+      body: Container(
+        height: (MediaQuery.of(context).size.height -
+                appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            0.5,
+        child: TransactionList(
+            transactions: _transactionsList.reversed.toList(),
+            deleteTransaction: _deleteTransaction),
       ),
     );
   }
