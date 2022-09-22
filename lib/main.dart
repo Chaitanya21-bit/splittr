@@ -72,6 +72,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _incrementCounter() {
+    FirebaseManager.auth.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     setPerson();
