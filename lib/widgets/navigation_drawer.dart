@@ -21,20 +21,20 @@ class NavigationDrawerWidget extends StatelessWidget {
               height: 40,
             ),
             buildMenuItem(
-                drawer_text: 'Profile',
-                drawer_icon: Icons.person,
+                drawerText: 'Profile',
+                drawerIcon: Icons.person,
                 onClicked: () => selectedItem(context, 0),
             ),
             const SizedBox(
               height: 20,
             ),
-            Divider(color: Colors.black),
+            const Divider(color: Colors.black),
             const SizedBox(
               height: 20,
             ),
             buildMenuItem(
-              drawer_text: 'LogOut',
-              drawer_icon: Icons.logout,
+              drawerText: 'LogOut',
+              drawerIcon: Icons.logout,
               onClicked: () => selectedItem(context, 1),
             ),
 
@@ -46,20 +46,20 @@ class NavigationDrawerWidget extends StatelessWidget {
   }
 
  Widget buildMenuItem({
-    required String drawer_text,
-    required IconData drawer_icon,
+    required String drawerText,
+    required IconData drawerIcon,
     VoidCallback? onClicked,
   }) {
       const color = Colors.black;
       return ListTile(
-        leading: Icon(drawer_icon, color: color,),
-        title: Text(drawer_text),
+        leading: Icon(drawerIcon, color: color,),
+        title: Text(drawerText),
         onTap: onClicked,
       );
 
   }
 
-  selectedItem(BuildContext context, int i) {
+  void selectedItem(BuildContext context, int i) {
     Navigator.of(context).pop();
     switch(i){
       case 0:
