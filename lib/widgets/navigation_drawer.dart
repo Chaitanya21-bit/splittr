@@ -64,7 +64,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch(i){
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => const GroupDashboard()));
+            builder: (context) => GroupDashboard()));
         break;
       case 1:
         FirebaseManager.auth.signOut();

@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
                 onPressed: () => {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const GroupDashboard()))
+                          builder: (context) => GroupDashboard()))
                     },
                 child: const Text("Group Dashboard")),
             ElevatedButton(
@@ -116,7 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 await joinGroup(context);
               },
               style: ButtonStyle(
-                // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor:
                     MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
