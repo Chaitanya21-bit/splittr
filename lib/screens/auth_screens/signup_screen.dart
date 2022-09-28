@@ -174,7 +174,10 @@ class SignUpScreen extends StatelessWidget {
           uid: credentials.user!.uid,
           alias: aliasController.text,
           email: emailController.text,
-          phoneNo: "896473");
+          phoneNo: "896473",
+          userGroups: ['null'],
+      );
+
       await database.ref('Users/${person.uid}').set(person.toJson());
       state.pushReplacement(
           MaterialPageRoute(builder: (context) => const MyHomePage()));
