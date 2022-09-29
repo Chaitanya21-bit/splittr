@@ -172,8 +172,8 @@ class SignUpScreen extends StatelessWidget {
           alias: aliasController.text,
           email: emailController.text,
           phoneNo: "896473",
-          userGroups: [],
-          userTransactions: []);
+          userGroups: ['null'],
+          userTransactions: ['null']);
 
       await database.ref('Users/${person.uid}').set(person.toJson());
       state.pushReplacement(
