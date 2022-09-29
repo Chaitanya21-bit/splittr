@@ -165,14 +165,11 @@ class TransactionItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      (transaction.expenseOrIncome == 'expense' ? '-' : '+') +
-                          '${transaction.amount}',
+                      '${transaction.amount}',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: transaction.expenseOrIncome == 'expense'
-                            ? Colors.red
-                            : Colors.green,
+                        color: Colors.red,
                       ),
                     ),
                     Text(

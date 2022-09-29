@@ -3,7 +3,6 @@ class Transactions {
   late String title;
   late double amount;
   late DateTime date;
-  late String expenseOrIncome;
   late String remarks;
 
   Transactions(
@@ -11,7 +10,6 @@ class Transactions {
       required this.title,
       required this.amount,
       required this.date,
-      required this.expenseOrIncome,
       required this.remarks});
 
   static Transactions fromJson(Map<String, dynamic> json) {
@@ -20,7 +18,6 @@ class Transactions {
         tid: json['tid'],
         amount: json['amount'],
         date: json['date'],
-        expenseOrIncome: json['expenseOrIncome'],
         remarks: json['remarks']);
   }
 
@@ -29,7 +26,6 @@ class Transactions {
         'tid': tid,
         'amount': amount,
         'date': date,
-        'expenseOrIncome': expenseOrIncome,
         'remarks': remarks
       };
 }

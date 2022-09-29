@@ -6,6 +6,7 @@ class Person {
   late String phoneNo;
   late double? limit;
   late List<String> userGroups;
+  late List<String> userTransactions;
 
   Person(
       {required this.name,
@@ -15,18 +16,18 @@ class Person {
       required this.phoneNo,
       this.limit = -1,
       required this.userGroups,
-      }
-      );
+      required this.userTransactions});
 
   static Person fromJson(Map<String, dynamic> json) {
     return Person(
-        name: json['name'],
-        uid: json['uid'],
-        alias: json['alias'],
-        email: json['email'],
-        phoneNo: json['phoneNo'],
-        limit: double.parse(json['limit'].toString()),
-        userGroups: List.of(json['userGroups'].cast<String>()),
+      name: json['name'],
+      uid: json['uid'],
+      alias: json['alias'],
+      email: json['email'],
+      phoneNo: json['phoneNo'],
+      limit: double.parse(json['limit'].toString()),
+      userGroups: List.of(json['userGroups'].cast<String>()),
+      userTransactions: List.of(json['userTransactions'].cast<String>()),
     );
   }
 
@@ -37,6 +38,7 @@ class Person {
         'email': email,
         'phoneNo': phoneNo,
         'limit': limit,
-        'userGroups': userGroups
+        'userGroups': userGroups,
+        'userTransactions': userTransactions
       };
 }
