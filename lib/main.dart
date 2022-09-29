@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     FirebaseManager.auth.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
+
   }
 
   @override
