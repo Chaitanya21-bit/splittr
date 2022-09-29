@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:splitter/auth/firebase_manager.dart';
+import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
+
+final FirebaseDatabase database = FirebaseManager.database;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({super.key});
@@ -17,7 +23,7 @@ class _MainDashboardState extends State<MainDashboard> {
   final TextEditingController addMoneyController = TextEditingController();
   final TextEditingController addRemarksController = TextEditingController();
   final TextEditingController addTitleController = TextEditingController();
-  bool _isIncome = false;
+  // bool _isIncome = false;
   DateTime? _selectedDate;
 
   void _showDatePicker() {
@@ -34,19 +40,57 @@ class _MainDashboardState extends State<MainDashboard> {
     });
   }
 
-  void _addTransaction(String transTitle, double amount, DateTime selectedDate,
-      String expInc, String transRemarks) {
-    final newTrans = Transactions(
-        tid: DateTime.now().toString(),
-        title: transTitle,
-        amount: amount,
-        date: selectedDate,
-        expenseOrIncome: expInc,
-        remarks: transRemarks);
+  _addTransaction(BuildContext context) async {
+    try {
+      NavigatorState state = Navigator.of(context);
+      Person P;
+      print(_auth.currentUser?.uid);
 
-    setState(() {
-      _transactionsList.add(newTrans);
-    });
+      final snapshot =
+          await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+      print(snapshot.value);
+
+      Map<String, dynamic> map =
+          Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
+      P = Person.fromJson(map);
+
+      print(P.userTransactions);
+
+      if (addTitleController.text.isEmpty ||
+          addMoneyController.text.isEmpty ||
+          _selectedDate == null) {
+        return;
+      }
+
+      Transactions newTrans = Transactions(
+          tid: DateTime.now().toString(),
+          title: addTitleController.text,
+          amount: double.parse(addMoneyController.text),
+          date: _selectedDate!,
+          remarks: addRemarksController.text);
+
+      setState(() {
+        _transactionsList.add(newTrans);
+      });
+      print("Transaction Created");
+      await database.ref('Transactions/${newTrans.tid}').set(newTrans.toJson());
+      print("Transaction Stored");
+
+      P.userTransactions.add(newTrans.tid);
+
+      await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+      print("User Upated");
+
+      state.pushReplacement(
+          MaterialPageRoute(builder: (context) => MainDashboard()));
+    } catch (e) {
+      print(e);
+    }
+
+    addTitleController.clear();
+    addMoneyController.clear();
+    addRemarksController.clear();
+    _selectedDate = null;
   }
 
   void _deleteTransaction(String transId) {
@@ -105,20 +149,20 @@ class _MainDashboardState extends State<MainDashboard> {
                 const SizedBox(
                   height: 25,
                 ),
-                Row(
-                  children: [
-                    const Text('Expense'),
-                    Switch(
-                      value: _isIncome,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _isIncome = newValue;
-                        });
-                      },
-                    ),
-                    const Text('Income'),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     const Text('Expense'),
+                //     Switch(
+                //       value: _isIncome,
+                //       onChanged: (newValue) {
+                //         setState(() {
+                //           _isIncome = newValue;
+                //         });
+                //       },
+                //     ),
+                //     const Text('Income'),
+                //   ],
+                // ),
                 TextFormField(
                   controller: addMoneyController,
                   decoration: const InputDecoration(
@@ -155,7 +199,7 @@ class _MainDashboardState extends State<MainDashboard> {
                 child: const Text("Cancel"),
               ),
               ElevatedButton(
-                onPressed: () => {},
+                onPressed: () => _addTransaction(context),
                 style: ButtonStyle(
                   // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                   backgroundColor:
