@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/drawer_screens/profile.dart';
+import 'package:splitter/screens/drawer_screens/quick_settle.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 
 import '../auth/firebase_manager.dart';
@@ -24,6 +26,14 @@ class NavigationDrawerWidget extends StatelessWidget {
                 drawerText: 'Profile',
                 drawerIcon: Icons.person,
                 onClicked: () => selectedItem(context, 0),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            buildMenuItem(
+              drawerText: 'Quick Settle',
+              drawerIcon: Icons.handshake_outlined,
+              onClicked: () => selectedItem(context, 2),
             ),
             const SizedBox(
               height: 20,
@@ -64,12 +74,16 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch(i){
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => GroupDashboard()));
+            builder: (context) => const ProfileScreen()));
         break;
       case 1:
         FirebaseManager.auth.signOut();
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>const QuickSettle()));
         break;
     }
 
