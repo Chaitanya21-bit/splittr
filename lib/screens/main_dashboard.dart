@@ -7,6 +7,8 @@ import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
+import 'package:splitter/widgets/groups.dart';
+import 'package:splitter/widgets/money_used_events.dart';
 
 final FirebaseDatabase database = FirebaseManager.database;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -213,6 +215,26 @@ class _MainDashboardState extends State<MainDashboard> {
         });
   }
 
+   final List _groups = [
+    'Ethenic Day pe hone wale sabke bindas kharche',
+    'Krish ne diya sabko Ojas hone ki khushi mei gifts',
+    'Shubhankar leke gaya Mela',
+    'Saurabh ki Gujrati Treat',
+    'Chaitanya ke Anime Cafe wali party',
+    'Ooty aur Chikaldara Trip',
+    'Hamar Project',
+  ];
+
+  final List _money_used_events = [
+    '500',
+    '1000',
+    '200',
+    '4000',
+    '50',
+    '600',
+    '72',
+  ];
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -249,7 +271,12 @@ class _MainDashboardState extends State<MainDashboard> {
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add),
       ),
-      body: Container(
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            
+            Expanded(
+                child: Container(
         height: (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
                 MediaQuery.of(context).padding.top) *
@@ -258,6 +285,63 @@ class _MainDashboardState extends State<MainDashboard> {
             transactions: _transactionsList.reversed.toList(),
             deleteTransaction: _deleteTransaction),
       ),
+
+      ),
+
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                
+
+            
+              ],)
+            ),
+            
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              height: 250,
+              width: 400,
+              child: ListView.builder(
+                    itemCount: _groups.length,
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                        return MyGroups(
+                          child: _groups[index],
+                        );
+                    }
+                ), 
+              ),
+
+              Container(
+              margin: const EdgeInsets.all(10.0),
+              height: 250,
+              width: 400,
+              child: ListView.builder(
+                    itemCount: _money_used_events.length,
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                        return MyMoneyUsed(
+                          child: _money_used_events[index],
+                        );
+                    }
+                ), 
+              ),
+
+              
+
+          ],
+        ),
+      
+      drawer: const Drawer(
+        child: Text('Hi'),
+      ),
     );
+      
+      
+      
+    
   }
 }
