@@ -2,7 +2,7 @@ class Transactions {
   late String tid;
   late String title;
   late double amount;
-  late DateTime date;
+  late String date;
   late String remarks;
 
   Transactions(
@@ -14,16 +14,16 @@ class Transactions {
 
   static Transactions fromJson(Map<String, dynamic> json) {
     return Transactions(
-        title: json['title'],
         tid: json['tid'],
+        title: json['title'],
         amount: json['amount'],
         date: json['date'],
         remarks: json['remarks']);
   }
 
   Map<String, dynamic> toJson() => {
-        'title': title,
         'tid': tid,
+        'title': title,
         'amount': amount,
         'date': date,
         'remarks': remarks

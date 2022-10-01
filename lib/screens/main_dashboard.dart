@@ -5,10 +5,10 @@ import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
+import 'package:splitter/widgets/group_item.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
-import 'package:splitter/widgets/groups.dart';
-import 'package:splitter/widgets/money_used_events.dart';
+import 'package:uuid/uuid.dart';
 
 final FirebaseDatabase database = FirebaseManager.database;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -26,7 +26,61 @@ class _MainDashboardState extends State<MainDashboard> {
   final TextEditingController addRemarksController = TextEditingController();
   final TextEditingController addTitleController = TextEditingController();
   // bool _isIncome = false;
-  DateTime? _selectedDate;
+  String _selectedDate = DateTime.now().toString();
+
+  List<dynamic> output = [];
+
+  final List _groups = [
+    'Ethenic Day pe hone wale sabke bindas kharche',
+    'Krish ne diya sabko Ojas hone ki khushi mei gifts',
+    'Shubhankar leke gaya Mela',
+    'Saurabh ki Gujrati Treat',
+    'Chaitanya ke Anime Cafe wali party',
+    'Ooty aur Chikaldara Trip',
+    'Hamar Project',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _retrieveTransaction(context);
+  }
+
+  _retrieveTransaction(BuildContext context) async {
+    final snapshot1 = await database.ref('Transactions').get();
+    // print(snapshot1.value);
+
+    Map<String, dynamic> map1 =
+        Map<String, dynamic>.from(snapshot1.value as Map<dynamic, dynamic>);
+    List<dynamic> list1 = [];
+    list1.clear();
+    list1 = map1.values.toList();
+    print(list1);
+
+    final snapshot2 =
+        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    // print(snapshot2.value);
+    Map<String, dynamic> map2 =
+        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
+    Person P = Person.fromJson(map2);
+    print(P.userTransactions);
+
+    for (int i = 0; i < P.userTransactions.length; i++) {
+      for (int j = 0; j < list1.length; j++) {
+        if (P.userTransactions[i] == list1[j]['tid']) {
+          if (!output.contains(list1[j])) {
+            output.add(list1[j]);
+          }
+        }
+      }
+      // list1.removeWhere((item) => item.tid == P.userTransactions[i]);
+    }
+    setState(() {
+      output;
+    });
+    print(output);
+    print(_transactionsList);
+  }
 
   void _showDatePicker() {
     showDatePicker(
@@ -38,7 +92,7 @@ class _MainDashboardState extends State<MainDashboard> {
       if (date == null && date.toString().isEmpty) {
         return;
       }
-      setState(() => _selectedDate = date!);
+      setState(() => _selectedDate = date.toString());
     });
   }
 
@@ -47,6 +101,10 @@ class _MainDashboardState extends State<MainDashboard> {
       NavigatorState state = Navigator.of(context);
       Person P;
       print(_auth.currentUser?.uid);
+      // DataSnapshot lt = await database
+      //     .ref('Users/${_auth.currentUser?.uid}/userTransactions')
+      //     .get();
+      // print(lt.value);
 
       final snapshot =
           await database.ref().child('Users/${_auth.currentUser!.uid}').get();
@@ -60,31 +118,42 @@ class _MainDashboardState extends State<MainDashboard> {
 
       if (addTitleController.text.isEmpty ||
           addMoneyController.text.isEmpty ||
-          _selectedDate == null) {
+          _selectedDate.isEmpty) {
         return;
       }
+      var dt = DateTime.parse(_selectedDate);
 
+      const t_uuid = Uuid();
       Transactions newTrans = Transactions(
-          tid: DateTime.now().toString(),
-          title: addTitleController.text,
+          date:
+              "${dt.day}-${dt.month}-${dt.year} ${dt.hour}:${dt.minute}:${dt.second}",
           amount: double.parse(addMoneyController.text),
-          date: _selectedDate!,
-          remarks: addRemarksController.text);
+          title: addTitleController.text,
+          remarks: addRemarksController.text,
+          tid: t_uuid.v1());
+      print(newTrans.toJson());
+      // print(newTrans as dynamic);
 
       setState(() {
-        _transactionsList.add(newTrans);
+        if (!output.contains(newTrans.toJson())) {
+          output.add(newTrans.toJson());
+        }
       });
       print("Transaction Created");
       await database.ref('Transactions/${newTrans.tid}').set(newTrans.toJson());
       print("Transaction Stored");
 
       P.userTransactions.add(newTrans.tid);
+      // await database
+      //     .ref().child(
+      //         'Users/${_auth.currentUser?.uid}/userTransactions/${newTrans.tid}')
+      //     .set(newTrans.toJson());
 
       await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
       print("User Upated");
 
-      state.pushReplacement(
-          MaterialPageRoute(builder: (context) => MainDashboard()));
+      // state.pushReplacement(
+      //     MaterialPageRoute(builder: (context) => MainDashboard()));
     } catch (e) {
       print(e);
     }
@@ -92,12 +161,25 @@ class _MainDashboardState extends State<MainDashboard> {
     addTitleController.clear();
     addMoneyController.clear();
     addRemarksController.clear();
-    _selectedDate = null;
+    // _selectedDate = null;
   }
 
-  void _deleteTransaction(String transId) {
+  _deleteTransaction(BuildContext context, String transId) async {
+    final snapshot2 =
+        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    Map<String, dynamic> map2 =
+        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
+    Person P = Person.fromJson(map2);
+
     setState(() {
+      for (int j = 0; j < P.userTransactions.length; j++) {
+        if (P.userTransactions[j] == transId) {
+          P.userTransactions.removeAt(j);
+        }
+      }
       _transactionsList.removeWhere((index) => (index.tid == transId));
+      output.removeWhere((element) => (element['tid'] == transId));
+      FirebaseDatabase.instance.ref().child('Transactions/$transId').remove();
     });
   }
 
@@ -134,9 +216,10 @@ class _MainDashboardState extends State<MainDashboard> {
                     contentPadding: const EdgeInsets.all(0.0),
                     horizontalTitleGap: 0.0,
                     trailing: Text(
-                      _selectedDate == null
+                      DateTime.parse(_selectedDate) == null
                           ? 'NIL'
-                          : DateFormat.yMMMd().format(_selectedDate!),
+                          : DateFormat.yMMMd()
+                              .format(DateTime.parse(_selectedDate)),
                     ),
                     leading: const Icon(Icons.date_range),
                     title: TextButton(
@@ -201,7 +284,8 @@ class _MainDashboardState extends State<MainDashboard> {
                 child: const Text("Cancel"),
               ),
               ElevatedButton(
-                onPressed: () => _addTransaction(context),
+                onPressed: () =>
+                    {_addTransaction(context), Navigator.of(context).pop()},
                 style: ButtonStyle(
                   // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                   backgroundColor:
@@ -214,26 +298,6 @@ class _MainDashboardState extends State<MainDashboard> {
           );
         });
   }
-
-   final List _groups = [
-    'Ethenic Day pe hone wale sabke bindas kharche',
-    'Krish ne diya sabko Ojas hone ki khushi mei gifts',
-    'Shubhankar leke gaya Mela',
-    'Saurabh ki Gujrati Treat',
-    'Chaitanya ke Anime Cafe wali party',
-    'Ooty aur Chikaldara Trip',
-    'Hamar Project',
-  ];
-
-  final List _money_used_events = [
-    '500',
-    '1000',
-    '200',
-    '4000',
-    '50',
-    '600',
-    '72',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -272,76 +336,36 @@ class _MainDashboardState extends State<MainDashboard> {
         child: const Icon(Icons.add),
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            
-            Expanded(
-                child: Container(
-        height: (MediaQuery.of(context).size.height -
-                appBar.preferredSize.height -
-                MediaQuery.of(context).padding.top) *
-            0.5,
-        child: TransactionList(
-            transactions: _transactionsList.reversed.toList(),
-            deleteTransaction: _deleteTransaction),
-      ),
-
-      ),
-
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                
-
-            
-              ],)
-            ),
-            
-            Container(
-              margin: const EdgeInsets.all(10.0),
-              height: 250,
-              width: 400,
-              child: ListView.builder(
-                    itemCount: _groups.length,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                        return MyGroups(
-                          child: _groups[index],
-                        );
-                    }
-                ), 
-              ),
-
-              Container(
-              margin: const EdgeInsets.all(10.0),
-              height: 250,
-              width: 400,
-              child: ListView.builder(
-                    itemCount: _money_used_events.length,
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                        return MyMoneyUsed(
-                          child: _money_used_events[index],
-                        );
-                    }
-                ), 
-              ),
-
-              
-
-          ],
-        ),
-      
-      drawer: const Drawer(
-        child: Text('Hi'),
+        children: [
+          Container(
+            height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.4,
+            margin: const EdgeInsets.all(10.0),
+            width: 400,
+            child: ListView.builder(
+                itemCount: _groups.length,
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return GroupItem(
+                    txt: _groups[index],
+                  );
+                }),
+          ),
+          SizedBox(height: 4),
+          Container(
+            height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                0.561,
+            child: TransactionList(
+                transactions: output.reversed.toList(),
+                deleteTransaction: _deleteTransaction),
+          ),
+        ],
       ),
     );
-      
-      
-      
-    
   }
 }

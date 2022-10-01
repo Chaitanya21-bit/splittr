@@ -3,8 +3,8 @@ import 'package:splitter/dataclass/transactions.dart';
 import 'package:intl/intl.dart';
 
 class TransactionItem extends StatelessWidget {
-  TransactionItem({required this.transaction, required this.deleteTransaction});
-  final Transactions transaction;
+  TransactionItem({required this.transItem, required this.deleteTransaction});
+  final dynamic transItem;
   final Function deleteTransaction;
 
   @override
@@ -78,13 +78,13 @@ class TransactionItem extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.all(6),
       elevation: 8,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
       ),
       child: Dismissible(
-        key: Key(transaction.tid),
+        key: Key(transItem['tid']),
         background: Container(
           decoration: BoxDecoration(
             color: Colors.red,
@@ -102,7 +102,7 @@ class TransactionItem extends StatelessWidget {
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          deleteTransaction(transaction.tid);
+          deleteTransaction(context, transItem['tid']);
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(
@@ -114,12 +114,12 @@ class TransactionItem extends StatelessWidget {
                     Text("Are you sure you wish to delete this transaction?"),
                 actions: <Widget>[
                   TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text("DELETE")),
-                  TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text("CANCEL"),
                   ),
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text("DELETE")),
                 ],
               );
             },
@@ -135,63 +135,64 @@ class TransactionItem extends StatelessWidget {
             //   ),
             // );
           },
-          child: Row(
+          child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
-                  ),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Text(
-                  transaction.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  maxLines: 2,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${transaction.amount}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    ),
-                    Text(
-                      DateFormat.yMMMd().format(transaction.date),
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // SizedBox(width: 10.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(transaction.remarks,
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      transItem['title'],
                       style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey[500],
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(padding: EdgeInsets.only(top: 4.0)),
+                        Text(
+                          '${transItem['amount']}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          transItem['date'],
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 20.0, bottom: 25.0)),
+                  Text(transItem['remarks'],
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[700],
                       )),
                 ],
               ),
