@@ -3,11 +3,11 @@ import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/widgets/transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
-  final List<Transactions> _transactions;
+  final List<dynamic> _transactions;
   final Function _deleteTransaction;
 
   TransactionList(
-      {required List<Transactions> transactions,
+      {required List<dynamic> transactions,
       required Function deleteTransaction})
       : _transactions = transactions,
         _deleteTransaction = deleteTransaction;
@@ -15,6 +15,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      itemCount: _transactions.length,
       itemBuilder: (context, index) {
         if (index == _transactions.length) {
           return SizedBox(height: 75.0);
@@ -23,13 +24,12 @@ class TransactionList extends StatelessWidget {
         return Column(
           children: [
             TransactionItem(
-              transaction: _transactions[index],
+              transItem: _transactions[index],
               deleteTransaction: _deleteTransaction,
             ),
           ],
         );
       },
-      itemCount: _transactions.length + 1,
     );
   }
 }
