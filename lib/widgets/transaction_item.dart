@@ -78,6 +78,7 @@ class TransactionItem extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Card(
+      color: Color.fromARGB(255, 255, 240, 190),
       margin: EdgeInsets.all(6),
       elevation: 8,
       shape: RoundedRectangleBorder(

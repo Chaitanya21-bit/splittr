@@ -5,10 +5,13 @@ import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
+import 'package:splitter/screens/popup_screens/new_group_popup.dart';
 import 'package:splitter/widgets/group_item.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+
+import 'popup_screens/join_group_popup.dart';
 
 final FirebaseDatabase database = FirebaseManager.database;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,7 +23,7 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
-  final List<Transactions> _transactionsList = [];
+  // final List<Transactions> _transactionsList = [];
 
   final TextEditingController addMoneyController = TextEditingController();
   final TextEditingController addRemarksController = TextEditingController();
@@ -28,22 +31,14 @@ class _MainDashboardState extends State<MainDashboard> {
   // bool _isIncome = false;
   String _selectedDate = DateTime.now().toString();
 
-  List<dynamic> output = [];
-
-  final List _groups = [
-    'Ethenic Day pe hone wale sabke bindas kharche',
-    'Krish ne diya sabko Ojas hone ki khushi mei gifts',
-    'Shubhankar leke gaya Mela',
-    'Saurabh ki Gujrati Treat',
-    'Chaitanya ke Anime Cafe wali party',
-    'Ooty aur Chikaldara Trip',
-    'Hamar Project',
-  ];
+  List<dynamic> outputTransactionsList = [];
+  List<dynamic> outputGroupsList = [];
 
   @override
   void initState() {
     super.initState();
     _retrieveTransaction(context);
+    _retrieveGroup(context);
   }
 
   _retrieveTransaction(BuildContext context) async {
@@ -68,18 +63,51 @@ class _MainDashboardState extends State<MainDashboard> {
     for (int i = 0; i < P.userTransactions.length; i++) {
       for (int j = 0; j < list1.length; j++) {
         if (P.userTransactions[i] == list1[j]['tid']) {
-          if (!output.contains(list1[j])) {
-            output.add(list1[j]);
+          if (!outputTransactionsList.contains(list1[j])) {
+            outputTransactionsList.add(list1[j]);
           }
         }
       }
       // list1.removeWhere((item) => item.tid == P.userTransactions[i]);
     }
     setState(() {
-      output;
+      outputTransactionsList;
     });
-    print(output);
-    print(_transactionsList);
+    print(outputTransactionsList);
+  }
+
+  _retrieveGroup(BuildContext context) async {
+    final snapshot4 = await database.ref('Group').get();
+    // print(snapshot1.value);
+
+    Map<String, dynamic> map1 =
+        Map<String, dynamic>.from(snapshot4.value as Map<dynamic, dynamic>);
+    List<dynamic> list2 = [];
+    list2.clear();
+    list2 = map1.values.toList();
+    print(list2);
+
+    final snapshot3 =
+        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    // print(snapshot2.value);
+    Map<String, dynamic> map2 =
+        Map<String, dynamic>.from(snapshot3.value as Map<dynamic, dynamic>);
+    Person P = Person.fromJson(map2);
+    print(P.userGroups);
+
+    for (int i = 0; i < P.userGroups.length; i++) {
+      for (int j = 0; j < list2.length; j++) {
+        if (P.userGroups[i] == list2[j]['gid']) {
+          if (!outputGroupsList.contains(list2[j])) {
+            outputGroupsList.add(list2[j]);
+          }
+        }
+      }
+    }
+    setState(() {
+      outputGroupsList;
+    });
+    print(outputGroupsList);
   }
 
   void _showDatePicker() {
@@ -131,19 +159,22 @@ class _MainDashboardState extends State<MainDashboard> {
           title: addTitleController.text,
           remarks: addRemarksController.text,
           tid: t_uuid.v1());
-      print(newTrans.toJson());
-      // print(newTrans as dynamic);
 
       setState(() {
-        if (!output.contains(newTrans.toJson())) {
-          output.add(newTrans.toJson());
+        if (!outputTransactionsList.contains(newTrans.toJson())) {
+          outputTransactionsList.add(newTrans.toJson());
         }
       });
       print("Transaction Created");
       await database.ref('Transactions/${newTrans.tid}').set(newTrans.toJson());
       print("Transaction Stored");
 
-      P.userTransactions.add(newTrans.tid);
+      if (P.userTransactions.contains("null")) {
+        P.userTransactions[P.userTransactions
+            .indexWhere((element) => element == "null")] = newTrans.tid;
+      } else {
+        P.userTransactions.add(newTrans.tid);
+      }
       // await database
       //     .ref().child(
       //         'Users/${_auth.currentUser?.uid}/userTransactions/${newTrans.tid}')
@@ -175,11 +206,34 @@ class _MainDashboardState extends State<MainDashboard> {
       for (int j = 0; j < P.userTransactions.length; j++) {
         if (P.userTransactions[j] == transId) {
           P.userTransactions.removeAt(j);
+          database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
         }
       }
-      _transactionsList.removeWhere((index) => (index.tid == transId));
-      output.removeWhere((element) => (element['tid'] == transId));
+      outputTransactionsList
+          .removeWhere((element) => (element['tid'] == transId));
       FirebaseDatabase.instance.ref().child('Transactions/$transId').remove();
+    });
+  }
+
+  _deleteGroup(BuildContext context, String groupId) async {
+    final snapshot2 =
+        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    Map<String, dynamic> map2 =
+        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
+    Person P = Person.fromJson(map2);
+
+    setState(() {
+      for (int j = 0; j < P.userGroups.length; j++) {
+        if (P.userGroups[j] == groupId) {
+          FirebaseDatabase.instance
+              .ref()
+              .child('Users/${_auth.currentUser!.uid}/userGroups/$j')
+              .remove();
+          // P.userTransactions.removeAt(j);
+        }
+      }
+      outputGroupsList.removeWhere((element) => (element['gid'] == groupId));
+      FirebaseDatabase.instance.ref().child('Group/$groupId').remove();
     });
   }
 
@@ -216,7 +270,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     contentPadding: const EdgeInsets.all(0.0),
                     horizontalTitleGap: 0.0,
                     trailing: Text(
-                      DateTime.parse(_selectedDate) == null
+                      _selectedDate.isEmpty
                           ? 'NIL'
                           : DateFormat.yMMMd()
                               .format(DateTime.parse(_selectedDate)),
@@ -317,15 +371,6 @@ class _MainDashboardState extends State<MainDashboard> {
       ],
     );
 
-    final txList = SizedBox(
-        height: ((mediaQuery.size.height -
-                appBar.preferredSize.height -
-                mediaQuery.padding.top) *
-            0.7),
-        child: TransactionList(
-            transactions: _transactionsList,
-            deleteTransaction: _deleteTransaction));
-
     return Scaffold(
       appBar: appBar,
       floatingActionButton: FloatingActionButton(
@@ -341,27 +386,55 @@ class _MainDashboardState extends State<MainDashboard> {
             height: (MediaQuery.of(context).size.height -
                     appBar.preferredSize.height -
                     MediaQuery.of(context).padding.top) *
-                0.4,
+                0.3,
             margin: const EdgeInsets.all(10.0),
             width: 400,
             child: ListView.builder(
-                itemCount: _groups.length,
+                itemCount: outputGroupsList.length,
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return GroupItem(
-                    txt: _groups[index],
+                    groupItem: outputGroupsList[index],
+                    deleteGroup: _deleteGroup,
                   );
                 }),
           ),
-          SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  await joinGroup(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(const Color(0xff1870B5)),
+                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+                ),
+                child: const Text("Join Group"),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await newGroup(context);
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
+                  // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
+                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+                ),
+                child: const Text("New Group"),
+              ),
+            ],
+          ),
           Container(
             height: (MediaQuery.of(context).size.height -
                     appBar.preferredSize.height -
                     MediaQuery.of(context).padding.top) *
-                0.561,
+                0.585,
             child: TransactionList(
-                transactions: output.reversed.toList(),
+                transactions: outputTransactionsList.reversed.toList(),
                 deleteTransaction: _deleteTransaction),
           ),
         ],

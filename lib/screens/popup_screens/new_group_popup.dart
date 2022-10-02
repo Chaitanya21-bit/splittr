@@ -142,7 +142,12 @@ addGroup(BuildContext context) async {
     await database.ref('Group/${group.gid}').set(group.toJson());
     print("Group Stored");
 
-    P.userGroups.add(group.gid);
+    if (P.userGroups.contains("null")) {
+      P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
+          group.gid;
+    } else {
+      P.userGroups.add(group.gid);
+    }
 
     // var ug = Map<String, dynamic>.from(user_groups as Map); //Convert back to Map
 
