@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'LoggedIn',
+      title: 'splittr',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -105,29 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           builder: (context) => GroupDashboard()))
                     },
                 child: const Text("Group Dashboard")),
-            ElevatedButton(
-              onPressed: () async {
-                await joinGroup(context);
-              },
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(const Color(0xff1870B5)),
-                overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-              ),
-              child: const Text("Join Group"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await newGroup(context);
-              },
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
-                // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
-                overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-              ),
-              child: const Text("New Group"),
-            ),
           ],
         ),
       ),
