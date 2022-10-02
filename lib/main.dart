@@ -75,40 +75,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     setPerson();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("MAIN.dart", style: TextStyle()),
-        backgroundColor: Colors.transparent,
-        actions: [
-          IconButton(
-              onPressed: () {
-                FirebaseManager.auth.signOut();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              },
-              icon: const Icon(Icons.logout))
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'splittr',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () => {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const MainDashboard()))
-                    },
-                child: const Text("Main Dashboard")),
-            TextButton(
-                onPressed: () => {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => GroupDashboard()))
-                    },
-                child: const Text("Group Dashboard")),
-          ],
-        ),
-      ),
-      drawer: const NavigationDrawerWidget(),
+      home: MainDashboard(),
     );
   }
 }
