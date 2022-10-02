@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/group_screens/group_dashboard.dart';
 
 class GroupItem extends StatelessWidget {
   GroupItem({required this.groupItem, required this.deleteGroup});
@@ -61,12 +62,12 @@ class GroupItem extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => DetailsPage(transaction: _transaction),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GroupDashboard(),
+                ),
+              );
             },
             child: Column(
               children: [

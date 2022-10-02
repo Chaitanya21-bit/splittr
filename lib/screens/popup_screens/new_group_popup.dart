@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
 import '../group_screens/group_dashboard.dart';
@@ -155,7 +156,7 @@ addGroup(BuildContext context) async {
     print("User Upated");
 
     state.pushReplacement(
-        MaterialPageRoute(builder: (context) => GroupDashboard()));
+        MaterialPageRoute(builder: (context) => MainDashboard()));
   } catch (e) {
     print(e);
   }

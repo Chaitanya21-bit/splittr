@@ -7,6 +7,7 @@ import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
 import 'package:splitter/widgets/group_item.dart';
+import 'package:splitter/widgets/navigation_drawer.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -439,6 +440,7 @@ class _MainDashboardState extends State<MainDashboard> {
           ),
         ],
       ),
+      drawer: const NavigationDrawerWidget(),
     );
   }
 }
