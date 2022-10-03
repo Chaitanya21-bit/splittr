@@ -160,4 +160,8 @@ addGroup(BuildContext context) async {
   } catch (e) {
     print(e);
   }
+  groupNameController.clear();
+  groupLimitController.clear();
+  aboutGroupController.clear();
+  personalLimitController.clear();
 }
