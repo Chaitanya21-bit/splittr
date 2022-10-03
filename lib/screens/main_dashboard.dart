@@ -374,6 +374,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
     return Scaffold(
       appBar: appBar,
+      resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await addUserTransaction(context);
