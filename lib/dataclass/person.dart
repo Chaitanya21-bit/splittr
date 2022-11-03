@@ -16,8 +16,9 @@ class Person {
       required this.phoneNo,
       this.limit = -1,
       required this.userGroups,
-      required this.userTransactions});
-
+      required this.userTransactions
+      }
+  );
   static Person fromJson(Map<String, dynamic> json) {
     return Person(
       name: json['name'],

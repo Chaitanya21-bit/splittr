@@ -14,6 +14,7 @@ final TextEditingController groupNameController = TextEditingController();
 final TextEditingController aboutGroupController = TextEditingController();
 final TextEditingController groupLimitController = TextEditingController();
 final TextEditingController personalLimitController = TextEditingController();
+final TextEditingController groupCodeController = TextEditingController();
 
 Future<void> newGroup(BuildContext context) async {
   return await showDialog(
@@ -80,6 +81,7 @@ Future<void> newGroup(BuildContext context) async {
                 height: 20,
               ),
               TextFormField(
+                controller: groupCodeController,
                 decoration: const InputDecoration(
                   labelText: 'Generated Code',
                   border: OutlineInputBorder(),
@@ -127,16 +129,14 @@ addGroup(BuildContext context) async {
         Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
     P = Person.fromJson(map);
 
-    // Person P = Person.fromJson(Map<String, dynamic>.from(snapshot.value as Map));
     print(P.userGroups);
-//Convert to String to update
-    // print(user_groups);
 
     const uuid = Uuid(); // generate random id
     Group group = Group(
       gid: uuid.v1(),
       groupName: groupNameController.text,
-      groupCode: aboutGroupController.text,
+      groupCode: groupCodeController.text,
+      groupDescription : aboutGroupController.text,
       members: [_auth.currentUser!.uid],
     );
     print("Group Created");
