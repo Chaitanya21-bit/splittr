@@ -379,7 +379,7 @@ class _MainDashboardState extends State<MainDashboard> {
         onPressed: () async {
           await addUserTransaction(context);
         },
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.teal,
         child: const Icon(Icons.add),
       ),
       body: Column(
@@ -443,5 +443,9 @@ class _MainDashboardState extends State<MainDashboard> {
       ),
       drawer: const NavigationDrawerWidget(),
     );
+      
+      
+      
+    
   }
 }

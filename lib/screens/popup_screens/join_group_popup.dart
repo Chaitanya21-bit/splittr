@@ -1,10 +1,19 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
+import '../../auth/firebase_manager.dart';
+import '../../dataclass/group.dart';
+import '../../dataclass/person.dart';
+import '../group_screens/group_dashboard.dart';
+
+final FirebaseDatabase database = FirebaseManager.database;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final TextEditingController groupCodeController = TextEditingController();
 
 Future<void> joinGroup(BuildContext context) async{
   return await showDialog(context: context,
       builder: (context){
-        final TextEditingController joinGroupController = TextEditingController();
 
         return AlertDialog(
           scrollable: true,
@@ -29,7 +38,7 @@ Future<void> joinGroup(BuildContext context) async{
 
                   TextFormField(
 
-                    controller:joinGroupController ,
+                    controller:groupCodeController ,
 
                     decoration: const InputDecoration(
                       labelText: 'Add Code',
@@ -59,7 +68,7 @@ Future<void> joinGroup(BuildContext context) async{
 
 
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => joinInGroup(context),
               style: ButtonStyle(
                 // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
@@ -69,6 +78,59 @@ Future<void> joinGroup(BuildContext context) async{
             ),
           ],
         );
-      });
+      }
+    );
+}
 
+
+
+joinInGroup(BuildContext context) async{
+  try{
+    NavigatorState state = Navigator.of(context);
+    Person P;Group G;
+    print(_auth.currentUser?.uid );
+
+    if(groupCodeController.text == null){ //Code match karra hai toh
+      var groupID = null; //G.gid;
+      //Code se Gid nikalna hai
+      print(groupCodeController.text);
+
+      //Update Group
+      final grp_snapshot = await database.ref().child('Group/${groupID}').get();
+      print(grp_snapshot.value);
+      Map<String, dynamic> maps = Map<String, dynamic>.from(grp_snapshot.value as Map<dynamic, dynamic>);
+      G = Group.fromJson(maps);
+
+      // Update G.members
+      //Push in DB
+      print("Group Updated");
+
+
+      //Update User
+      final user_snapshot = await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+      print(user_snapshot.value);
+      Map<String, dynamic> map = Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
+      P = Person.fromJson(map);
+      print(P.userGroups);
+
+      P.userGroups.add(groupID);
+      print(P.userGroups);
+      //Push in DB
+      // await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+      print("User Updated");
+
+
+    }
+
+
+
+
+    state.pushReplacement(
+        MaterialPageRoute(builder: (context) => GroupDashboard())
+    );
+  }
+
+  catch (e) {
+    print(e);
+  }
 }

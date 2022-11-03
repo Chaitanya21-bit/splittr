@@ -2,6 +2,7 @@ class Group {
   late String groupName;
   late String gid;
   late String groupCode;
+  late String groupDescription;
   late double? group_limit;
   late List<String> members;
   late List<dynamic> member_colors = [];
@@ -12,6 +13,7 @@ class Group {
         required this.groupName,
         required this.gid,
         required this.groupCode,
+        required this.groupDescription,
         this.group_limit = -1,
         required this.members,
       }
@@ -22,6 +24,7 @@ class Group {
       groupName: json['groupName'],
       gid: json['gid'],
       groupCode: json['groupCode'],
+      groupDescription : json['groupDescription'],
       group_limit: json['group_limit'],
       members : json['members'],
     );
@@ -31,6 +34,7 @@ class Group {
     'groupName': groupName,
     'gid': gid,
     'groupCode':groupCode,
+    'groupDescription':groupDescription,
     'group_limit': group_limit,
     'members' : members
   };

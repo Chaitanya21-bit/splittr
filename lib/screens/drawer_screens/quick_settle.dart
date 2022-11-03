@@ -26,7 +26,50 @@ class _QuickSettleState extends State<QuickSettle> {
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                       },
                   icon: const Icon(Icons.logout))
-    ],
-    ));
+              ],
+    ),
+
+            body: Container(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.1,
+                right: 10,
+                left: 50,
+                bottom: 5,
+              ),
+                  child: Column(
+                    children:[
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Name",
+                        ),
+                      ),
+
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Amount",
+                        ),
+                      ),
+
+                      TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          labelText: "Note",
+                        ),
+                      ),
+                    ]
+              ),
+            ),
+    );
   }
 }
