@@ -79,7 +79,6 @@ class _MainDashboardState extends State<MainDashboard> {
 
   _retrieveGroup(BuildContext context) async {
     final snapshot4 = await database.ref('Group').get();
-    // print(snapshot1.value);
 
     Map<String, dynamic> map1 =
         Map<String, dynamic>.from(snapshot4.value as Map<dynamic, dynamic>);
@@ -443,9 +442,5 @@ class _MainDashboardState extends State<MainDashboard> {
       ),
       drawer: const NavigationDrawerWidget(),
     );
-      
-      
-      
-    
   }
 }
