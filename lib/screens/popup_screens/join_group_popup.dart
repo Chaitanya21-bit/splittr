@@ -37,20 +37,15 @@ Future<void> joinGroup(BuildContext context) async{
                   ),
 
                   TextFormField(
-
                     controller:groupCodeController ,
-
                     decoration: const InputDecoration(
                       labelText: 'Add Code',
                       border: OutlineInputBorder(),
                     ),
-
                   ),
-
                   const SizedBox(
                     height: 30,
                   ),
-
                 ],
               )
           ),
