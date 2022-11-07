@@ -17,7 +17,7 @@ class _QuickSettleState extends State<QuickSettle> {
         appBar: AppBar(
           title: const Text('Quick Settle'),
           centerTitle: true,
-          backgroundColor: Colors.deepOrangeAccent,
+          backgroundColor: Color(0xff1870B5),
           actions: [
               IconButton(
                   onPressed: () {
@@ -29,47 +29,64 @@ class _QuickSettleState extends State<QuickSettle> {
               ],
     ),
 
-            body: Container(
+            body: SingleChildScrollView(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.1,
-                right: 10,
-                left: 50,
+                right: 20,
+                left: 20,
                 bottom: 5,
               ),
-                  child: Column(
-                    children:[
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          labelText: "Name",
-                        ),
-                      ),
 
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          labelText: "Amount",
+              child: Column(
+                      children: [
+                        const Text(
+                          "Quick Settle",
+                          style: TextStyle(color: Colors.black, fontSize: 40),
                         ),
-                      ),
-
-                      TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
+                        userController(),
+                        ElevatedButton(
+                          onPressed: () => {},
+                          style: ButtonStyle(
+                            backgroundColor:
+                            MaterialStateProperty.all(const Color(0xff1870B5)),
+                            overlayColor:
+                            MaterialStateProperty.all<Color>(Colors.pink),
                           ),
-                          labelText: "Note",
+                          child: const Text("Add"),
                         ),
-                      ),
-                    ]
-              ),
-            ),
+                ]
+                ),
+                ),
     );
   }
+}
+
+
+Widget userController (){
+  return Column(
+    children:[
+      const SizedBox(
+        height: 15,
+      ),
+      TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          labelText: "Name",
+        ),
+      ),
+      const SizedBox(
+        height: 15,
+      ),
+      TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          labelText: "Amount",
+        ),
+      ),
+    ] ,
+  );
 }
