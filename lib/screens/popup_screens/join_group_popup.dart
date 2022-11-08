@@ -104,10 +104,7 @@ joinInGroup(BuildContext context) async {
             await database.ref().child('Users/${_auth.currentUser!.uid}').get();
         print(user_snapshot.value);
        
-        // Map<String, dynamic> map = Map<String, dynamic>.from(
-        //     user_snapshot.value as Map<dynamic, dynamic>);
-        // P = Person.fromJson(map);
-        // print(P.userGroups);
+        
         var userID = _auth.currentUser!.uid;
         //Code se Gid nikalna hai
         print(groupCodeController.text);
@@ -135,6 +132,10 @@ joinInGroup(BuildContext context) async {
 
         //Update User
         
+        Map<String, dynamic> map = Map<String, dynamic>.from(
+            user_snapshot.value as Map<dynamic, dynamic>);
+        P = Person.fromJson(map);
+        print(P.userGroups);
 
         P.userGroups.add(groupID);
         print(P.userGroups);
