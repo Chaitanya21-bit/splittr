@@ -7,9 +7,17 @@ import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
 import '../group_screens/group_dashboard.dart';
 
-final FirebaseDatabase database = FirebaseManager.database;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final TextEditingController groupCodeController = TextEditingController();
+
+  final FirebaseDatabase database = FirebaseManager.database;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController groupCodeController = TextEditingController();
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
+
+List<dynamic> outputGroupsList = [];
+
+ 
+
+
 
 Future<void> joinGroup(BuildContext context) async {
   return await showDialog(
@@ -79,7 +87,7 @@ joinInGroup(BuildContext context) async {
     Person P;
     Group G;
     print(_auth.currentUser?.uid);
-
+    print("join group");
     final snapshot_group = await database.ref('Group').get();
 
     Map<String, dynamic> mapG = Map<String, dynamic>.from(
@@ -88,10 +96,17 @@ joinInGroup(BuildContext context) async {
     listG.clear();
     listG = mapG.values.toList();
     print(listG);
+    print(groupCodeController.text);
 
     for (int i = 0; i < listG.length; i++) {
       if (groupCodeController.text == listG[i]['groupCode']) {
         var groupID = listG[i]['gid'];
+        final user_snapshot =
+            await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+        print(user_snapshot.value);
+       
+        
+        var userID = _auth.currentUser!.uid;
         //Code se Gid nikalna hai
         print(groupCodeController.text);
 
@@ -101,16 +116,24 @@ joinInGroup(BuildContext context) async {
         print(grpSnapshot.value);
         Map<String, dynamic> maps = Map<String, dynamic>.from(
             grpSnapshot.value as Map<dynamic, dynamic>);
+            print("check");
         G = Group.fromJson(maps);
-
+        print(G.members);
         // Update G.members
+        G.members.add(userID);
+        print(G.members);
         //Push in DB
+
+        
+
+
+
+
+        await database.ref().child('Group/${groupID}').update(G.toJson());
         print("Group Updated");
 
         //Update User
-        final user_snapshot =
-            await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-        print(user_snapshot.value);
+        
         Map<String, dynamic> map = Map<String, dynamic>.from(
             user_snapshot.value as Map<dynamic, dynamic>);
         P = Person.fromJson(map);
@@ -119,7 +142,7 @@ joinInGroup(BuildContext context) async {
         P.userGroups.add(groupID);
         print(P.userGroups);
         //Push in DB
-        // await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+        await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
         print("User Updated");
       }
     }
