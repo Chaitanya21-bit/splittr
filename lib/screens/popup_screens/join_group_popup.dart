@@ -86,66 +86,50 @@ joinInGroup(BuildContext context) async {
     NavigatorState state = Navigator.of(context);
     Person P;
     Group G;
-    print(_auth.currentUser?.uid);
-    print("join group");
-    final snapshot_group = await database.ref('Group').get();
 
-    Map<String, dynamic> mapG = Map<String, dynamic>.from(
-        snapshot_group.value as Map<dynamic, dynamic>);
+    final snapshot_group = await database.ref('Group').get();
+    Map<String, dynamic> mapG = Map<String, dynamic>.from(snapshot_group.value as Map<dynamic, dynamic>);
     List<dynamic> listG = [];
     listG.clear();
+    //All Groups in DB
     listG = mapG.values.toList();
     print(listG);
-    print(groupCodeController.text);
 
+    var groupID;
     for (int i = 0; i < listG.length; i++) {
       if (groupCodeController.text == listG[i]['groupCode']) {
-        var groupID = listG[i]['gid'];
-        final user_snapshot =
-            await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-        print(user_snapshot.value);
-       
-        
-        var userID = _auth.currentUser!.uid;
-        //Code se Gid nikalna hai
-        print(groupCodeController.text);
+        groupID = listG[i]['gid'];
+        break;
+      }
+    }
+
 
         //Update Group
-        final grpSnapshot =
-            await database.ref().child('Group/${groupID}').get();
+        final grpSnapshot =await database.ref().child('Group/${groupID}').get();
         print(grpSnapshot.value);
-        Map<String, dynamic> maps = Map<String, dynamic>.from(
-            grpSnapshot.value as Map<dynamic, dynamic>);
-            print("check");
+        Map<String, dynamic> maps = Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
         G = Group.fromJson(maps);
+
         print(G.members);
-        // Update G.members
-        G.members.add(userID);
+        G.members.add(_auth.currentUser!.uid); // Update Group Members
         print(G.members);
         //Push in DB
-
-        
-
-
-
-
         await database.ref().child('Group/${groupID}').update(G.toJson());
         print("Group Updated");
 
         //Update User
-        
-        Map<String, dynamic> map = Map<String, dynamic>.from(
-            user_snapshot.value as Map<dynamic, dynamic>);
+        final user_snapshot =await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+        Map<String, dynamic> map = Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
         P = Person.fromJson(map);
-        print(P.userGroups);
 
-        P.userGroups.add(groupID);
+        print(P.userGroups);
+        P.userGroups.add(groupID); // Update User Groups
         print(P.userGroups);
         //Push in DB
         await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
         print("User Updated");
-      }
-    }
+
+
 
     state.pushReplacement(
         MaterialPageRoute(builder: (context) => GroupDashboard()));
