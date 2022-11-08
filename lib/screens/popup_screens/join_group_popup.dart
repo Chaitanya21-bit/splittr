@@ -15,11 +15,11 @@ import '../group_screens/group_dashboard.dart';
 
 List<dynamic> outputGroupsList = [];
 
- 
 
 
 
 Future<void> joinGroup(BuildContext context) async {
+
   return await showDialog(
       context: context,
       builder: (context) {
@@ -32,28 +32,28 @@ Future<void> joinGroup(BuildContext context) async {
           ),
           content: Form(
               child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Center(
-                child: Text('Group Name'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                controller: groupCodeController,
-                decoration: const InputDecoration(
-                  labelText: 'Add Code',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Center(
+                    child: Text('Group Name'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    controller: groupCodeController,
+                    decoration: const InputDecoration(
+                      labelText: 'Add Code',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+               ],
           )),
           actions: <Widget>[
             ElevatedButton(
@@ -103,7 +103,6 @@ joinInGroup(BuildContext context) async {
       }
     }
 
-
         //Update Group
         final grpSnapshot =await database.ref().child('Group/${groupID}').get();
         print(grpSnapshot.value);
@@ -131,8 +130,13 @@ joinInGroup(BuildContext context) async {
 
 
 
-    state.pushReplacement(
-        MaterialPageRoute(builder: (context) => GroupDashboard()));
+    Navigator.of(context).pushNamed(
+      '/grpDash',
+      arguments: groupID,
+    );
+    // state.pushReplacement(
+    //     MaterialPageRoute(builder: (context) => GroupDashboard())
+    // );
   } catch (e) {
     print(e);
   }

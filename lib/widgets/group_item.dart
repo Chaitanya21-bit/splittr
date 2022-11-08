@@ -65,7 +65,7 @@ class GroupItem extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GroupDashboard(),
+                  builder: (context) => GroupDashboard(data: 'try',),
                 ),
               );
             },

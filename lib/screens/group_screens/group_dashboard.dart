@@ -6,27 +6,20 @@ import 'package:splitter/dataclass/person.dart';
 import '../popup_screens/add_money_popup.dart';
 
 class GroupDashboard extends StatelessWidget {
-  GroupDashboard({Key? key}) : super(key: key);
+
+  final String data;
+  GroupDashboard({
+    Key? key,
+    required this.data
+  }) : super(key: key);
+
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // late Person P;
+
+
   @override
   Widget build(BuildContext context) {
-
-
-    // String f(Person P){
-    //   return P.name;
-    // }
-    // if (_auth.currentUser == null) {
-    //   final Person P = (_auth.currentUser!) as Person;
-    //   final uid = P.name;
-    //   print(uid);
-    // }
-    // else{
-    //   final Person P = (_auth.currentUser!) as Person;
-    // }
-
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Dashboard'),
@@ -49,7 +42,7 @@ class GroupDashboard extends StatelessWidget {
         backgroundColor: Colors.deepOrange,
         child: const Icon(Icons.add),
       ),
-      body: Text("Group Name"),
+      body: Text(data),
     );
   }
 }
