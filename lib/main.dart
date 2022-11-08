@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:splitter/dataclass/person.dart';
+import 'package:splitter/route_generator.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/screens/main_dashboard.dart';
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen(),
+
+        initialRoute: '/login',
+        onGenerateRoute: RouteGenerator.generateRoute,
       );
     }
     return MaterialApp(
@@ -42,7 +45,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
