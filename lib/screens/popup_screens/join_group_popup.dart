@@ -7,9 +7,17 @@ import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
 import '../group_screens/group_dashboard.dart';
 
-final FirebaseDatabase database = FirebaseManager.database;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final TextEditingController groupCodeController = TextEditingController();
+
+  final FirebaseDatabase database = FirebaseManager.database;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController groupCodeController = TextEditingController();
+  final FirebaseDatabase _database = FirebaseDatabase.instance;
+
+List<dynamic> outputGroupsList = [];
+
+ 
+
+
 
 Future<void> joinGroup(BuildContext context) async{
   return await showDialog(context: context,
@@ -82,8 +90,6 @@ Future<void> joinGroup(BuildContext context) async{
     );
 }
 
-
-
 joinInGroup(BuildContext context) async{
   try{
     NavigatorState state = Navigator.of(context);
@@ -91,6 +97,7 @@ joinInGroup(BuildContext context) async{
     print(_auth.currentUser?.uid );
 
     if(groupCodeController.text == null){ //Code match karra hai toh
+
       var groupID = null; //G.gid;
       //Code se Gid nikalna hai
       print(groupCodeController.text);
