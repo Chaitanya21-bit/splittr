@@ -25,8 +25,8 @@ class Group {
       gid: json['gid'],
       groupCode: json['groupCode'],
       groupDescription : json['groupDescription'],
-      group_limit: json['group_limit'],
-      members : json['members'],
+      group_limit: double.parse(json['group_limit'].toString()),
+      members : List.of(json['members'].cast<String>()),
     );
   }
 
