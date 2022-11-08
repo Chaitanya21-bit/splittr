@@ -96,6 +96,7 @@ joinInGroup(BuildContext context) async {
     listG.clear();
     listG = mapG.values.toList();
     print(listG);
+    print(groupCodeController.text);
 
     for (int i = 0; i < listG.length; i++) {
       if (groupCodeController.text == listG[i]['groupCode']) {
@@ -117,9 +118,10 @@ joinInGroup(BuildContext context) async {
             grpSnapshot.value as Map<dynamic, dynamic>);
             print("check");
         G = Group.fromJson(maps);
+        print(G.members);
         // Update G.members
         G.members.add(userID);
-        print(G);
+        print(G.members);
         //Push in DB
 
         
@@ -140,7 +142,7 @@ joinInGroup(BuildContext context) async {
         P.userGroups.add(groupID);
         print(P.userGroups);
         //Push in DB
-        // await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+        await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
         print("User Updated");
       }
     }
