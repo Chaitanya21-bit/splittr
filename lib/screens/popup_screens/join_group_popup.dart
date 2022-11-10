@@ -1,25 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/main_dashboard.dart';
 
 import '../../auth/firebase_manager.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
 import '../group_screens/group_dashboard.dart';
 
-
-  final FirebaseDatabase database = FirebaseManager.database;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController groupCodeController = TextEditingController();
-  final FirebaseDatabase _database = FirebaseDatabase.instance;
+final FirebaseDatabase database = FirebaseManager.database;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final TextEditingController groupCodeController = TextEditingController();
+final FirebaseDatabase _database = FirebaseDatabase.instance;
 
 List<dynamic> outputGroupsList = [];
 
-
-
-
 Future<void> joinGroup(BuildContext context) async {
-
   return await showDialog(
       context: context,
       builder: (context) {
@@ -32,28 +28,28 @@ Future<void> joinGroup(BuildContext context) async {
           ),
           content: Form(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Center(
-                    child: Text('Group Name'),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    controller: groupCodeController,
-                    decoration: const InputDecoration(
-                      labelText: 'Add Code',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-               ],
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Center(
+                child: Text('Group Name'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                controller: groupCodeController,
+                decoration: const InputDecoration(
+                  labelText: 'Add Code',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
           )),
           actions: <Widget>[
             ElevatedButton(
@@ -88,7 +84,8 @@ joinInGroup(BuildContext context) async {
     Group G;
 
     final snapshot_group = await database.ref('Group').get();
-    Map<String, dynamic> mapG = Map<String, dynamic>.from(snapshot_group.value as Map<dynamic, dynamic>);
+    Map<String, dynamic> mapG = Map<String, dynamic>.from(
+        snapshot_group.value as Map<dynamic, dynamic>);
     List<dynamic> listG = [];
     listG.clear();
     //All Groups in DB
@@ -103,32 +100,44 @@ joinInGroup(BuildContext context) async {
       }
     }
 
-        //Update Group
-        final grpSnapshot =await database.ref().child('Group/${groupID}').get();
-        print(grpSnapshot.value);
-        Map<String, dynamic> maps = Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
-        G = Group.fromJson(maps);
+    //Update Group
+    final grpSnapshot = await database.ref().child('Group/${groupID}').get();
+    print(grpSnapshot.value);
+    Map<String, dynamic> maps =
+        Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+    G = Group.fromJson(maps);
 
-        print(G.members);
-        G.members.add(_auth.currentUser!.uid); // Update Group Members
-        print(G.members);
-        //Push in DB
-        await database.ref().child('Group/${groupID}').update(G.toJson());
-        print("Group Updated");
+    print(G.members);
+    if (!G.members.contains(_auth.currentUser!.uid)) {
+      G.members.add(_auth.currentUser!.uid); // Update Group Members
+    }
+    print(G.members);
+    //Push in DB
+    await database.ref().child('Group/${groupID}').update(G.toJson());
+    print("Group Updated");
 
-        //Update User
-        final user_snapshot =await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-        Map<String, dynamic> map = Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
-        P = Person.fromJson(map);
+    //Update User
+    final user_snapshot =
+        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    Map<String, dynamic> map =
+        Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
+    P = Person.fromJson(map);
 
-        print(P.userGroups);
-        P.userGroups.add(groupID); // Update User Groups
-        print(P.userGroups);
-        //Push in DB
-        await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-        print("User Updated");
+    if (P.userGroups.contains("null")) {
+      P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
+          groupID;
+    }
 
+    if (!P.userGroups.contains(groupID)) {
+      P.userGroups.add(groupID); // Update User Groups
+    }
+    print(P.userGroups);
+    //Push in DB
+    await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+    print("User Updated");
 
+    state.pushReplacement(
+        MaterialPageRoute(builder: (context) => MainDashboard()));
 
     Navigator.of(context).pushNamed(
       '/grpDash',
