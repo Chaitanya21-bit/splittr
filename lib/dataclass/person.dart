@@ -1,7 +1,5 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:splitter/dataclass/transactions.dart';
-import '../auth/firebase_manager.dart';
 
 class Person extends ChangeNotifier {
   late String name;

@@ -24,7 +24,10 @@ class RouteGenerator {
       case '/grpDash':
         return MaterialPageRoute(builder: (_) => GroupDashboard(data: args));
       case '/quickSplit':
-        return MaterialPageRoute(builder: (_) => const QuickSplit(nameAmountMap: {},));
+        return MaterialPageRoute(
+            builder: (_) => const QuickSplit(
+                  people: {},
+                ));
       default:
         return _errorRoute();
     }
