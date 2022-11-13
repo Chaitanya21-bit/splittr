@@ -11,9 +11,55 @@ class QuickSplit extends StatefulWidget {
 class _QuickSplitState extends State<QuickSplit> {
   @override
   QuickSplit get widget => super.widget;
+  late List<Map> people;
+  List<Map> finalTransaction = [];
+  double total = 0;
+  late double individualShare;
+  late List<double> individualShareList;
 
   @override
   void initState() {
+    people = widget.people;
+    people.sort((a, b) => a['amount'].compareTo(b['amount']));
+    for (var person in people) {
+      total += person['amount'];
+      print(person['name']);
+    }
+    individualShare = total / people.length;
+    individualShareList = List<double>.generate(
+        people.length, (index) => people[index]['amount'] - individualShare);
+    print(individualShare);
+    print(individualShareList);
+    int i = 0, j = people.length - 1;
+
+    while (i < j) {
+      double sum = individualShareList[i] + individualShareList[j];
+      if (sum > 0) {
+        finalTransaction.add({
+          people[i]['name']: "${people[j]['name']}|${individualShareList[i]}"
+        });
+        individualShareList[i] = 0;
+        individualShareList[j] = sum;
+        i++;
+      } else if (sum < 0) {
+        finalTransaction.add({
+          people[i]['name']: "${people[j]['name']}|-${individualShareList[j]}"
+        });
+        individualShareList[j] = 0;
+        individualShareList[i] = sum;
+        j--;
+      } else {
+        finalTransaction.add({
+          people[i]['name']: "${people[j]['name']}|${individualShareList[i]}"
+        });
+        individualShareList[j] = 0;
+        individualShareList[i] = 0;
+        i++;
+        j--;
+      }
+    }
+
+    print(finalTransaction);
     super.initState();
   }
 

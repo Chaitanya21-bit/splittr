@@ -34,7 +34,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
   @override
   void initState() {
-    P = Provider.of(context, listen: false);
+    P = Provider.of<Person>(context, listen: false);
     _retrieveGroup(context);
     super.initState();
   }
