@@ -66,10 +66,17 @@ class _QuickSplitState extends State<QuickSplit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-      title: const Text('Quick Split'),
-      centerTitle: true,
-      backgroundColor: const Color(0xff1870B5),
-    ));
+      appBar: AppBar(
+          title: const Text('Quick Split'),
+          centerTitle: true,
+          backgroundColor: const Color(0xff1870B5)),
+      body: ListView.builder(
+          itemCount: finalTransaction.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Text(finalTransaction[index].toString()),
+            );
+          }),
+    );
   }
 }
