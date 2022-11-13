@@ -1,35 +1,28 @@
-class Person {
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
+import 'package:splitter/dataclass/transactions.dart';
+import '../auth/firebase_manager.dart';
+
+class Person extends ChangeNotifier {
   late String name;
   late String uid;
   late String alias;
   late String email;
   late String phoneNo;
-  late double? limit;
   late List<String> userGroups;
-  late List<String> userTransactions;
+  List<Transactions> userTransactions = [];
+  late double limit;
 
-  Person(
-      {required this.name,
-      required this.uid,
-      required this.alias,
-      required this.email,
-      required this.phoneNo,
-      this.limit = -1,
-      required this.userGroups,
-      required this.userTransactions
-      }
-  );
-  static Person fromJson(Map<String, dynamic> json) {
-    return Person(
-      name: json['name'],
-      uid: json['uid'],
-      alias: json['alias'],
-      email: json['email'],
-      phoneNo: json['phoneNo'],
-      limit: double.parse(json['limit'].toString()),
-      userGroups: List.of(json['userGroups'].cast<String>()),
-      userTransactions: List.of(json['userTransactions'].cast<String>()),
-    );
+  void fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    uid = json['uid'];
+    alias = json['alias'];
+    email = json['email'];
+    phoneNo = json['phoneNo'];
+    limit = double.parse(json['limit'].toString());
+    userGroups = json['userGroups'] != null
+        ? List.of(json['userGroups'].cast<String>())
+        : [];
   }
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +33,17 @@ class Person {
         'phoneNo': phoneNo,
         'limit': limit,
         'userGroups': userGroups,
-        'userTransactions': userTransactions
+        'userTransactions': List<String>.generate(
+            userTransactions.length, (index) => userTransactions[index].tid)
       };
+
+  void addTransaction(Transactions transaction) {
+    userTransactions.add(transaction);
+    notifyListeners();
+  }
+
+  void deleteTransaction(Transactions transaction) {
+    userTransactions.remove(transaction);
+    notifyListeners();
+  }
 }

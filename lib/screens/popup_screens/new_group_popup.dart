@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitter/screens/main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
@@ -16,8 +17,42 @@ final TextEditingController groupLimitController = TextEditingController();
 final TextEditingController personalLimitController = TextEditingController();
 final TextEditingController groupCodeController = TextEditingController();
 
-Future<void> newGroup(BuildContext context) async {
-  return await showDialog(
+Future<void> newGroup(BuildContext context, Person P) {
+  addGroup(BuildContext context) async {
+    try {
+      NavigatorState state = Navigator.of(context);
+      const uuid = Uuid(); // generate random id
+      Group group = Group(
+        gid: uuid.v1(),
+        groupName: groupNameController.text,
+        groupCode: groupCodeController.text,
+        groupDescription: aboutGroupController.text,
+        members: [_auth.currentUser!.uid],
+      );
+      print("Group Created");
+      await database.ref('Group/${group.gid}').set(group.toJson());
+      print("Group Stored");
+
+      if (P.userGroups.contains("null")) {
+        P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
+            group.gid;
+      } else {
+        P.userGroups.add(group.gid);
+      }
+      await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+      print("User Upated");
+      state.pop();
+    } catch (e) {
+      print(e);
+    }
+    groupNameController.clear();
+    groupLimitController.clear();
+    aboutGroupController.clear();
+    groupCodeController.clear();
+    personalLimitController.clear();
+  }
+
+  return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -112,57 +147,4 @@ Future<void> newGroup(BuildContext context) async {
           ],
         );
       });
-}
-
-addGroup(BuildContext context) async {
-  try {
-    NavigatorState state = Navigator.of(context);
-
-    Person P;
-    print(_auth.currentUser?.uid);
-
-    final snapshot =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    print(snapshot.value);
-
-    Map<String, dynamic> map =
-        Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-    P = Person.fromJson(map);
-
-    print(P.userGroups);
-
-    const uuid = Uuid(); // generate random id
-    Group group = Group(
-      gid: uuid.v1(),
-      groupName: groupNameController.text,
-      groupCode: groupCodeController.text,
-      groupDescription : aboutGroupController.text,
-      members: [_auth.currentUser!.uid],
-    );
-    print("Group Created");
-    await database.ref('Group/${group.gid}').set(group.toJson());
-    print("Group Stored");
-
-    if (P.userGroups.contains("null")) {
-      P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
-          group.gid;
-    } else {
-      P.userGroups.add(group.gid);
-    }
-
-    // var ug = Map<String, dynamic>.from(user_groups as Map); //Convert back to Map
-
-    await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-    print("User Upated");
-
-    state.pushReplacement(
-        MaterialPageRoute(builder: (context) => MainDashboard()));
-  } catch (e) {
-    print(e);
-  }
-  groupNameController.clear();
-  groupLimitController.clear();
-  aboutGroupController.clear();
-  groupCodeController.clear();
-  personalLimitController.clear();
 }

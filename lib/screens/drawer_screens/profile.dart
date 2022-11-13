@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../auth/firebase_manager.dart';
 import '../../dataclass/person.dart';
@@ -18,59 +19,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   FirebaseAuth auth = FirebaseManager.auth;
 
- late Person person;
-
+  late Person person;
 
   @override
   void initState() {
     setPerson();
     super.initState();
-
   }
+
   Future<void> setPerson() async {
     final snapshot =
-    await database.ref().child('Users/${auth.currentUser!.uid}').get();
+        await database.ref().child('Users/${auth.currentUser!.uid}').get();
     if (snapshot.exists) {
       Map<String, dynamic> map =
-      Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
+          Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
 
-      person = Person.fromJson(map);
+      person = Provider.of(context, listen: false);
       print(map);
-      setState(() {
-
-      });
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Profile'),
           centerTitle: true,
           backgroundColor: Colors.deepOrangeAccent,
           actions: [
-          IconButton(
+            IconButton(
                 onPressed: () {
-                    FirebaseManager.auth.signOut();
-                    Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => LoginScreen()));
+                  FirebaseManager.auth.signOut();
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
                 },
                 icon: const Icon(Icons.logout))
           ],
         ),
-      body: Column(
-        children: [
+        body: Column(
+          children: [
             Container(
-                child: Text(
-                    person.name
-                ),
+              child: Text(person.name),
             ),
-        ],
-      )
-
-
-    );
+          ],
+        ));
   }
 }

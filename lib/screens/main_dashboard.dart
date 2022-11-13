@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
@@ -24,90 +25,35 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
-  // final List<Transactions> _transactionsList = [];
-
+  late Person P;
   final TextEditingController addMoneyController = TextEditingController();
   final TextEditingController addRemarksController = TextEditingController();
   final TextEditingController addTitleController = TextEditingController();
   // bool _isIncome = false;
   String _selectedDate = DateTime.now().toString();
 
-  List<dynamic> outputTransactionsList = [];
-  List<dynamic> outputGroupsList = [];
-
   @override
   void initState() {
-    super.initState();
-    _retrieveTransaction(context);
+    P = Provider.of(context, listen: false);
     _retrieveGroup(context);
-  }
-
-  _retrieveTransaction(BuildContext context) async {
-    final snapshot1 = await database.ref('Transactions').get();
-    // print(snapshot1.value);
-
-    Map<String, dynamic> map1 =
-        Map<String, dynamic>.from(snapshot1.value as Map<dynamic, dynamic>);
-    List<dynamic> list1 = [];
-    list1.clear();
-    list1 = map1.values.toList();
-    print(list1);
-
-    final snapshot2 =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    // print(snapshot2.value);
-    Map<String, dynamic> map2 =
-        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
-    Person P = Person.fromJson(map2);
-    print(P.userTransactions);
-
-    for (int i = 0; i < P.userTransactions.length; i++) {
-      for (int j = 0; j < list1.length; j++) {
-        if (P.userTransactions[i] == list1[j]['tid']) {
-          if (!outputTransactionsList.contains(list1[j])) {
-            outputTransactionsList.add(list1[j]);
-          }
-        }
-      }
-      // list1.removeWhere((item) => item.tid == P.userTransactions[i]);
-    }
-    setState(() {
-      outputTransactionsList;
-    });
-    print(outputTransactionsList);
+    super.initState();
   }
 
   _retrieveGroup(BuildContext context) async {
-    final snapshot4 = await database.ref('Group').get();
+    final groupsSnapshot = await database
+        .ref()
+        .child('Users/${_auth.currentUser!.uid}/userGroups')
+        .get();
 
-    Map<String, dynamic> map1 =
-        Map<String, dynamic>.from(snapshot4.value as Map<dynamic, dynamic>);
-    List<dynamic> list2 = [];
-    list2.clear();
-    list2 = map1.values.toList();
-    print(list2);
-
-    final snapshot3 =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    // print(snapshot2.value);
-    Map<String, dynamic> map2 =
-        Map<String, dynamic>.from(snapshot3.value as Map<dynamic, dynamic>);
-    Person P = Person.fromJson(map2);
-    print(P.userGroups);
-
-    for (int i = 0; i < P.userGroups.length; i++) {
-      for (int j = 0; j < list2.length; j++) {
-        if (P.userGroups[i] == list2[j]['gid']) {
-          if (!outputGroupsList.contains(list2[j])) {
-            outputGroupsList.add(list2[j]);
-          }
-        }
+    if (groupsSnapshot.exists) {
+      final groupsList = groupsSnapshot.value as List;
+      for (var group in groupsList) {
+        var snapshot = await database.ref().child('Group/$group').get();
+        outputGroupsList.add(snapshot.value);
       }
     }
-    setState(() {
-      outputGroupsList;
-    });
-    print(outputGroupsList);
+
+    // setState(() {});
   }
 
   void _showDatePicker() {
@@ -126,24 +72,6 @@ class _MainDashboardState extends State<MainDashboard> {
 
   _addTransaction(BuildContext context) async {
     try {
-      NavigatorState state = Navigator.of(context);
-      Person P;
-      print(_auth.currentUser?.uid);
-      // DataSnapshot lt = await database
-      //     .ref('Users/${_auth.currentUser?.uid}/userTransactions')
-      //     .get();
-      // print(lt.value);
-
-      final snapshot =
-          await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-      print(snapshot.value);
-
-      Map<String, dynamic> map =
-          Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-      P = Person.fromJson(map);
-
-      print(P.userTransactions);
-
       if (addTitleController.text.isEmpty ||
           addMoneyController.text.isEmpty ||
           _selectedDate.isEmpty) {
@@ -160,31 +88,18 @@ class _MainDashboardState extends State<MainDashboard> {
           remarks: addRemarksController.text,
           tid: t_uuid.v1());
 
-      setState(() {
-        if (!outputTransactionsList.contains(newTrans.toJson())) {
-          outputTransactionsList.add(newTrans.toJson());
-        }
+      setState(() async {
+        P.addTransaction(newTrans);
+        print("Transaction Created");
+        await database
+            .ref('Transactions/${newTrans.tid}')
+            .set(newTrans.toJson());
+        print("Transaction Stored");
+        await database
+            .ref('Users/${_auth.currentUser?.uid}')
+            .update(P.toJson());
+        print("User Upated");
       });
-      print("Transaction Created");
-      await database.ref('Transactions/${newTrans.tid}').set(newTrans.toJson());
-      print("Transaction Stored");
-
-      if (P.userTransactions.contains("null")) {
-        P.userTransactions[P.userTransactions
-            .indexWhere((element) => element == "null")] = newTrans.tid;
-      } else {
-        P.userTransactions.add(newTrans.tid);
-      }
-      // await database
-      //     .ref().child(
-      //         'Users/${_auth.currentUser?.uid}/userTransactions/${newTrans.tid}')
-      //     .set(newTrans.toJson());
-
-      await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-      print("User Upated");
-
-      // state.pushReplacement(
-      //     MaterialPageRoute(builder: (context) => MainDashboard()));
     } catch (e) {
       print(e);
     }
@@ -195,32 +110,24 @@ class _MainDashboardState extends State<MainDashboard> {
     // _selectedDate = null;
   }
 
-  _deleteTransaction(BuildContext context, String transId) async {
-    final snapshot2 =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    Map<String, dynamic> map2 =
-        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
-    Person P = Person.fromJson(map2);
-
+  _deleteTransaction(BuildContext context, Transactions transaction) async {
     setState(() {
-      for (int j = 0; j < P.userTransactions.length; j++) {
-        if (P.userTransactions[j] == transId) {
-          P.userTransactions.removeAt(j);
-          database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-        }
-      }
-      outputTransactionsList
-          .removeWhere((element) => (element['tid'] == transId));
-      FirebaseDatabase.instance.ref().child('Transactions/$transId').remove();
+      P.deleteTransaction(transaction);
+      database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+
+      FirebaseDatabase.instance
+          .ref()
+          .child('Transactions/${transaction.tid}')
+          .remove();
     });
   }
 
   _deleteGroup(BuildContext context, String groupId) async {
-    final snapshot2 =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    Map<String, dynamic> map2 =
-        Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
-    Person P = Person.fromJson(map2);
+    // final snapshot2 =
+    //     await database.ref().child('Users/${_auth.currentUser!.uid}').get();
+    // Map<String, dynamic> map2 =
+    //     Map<String, dynamic>.from(snapshot2.value as Map<dynamic, dynamic>);
+    // Person P = Person.fromJson(map2);
 
     setState(() {
       for (int j = 0; j < P.userGroups.length; j++) {
@@ -417,7 +324,7 @@ class _MainDashboardState extends State<MainDashboard> {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  await newGroup(context);
+                  await newGroup(context, P);
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -430,14 +337,20 @@ class _MainDashboardState extends State<MainDashboard> {
             ],
           ),
           Container(
-            height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.585,
-            child: TransactionList(
-                transactions: outputTransactionsList.reversed.toList(),
-                deleteTransaction: _deleteTransaction),
-          ),
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.585,
+              child: Consumer<Person>(
+                builder: (_, data, __) {
+                  if (data.userTransactions.isEmpty) {
+                    return CircularProgressIndicator();
+                  }
+                  return TransactionList(
+                      transactionsList: data.userTransactions.reversed.toList(),
+                      deleteTransaction: _deleteTransaction);
+                },
+              )),
         ],
       ),
       drawer: const NavigationDrawerWidget(),

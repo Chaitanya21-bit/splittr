@@ -1,9 +1,12 @@
+import 'package:splitter/dataclass/person.dart';
+
 class Transactions {
   late String tid;
   late String title;
   late double amount;
   late String date;
   late String remarks;
+  // late String personId;
 
   Transactions(
       {required this.tid,
@@ -16,7 +19,7 @@ class Transactions {
     return Transactions(
         tid: json['tid'],
         title: json['title'],
-        amount: json['amount'],
+        amount: double.parse(json['amount'].toString()),
         date: json['date'],
         remarks: json['remarks']);
   }

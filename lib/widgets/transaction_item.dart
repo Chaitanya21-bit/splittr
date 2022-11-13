@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 class TransactionItem extends StatelessWidget {
   TransactionItem({required this.transItem, required this.deleteTransaction});
-  final dynamic transItem;
+  final Transactions transItem;
   final Function deleteTransaction;
 
   @override
@@ -85,7 +85,7 @@ class TransactionItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
       ),
       child: Dismissible(
-        key: Key(transItem['tid']),
+        key: Key(transItem.tid),
         background: Container(
           decoration: BoxDecoration(
             color: Colors.red,
@@ -103,7 +103,7 @@ class TransactionItem extends StatelessWidget {
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
-          deleteTransaction(context, transItem['tid']);
+          deleteTransaction(context, transItem);
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(
@@ -154,7 +154,7 @@ class TransactionItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      transItem['title'],
+                      transItem.title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -169,7 +169,7 @@ class TransactionItem extends StatelessWidget {
                       children: [
                         Padding(padding: EdgeInsets.only(top: 4.0)),
                         Text(
-                          '${transItem['amount']}',
+                          '${transItem.amount}',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class TransactionItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          transItem['date'],
+                          transItem.date,
                           style: TextStyle(
                             color: Colors.grey[500],
                           ),
@@ -190,7 +190,7 @@ class TransactionItem extends StatelessWidget {
               Row(
                 children: [
                   Padding(padding: EdgeInsets.only(left: 20.0, bottom: 25.0)),
-                  Text(transItem['remarks'],
+                  Text(transItem.remarks,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[700],
