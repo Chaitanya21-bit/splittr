@@ -14,7 +14,7 @@ import 'auth/firebase_manager.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     // Getting arguments passed in while alling Navigator.pushNamed
-    final args = settings.arguments.toString();
+    final args = settings.arguments;
 
     switch (settings.name) {
       case '/login':
@@ -22,9 +22,13 @@ class RouteGenerator {
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/grpDash':
-        return MaterialPageRoute(builder: (_) => GroupDashboard(data: args));
+        return MaterialPageRoute(
+            builder: (_) => GroupDashboard(data: args.toString()));
       case '/quickSplit':
-        return MaterialPageRoute(builder: (_) => const QuickSplit(nameAmountMap: {},));
+        return MaterialPageRoute(
+            builder: (_) => QuickSplit(
+                  people: args as List<Map>,
+                ));
       default:
         return _errorRoute();
     }

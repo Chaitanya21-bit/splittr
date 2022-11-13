@@ -80,22 +80,24 @@ class _QuickSettleState extends State<QuickSettle> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // print(nameController);
-          // print(amountController);
-          // var s = 0;
-          // for (var e in amountController) {
-          //   s += int.parse(e.text);
+          List<Map> people = [];
+          // final Map<TextEditingController, TextEditingController> nameAmount =
+          //     Map.fromIterables(nameController, amountController);
+          // for (var a in nameAmount.keys) {
+          //   print(a.text);
           // }
-          final Map<TextEditingController, TextEditingController> nameAmount =
-              Map.fromIterables(nameController, amountController);
-          for (var a in nameAmount.keys) {
-            print(a.text);
+
+          for (int i = 0; i < nameController.length; i++) {
+            people.add({
+              'name': nameController[i].text.toString(),
+              'amount': double.parse(amountController[i].text.toString())
+            });
           }
-          print(nameAmount);
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => QuickSplit(
-                    nameAmountMap: nameAmount,
-                  )));
+          Navigator.pushNamed(context, '/quickSplit', arguments: people);
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //     builder: (context) => QuickSplit(
+          //           people: people,
+          //         )));
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
