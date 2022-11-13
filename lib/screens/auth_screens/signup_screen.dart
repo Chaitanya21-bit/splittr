@@ -6,6 +6,7 @@ import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/main.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
+import 'package:splitter/screens/main_dashboard.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -166,18 +167,18 @@ class SignUpScreen extends StatelessWidget {
         email: emailController.text,
         password: passwordController.text,
       );
-      Person person = Person(
-          name: nameController.text,
-          uid: credentials.user!.uid,
-          alias: aliasController.text,
-          email: emailController.text,
-          phoneNo: "896473",
-          userGroups: ['null'],
-          userTransactions: ['null']);
+      Map<String, dynamic> j = {};
+      j['name'] = nameController.text;
+      j['uid'] = credentials.user!.uid;
+      j['alias'] = aliasController.text;
+      j['email'] = emailController.text;
+      j['phoneNo'] = "896473";
+      j['limit'] = -1;
+      Person person = Person();
+      person.fromJson(j);
 
       await database.ref('Users/${person.uid}').set(person.toJson());
-      state.pushReplacement(
-          MaterialPageRoute(builder: (context) => const MyHomePage()));
+      state.pushReplacementNamed('/home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Fluttertoast.showToast(
@@ -195,6 +196,7 @@ class SignUpScreen extends StatelessWidget {
         );
       }
     } catch (e) {
+      print(e.toString());
       Fluttertoast.showToast(
         msg: e.toString(),
         toastLength: Toast.LENGTH_SHORT,

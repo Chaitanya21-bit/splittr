@@ -15,13 +15,10 @@ class _QuickSettleState extends State<QuickSettle> {
   List<TextEditingController> nameController = [];
   List<TextEditingController> amountController = [];
 
-
   @override
   void initState() {
-    for (int i = 0; i < totalItem; i++) {
-      nameController.add(TextEditingController());
-      amountController.add(TextEditingController());
-    }
+    nameController.add(TextEditingController());
+    amountController.add(TextEditingController());
     super.initState();
   }
 
@@ -54,52 +51,53 @@ class _QuickSettleState extends State<QuickSettle> {
             "Quick Settle",
             style: TextStyle(color: Colors.black, fontSize: 40),
           ),
-
-
           ListView.builder(
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               itemCount: totalItem,
               itemBuilder: (context, index) {
-                nameController.add(TextEditingController());
-                amountController.add(TextEditingController());
-
-                return userController(index, nameController[index], amountController[index]);
+                return userController(
+                    index, nameController[index], amountController[index]);
               }),
           ElevatedButton(
             onPressed: () => {
-              setState((){
+              setState(() {
+                nameController.add(TextEditingController());
+                amountController.add(TextEditingController());
                 totalItem = totalItem + 1;
               }),
             },
             style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all(const Color(0xff1870B5)),
+                  MaterialStateProperty.all(const Color(0xff1870B5)),
               overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
             ),
-
             child: const Text("Add"),
           ),
-
         ]),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-
+        onPressed: () {
+          print(nameController);
+          print(amountController);
+          var s = 0;
+          for (var e in amountController) {
+            s += int.parse(e.text);
+          }
+          print(s);
         },
-        shape:  RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         backgroundColor: const Color(0xff1870B5),
-        child: const Icon(Icons.monetization_on,
-        color: Colors.black,
-        size: 55),
+        child: const Icon(Icons.monetization_on, color: Colors.black, size: 55),
       ),
     );
   }
 }
 
-Widget userController(int index, TextEditingController name, TextEditingController amount) {
+Widget userController(
+    int index, TextEditingController name, TextEditingController amount) {
   return Column(
     children: [
       const SizedBox(

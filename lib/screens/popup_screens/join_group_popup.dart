@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splitter/screens/main_dashboard.dart';
 
 import '../../auth/firebase_manager.dart';
@@ -80,7 +81,7 @@ Future<void> joinGroup(BuildContext context) async {
 joinInGroup(BuildContext context) async {
   try {
     NavigatorState state = Navigator.of(context);
-    Person P;
+    Person P = Provider.of(context, listen: false);
     Group G;
 
     final snapshot_group = await database.ref('Group').get();
@@ -121,7 +122,6 @@ joinInGroup(BuildContext context) async {
         await database.ref().child('Users/${_auth.currentUser!.uid}').get();
     Map<String, dynamic> map =
         Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
-    P = Person.fromJson(map);
 
     if (P.userGroups.contains("null")) {
       P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =

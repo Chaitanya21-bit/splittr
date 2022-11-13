@@ -8,6 +8,9 @@ class GroupItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (groupItem.toString() == "null") {
+      return CircularProgressIndicator();
+    }
     return Container(
       width: 200,
       // height: MediaQuery.of(context).size.height * 0.30 - 50,
