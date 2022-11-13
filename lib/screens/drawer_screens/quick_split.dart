@@ -10,6 +10,14 @@ class QuickSplit extends StatefulWidget {
 
 class _QuickSplitState extends State<QuickSplit> {
   @override
+  QuickSplit get widget => super.widget;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(

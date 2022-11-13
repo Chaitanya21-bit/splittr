@@ -93,10 +93,11 @@ class _QuickSettleState extends State<QuickSettle> {
               'amount': double.parse(amountController[i].text.toString())
             });
           }
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => QuickSplit(
-                    people: people,
-                  )));
+          Navigator.pushNamed(context, '/quickSplit', arguments: people);
+          // Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //     builder: (context) => QuickSplit(
+          //           people: people,
+          //         )));
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
