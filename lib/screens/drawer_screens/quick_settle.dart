@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/screens/drawer_screens/quick_split.dart';
 
 import '../../auth/firebase_manager.dart';
 import '../auth_screens/login_screen.dart';
+import '../main_dashboard.dart';
 
 class QuickSettle extends StatefulWidget {
   const QuickSettle({Key? key}) : super(key: key);
@@ -78,13 +80,22 @@ class _QuickSettleState extends State<QuickSettle> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print(nameController);
-          print(amountController);
-          var s = 0;
-          for (var e in amountController) {
-            s += int.parse(e.text);
+          // print(nameController);
+          // print(amountController);
+          // var s = 0;
+          // for (var e in amountController) {
+          //   s += int.parse(e.text);
+          // }
+          final Map<TextEditingController, TextEditingController> nameAmount =
+              Map.fromIterables(nameController, amountController);
+          for (var a in nameAmount.keys) {
+            print(a.text);
           }
-          print(s);
+          print(nameAmount);
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => QuickSplit(
+                    nameAmountMap: nameAmount,
+                  )));
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
