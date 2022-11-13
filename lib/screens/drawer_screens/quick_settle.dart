@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/screens/drawer_screens/quick_split.dart';
-
 import '../../auth/firebase_manager.dart';
 import '../auth_screens/login_screen.dart';
-import '../main_dashboard.dart';
 
 class QuickSettle extends StatefulWidget {
   const QuickSettle({Key? key}) : super(key: key);
@@ -81,11 +78,6 @@ class _QuickSettleState extends State<QuickSettle> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           List<Map> people = [];
-          // final Map<TextEditingController, TextEditingController> nameAmount =
-          //     Map.fromIterables(nameController, amountController);
-          // for (var a in nameAmount.keys) {
-          //   print(a.text);
-          // }
 
           for (int i = 0; i < nameController.length; i++) {
             people.add({
@@ -94,10 +86,6 @@ class _QuickSettleState extends State<QuickSettle> {
             });
           }
           Navigator.pushNamed(context, '/quickSplit', arguments: people);
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //     builder: (context) => QuickSplit(
-          //           people: people,
-          //         )));
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),

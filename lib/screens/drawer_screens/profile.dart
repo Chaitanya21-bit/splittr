@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../auth/firebase_manager.dart';
 import '../../dataclass/person.dart';
 import '../auth_screens/login_screen.dart';
@@ -15,29 +14,12 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  FirebaseDatabase database = FirebaseManager.database;
-
-  FirebaseAuth auth = FirebaseManager.auth;
-
   late Person person;
 
   @override
   void initState() {
-    setPerson();
+    person = Provider.of<Person>(context, listen: false);
     super.initState();
-  }
-
-  Future<void> setPerson() async {
-    final snapshot =
-        await database.ref().child('Users/${auth.currentUser!.uid}').get();
-    if (snapshot.exists) {
-      Map<String, dynamic> map =
-          Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-
-      person = Provider.of(context, listen: false);
-      print(map);
-      setState(() {});
-    }
   }
 
   @override
@@ -61,6 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Container(
               child: Text(person.name),
+            ),
+            Container(
+              child: Text(person.email),
             ),
           ],
         ));
