@@ -344,29 +344,45 @@ class _MainDashboardState extends State<MainDashboard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   await joinGroup(context);
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-                ),
-                child: const Text("Join Group"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.greenAccent,
+              elevation: 3,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+              
+              //minimumSize: Size(100, 40),
+            )
+      ),
+                icon: const Text("Join Group"),
+                label: Icon(Icons.add_circle),
               ),
-              ElevatedButton(
+
+              ElevatedButton.icon(
                 onPressed: () async {
                   await newGroup(context, P);
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
-                  // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-                ),
-                child: const Text("New Group"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.greenAccent,
+              elevation: 3,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+              
+              //minimumSize: Size(100, 40),
+            )
+      ),
+                icon: const Text("New Group"),
+                label: Icon(Icons.add_circle),
               ),
+
+              
             ],
           ),
           Container(
