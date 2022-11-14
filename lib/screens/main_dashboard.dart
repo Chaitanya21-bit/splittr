@@ -265,17 +265,50 @@ class _MainDashboardState extends State<MainDashboard> {
     final mediaQuery = MediaQuery.of(context);
     final dynamic appBar = AppBar(
       title: const Text('Dashboard'),
-      centerTitle: true,
-      backgroundColor: Colors.teal,
+      // centerTitle: true,
       actions: [
+        // IconButton(
+        //     onPressed: () {
+        //       FirebaseManager.auth.signOut();
+        //       Navigator.of(context).pushReplacement(
+        //           MaterialPageRoute(builder: (context) => LoginScreen()));
+        //     },
+        //     icon: const Icon(Icons.logout))
+
         IconButton(
             onPressed: () {
-              FirebaseManager.auth.signOut();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
+              
             },
-            icon: const Icon(Icons.logout))
+            icon: const Icon(Icons.notifications_none)),
+
+        // IconButton(
+        //     onPressed: () {
+              
+        //     },
+        //     icon: const Icon(Icons.search))
       ],
+
+      elevation: 7,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.yellow,Colors.orange,Colors.lightBlue],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+          )
+        ),
+      ),
+
+      // flexibleSpace: Container(
+      //   decoration: const BoxDecoration(
+      //     image: DecorationImage(
+      //       image: NetworkImage(
+      //         'url',
+      //         fit: BoxFit.cover,
+      //       )
+      //       )
+      //   ),
+      // ),
     );
 
     return Scaffold(
@@ -311,29 +344,45 @@ class _MainDashboardState extends State<MainDashboard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   await joinGroup(context);
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-                ),
-                child: const Text("Join Group"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.greenAccent,
+              elevation: 3,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+              
+              //minimumSize: Size(100, 40),
+            )
+      ),
+                icon: const Text("Join Group"),
+                label: Icon(Icons.add_circle),
               ),
-              ElevatedButton(
+
+              ElevatedButton.icon(
                 onPressed: () async {
                   await newGroup(context, P);
                 },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
-                  // backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-                ),
-                child: const Text("New Group"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+              foregroundColor: Colors.white,
+              shadowColor: Colors.greenAccent,
+              elevation: 3,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+              
+              //minimumSize: Size(100, 40),
+            )
+      ),
+                icon: const Text("New Group"),
+                label: Icon(Icons.add_circle),
               ),
+
+              
             ],
           ),
           Container(
@@ -343,9 +392,9 @@ class _MainDashboardState extends State<MainDashboard> {
                   0.585,
               child: Consumer<Person>(
                 builder: (_, data, __) {
-                  if (data.userTransactions.isEmpty) {
-                    return CircularProgressIndicator();
-                  }
+                  // if (data.userTransactions.isEmpty) {
+                  //   return CircularProgressIndicator();
+                  // }
                   return TransactionList(
                       transactionsList: data.userTransactions.reversed.toList(),
                       deleteTransaction: _deleteTransaction);
