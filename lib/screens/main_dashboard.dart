@@ -265,17 +265,50 @@ class _MainDashboardState extends State<MainDashboard> {
     final mediaQuery = MediaQuery.of(context);
     final dynamic appBar = AppBar(
       title: const Text('Dashboard'),
-      centerTitle: true,
-      backgroundColor: Colors.teal,
+      // centerTitle: true,
       actions: [
+        // IconButton(
+        //     onPressed: () {
+        //       FirebaseManager.auth.signOut();
+        //       Navigator.of(context).pushReplacement(
+        //           MaterialPageRoute(builder: (context) => LoginScreen()));
+        //     },
+        //     icon: const Icon(Icons.logout))
+
         IconButton(
             onPressed: () {
-              FirebaseManager.auth.signOut();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
+              
             },
-            icon: const Icon(Icons.logout))
+            icon: const Icon(Icons.notifications_none)),
+
+        // IconButton(
+        //     onPressed: () {
+              
+        //     },
+        //     icon: const Icon(Icons.search))
       ],
+
+      elevation: 7,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.yellow,Colors.orange,Colors.lightBlue],
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+          )
+        ),
+      ),
+
+      // flexibleSpace: Container(
+      //   decoration: const BoxDecoration(
+      //     image: DecorationImage(
+      //       image: NetworkImage(
+      //         'url',
+      //         fit: BoxFit.cover,
+      //       )
+      //       )
+      //   ),
+      // ),
     );
 
     return Scaffold(
@@ -343,9 +376,9 @@ class _MainDashboardState extends State<MainDashboard> {
                   0.585,
               child: Consumer<Person>(
                 builder: (_, data, __) {
-                  if (data.userTransactions.isEmpty) {
-                    return CircularProgressIndicator();
-                  }
+                  // if (data.userTransactions.isEmpty) {
+                  //   return CircularProgressIndicator();
+                  // }
                   return TransactionList(
                       transactionsList: data.userTransactions.reversed.toList(),
                       deleteTransaction: _deleteTransaction);
