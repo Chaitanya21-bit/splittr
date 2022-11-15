@@ -110,7 +110,9 @@ joinInGroup(BuildContext context) async {
 
     print(G.members);
     if (!G.members.contains(_auth.currentUser!.uid)) {
-      G.members.add(_auth.currentUser!.uid); // Update Group Members
+      Person p = Person();
+      p.retrieveBasicInfo(_auth.currentUser!.uid.toString());
+      G.members.add(p); // Update Group Members
     }
     print(G.members);
     //Push in DB

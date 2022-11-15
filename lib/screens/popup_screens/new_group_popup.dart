@@ -22,27 +22,19 @@ Future<void> newGroup(BuildContext context, Person P) {
       NavigatorState state = Navigator.of(context);
       const uuid = Uuid(); // generate random id
       Group group = Group(
-        gid: uuid.v1(),
-        groupName: groupNameController.text,
-        groupCode: groupCodeController.text,
-        groupDescription: aboutGroupController.text,
-        members: [_auth.currentUser!.uid],
-      );
+          gid: uuid.v1(),
+          groupName: groupNameController.text,
+          groupCode: groupCodeController.text,
+          groupDescription: aboutGroupController.text);
+      group.members.add(P);
       print("Group Created");
       await database.ref('Group/${group.gid}').set(group.toJson());
       print("Group Stored");
+      P.userGroups.add(group);
 
-      if (P.userGroups.contains("null")) {
-        P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
-            group.gid;
-      } else {
-        P.userGroups.add(group.gid);
-      }
       await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
       print("User Upated");
       state.pop();
-      state.pushReplacement(
-          MaterialPageRoute(builder: (context) => MainDashboard()));
     } catch (e) {
       print(e);
     }

@@ -3,20 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/dataclass/person.dart';
+import '../../dataclass/group.dart';
 import '../popup_screens/add_money_popup.dart';
 
 class GroupDashboard extends StatelessWidget {
-
-  final String data;
-  GroupDashboard({
-    Key? key,
-    required this.data
-  }) : super(key: key);
-
+  final Group group;
+  GroupDashboard({Key? key, required this.group}) : super(key: key);
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // late Person P;
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +37,7 @@ class GroupDashboard extends StatelessWidget {
         backgroundColor: Colors.deepOrange,
         child: const Icon(Icons.add),
       ),
-      body: Text(data),
+      body: Text(group.gid),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/screens/main_dashboard.dart';
 
 import 'auth/firebase_manager.dart';
+import 'dataclass/group.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,7 +25,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/grpDash':
         return MaterialPageRoute(
-            builder: (_) => GroupDashboard(data: args.toString()));
+            builder: (_) => GroupDashboard(group: args as Group));
       case '/quickSplit':
         return MaterialPageRoute(
             builder: (_) => QuickSplit(

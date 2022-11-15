@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
 import 'package:splitter/route_generator.dart';
@@ -55,44 +58,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<Person>? f() async {
+  Future<Person>? retrievePersonInfo() async {
     Person person = Person();
-    final FirebaseAuth auth = FirebaseManager.auth;
-    final FirebaseDatabase database = FirebaseManager.database;
-    final userSnapshot =
-        await database.ref().child('Users/${auth.currentUser!.uid}').get();
-    Map<String, dynamic> userMap =
-        Map<String, dynamic>.from(userSnapshot.value as Map<dynamic, dynamic>);
-
-    final transactionsSnapshot = await database
-        .ref()
-        .child('Users/${auth.currentUser!.uid}/userTransactions')
-        .get();
-    if (transactionsSnapshot.exists) {
-      final transactionsList = transactionsSnapshot.value as List;
-      for (var transaction in transactionsList) {
-        var snapshot =
-            await database.ref().child('Transactions/$transaction').get();
-        Map<String, dynamic> map =
-            Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-        person.userTransactions.add(Transactions.fromJson(map));
-      }
-    }
-    person.fromJson(userMap);
+    await person
+        .retrieveBasicInfo(FirebaseManager.auth.currentUser!.uid.toString());
+    await person.retrieveTransactions();
+    await person.retrieveGroups();
     return person;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Person>(
-        future: f(),
+        future: retrievePersonInfo(),
         builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SizedBox(
                 child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: Image.asset("assets/SplittrLogo.png"),
-            ));
+                    decoration: const BoxDecoration(color: Colors.white),
+                    child: Image.asset("assets/SplittrLogo.png")));
           }
 
           return MultiProvider(
