@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
@@ -49,11 +50,14 @@ class _MainDashboardState extends State<MainDashboard> {
       final groupsList = groupsSnapshot.value as List;
       for (var group in groupsList) {
         var snapshot = await database.ref().child('Group/$group').get();
-        outputGroupsList.add(snapshot.value);
+        if (!outputGroupsList.contains(snapshot.value)) {
+          outputGroupsList.add(snapshot.value);
+        }
       }
     }
-
-    // setState(() {});
+    setState(() {
+      outputGroupsList;
+    });
   }
 
   void _showDatePicker() {
@@ -65,6 +69,13 @@ class _MainDashboardState extends State<MainDashboard> {
         .then((date) {
       if (date == null && date.toString().isEmpty) {
         return;
+        // return Fluttertoast.showToast(
+        //     msg: "Please select a date",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.CENTER,
+        //     timeInSecForIosWeb: 1,
+        //     textColor: Colors.white,
+        //     fontSize: 14.0);
       }
       setState(() => _selectedDate = date.toString());
     });
@@ -343,9 +354,9 @@ class _MainDashboardState extends State<MainDashboard> {
                   0.585,
               child: Consumer<Person>(
                 builder: (_, data, __) {
-                  if (data.userTransactions.isEmpty) {
-                    return CircularProgressIndicator();
-                  }
+                  // if (data.userTransactions.isEmpty) {
+                  //   return CircularProgressIndicator();
+                  // }
                   return TransactionList(
                       transactionsList: data.userTransactions.reversed.toList(),
                       deleteTransaction: _deleteTransaction);
