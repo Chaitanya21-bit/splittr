@@ -12,7 +12,6 @@ import 'package:splitter/widgets/navigation_drawer.dart';
 import 'package:splitter/widgets/transaction_list.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-
 import 'popup_screens/join_group_popup.dart';
 
 final FirebaseDatabase database = FirebaseManager.database;
@@ -35,28 +34,7 @@ class _MainDashboardState extends State<MainDashboard> {
   @override
   void initState() {
     P = Provider.of<Person>(context, listen: false);
-    _retrieveGroup(context);
     super.initState();
-  }
-
-  _retrieveGroup(BuildContext context) async {
-    final groupsSnapshot = await database
-        .ref()
-        .child('Users/${_auth.currentUser!.uid}/userGroups')
-        .get();
-
-    if (groupsSnapshot.exists) {
-      final groupsList = groupsSnapshot.value as List;
-      for (var group in groupsList) {
-        var snapshot = await database.ref().child('Group/$group').get();
-        if (!outputGroupsList.contains(snapshot.value)) {
-          outputGroupsList.add(snapshot.value);
-        }
-      }
-    }
-    setState(() {
-      outputGroupsList;
-    });
   }
 
   void _showDatePicker() {
@@ -96,18 +74,12 @@ class _MainDashboardState extends State<MainDashboard> {
           remarks: addRemarksController.text,
           tid: t_uuid.v1());
 
-      setState(() async {
-        P.addTransaction(newTrans);
-        print("Transaction Created");
-        await database
-            .ref('Transactions/${newTrans.tid}')
-            .set(newTrans.toJson());
-        print("Transaction Stored");
-        await database
-            .ref('Users/${_auth.currentUser?.uid}')
-            .update(P.toJson());
-        print("User Upated");
-      });
+      P.addTransaction(newTrans);
+      print("Transaction Created");
+      await database.ref('Transactions/${newTrans.tid}').set(newTrans.toJson());
+      print("Transaction Stored");
+      await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
+      print("User Upated");
     } catch (e) {
       print(e);
     }
@@ -335,12 +307,12 @@ class _MainDashboardState extends State<MainDashboard> {
             margin: const EdgeInsets.all(10.0),
             width: 400,
             child: ListView.builder(
-                itemCount: outputGroupsList.length,
+                itemCount: P.userGroups.length,
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return GroupItem(
-                    groupItem: outputGroupsList[index],
+                    groupItem: P.userGroups[index],
                     deleteGroup: _deleteGroup,
                   );
                 }),

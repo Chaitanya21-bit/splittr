@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 
 class GroupItem extends StatelessWidget {
   GroupItem({required this.groupItem, required this.deleteGroup});
-  final dynamic groupItem;
+  final Group groupItem;
   final Function deleteGroup;
 
   @override
@@ -22,7 +23,7 @@ class GroupItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
         ),
         child: Dismissible(
-          key: Key(groupItem['gid']),
+          key: Key(groupItem.gid),
           background: Container(
             decoration: BoxDecoration(
               color: Colors.red,
@@ -40,7 +41,7 @@ class GroupItem extends StatelessWidget {
           ),
           direction: DismissDirection.up,
           onDismissed: (direction) {
-            deleteGroup(context, groupItem['gid']);
+            deleteGroup(context, groupItem.gid);
           },
           confirmDismiss: (DismissDirection direction) async {
             return await showDialog(
@@ -68,7 +69,7 @@ class GroupItem extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => GroupDashboard(data: groupItem['gid']),
+                  builder: (context) => GroupDashboard(group: groupItem),
                 ),
               );
             },
@@ -94,7 +95,7 @@ class GroupItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Text(
-                        groupItem['groupName'],
+                        groupItem.groupName,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -112,7 +113,7 @@ class GroupItem extends StatelessWidget {
                   children: [
                     Padding(padding: EdgeInsets.only(top: 4.0)),
                     Text(
-                      'Members : ${groupItem['members'].length}',
+                      'Members : ${groupItem.members.length}',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class GroupItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    Text(groupItem['groupCode'],
+                    Text(groupItem.groupCode,
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 18,
