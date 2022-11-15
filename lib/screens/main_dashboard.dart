@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
-import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
 import 'package:splitter/widgets/group_item.dart';
 import 'package:splitter/widgets/navigation_drawer.dart';
@@ -68,14 +67,12 @@ class _MainDashboardState extends State<MainDashboard> {
             lastDate: DateTime.now())
         .then((date) {
       if (date == null && date.toString().isEmpty) {
-        return;
-        // return Fluttertoast.showToast(
-        //     msg: "Please select a date",
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.CENTER,
-        //     timeInSecForIosWeb: 1,
-        //     textColor: Colors.white,
-        //     fontSize: 14.0);
+        return Fluttertoast.showToast(
+            msg: "Please select a date",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white);
       }
       setState(() => _selectedDate = date.toString());
     });
@@ -287,14 +284,11 @@ class _MainDashboardState extends State<MainDashboard> {
         //     icon: const Icon(Icons.logout))
 
         IconButton(
-            onPressed: () {
-              
-            },
-            icon: const Icon(Icons.notifications_none)),
+            onPressed: () {}, icon: const Icon(Icons.notifications_none)),
 
         // IconButton(
         //     onPressed: () {
-              
+
         //     },
         //     icon: const Icon(Icons.search))
       ],
@@ -302,12 +296,11 @@ class _MainDashboardState extends State<MainDashboard> {
       elevation: 7,
       flexibleSpace: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.yellow,Colors.orange,Colors.lightBlue],
-            begin: Alignment.bottomRight,
-            end: Alignment.topLeft,
-          )
-        ),
+            gradient: LinearGradient(
+          colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+        )),
       ),
 
       // flexibleSpace: Container(
@@ -360,40 +353,35 @@ class _MainDashboardState extends State<MainDashboard> {
                   await joinGroup(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
-              foregroundColor: Colors.white,
-              shadowColor: Colors.greenAccent,
-              elevation: 3,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-              
-              //minimumSize: Size(100, 40),
-            )
-      ),
+                    backgroundColor: Colors.lightBlue,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.greenAccent,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+
+                      //minimumSize: Size(100, 40),
+                    )),
                 icon: const Text("Join Group"),
                 label: Icon(Icons.add_circle),
               ),
-
               ElevatedButton.icon(
                 onPressed: () async {
                   await newGroup(context, P);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
-              foregroundColor: Colors.white,
-              shadowColor: Colors.greenAccent,
-              elevation: 3,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-              
-              //minimumSize: Size(100, 40),
-            )
-      ),
+                    backgroundColor: Colors.lightBlue,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.greenAccent,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+
+                      //minimumSize: Size(100, 40),
+                    )),
                 icon: const Text("New Group"),
                 label: Icon(Icons.add_circle),
               ),
-
-              
             ],
           ),
           Container(
