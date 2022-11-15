@@ -88,7 +88,11 @@ class _HomePageState extends State<HomePage> {
         future: f(),
         builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return SizedBox(
+                child: DecoratedBox(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Image.asset("assets/SplittrLogo.png"),
+            ));
           }
 
           return MultiProvider(

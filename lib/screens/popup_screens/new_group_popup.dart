@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:splitter/screens/main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
-import '../group_screens/group_dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
@@ -42,6 +41,8 @@ Future<void> newGroup(BuildContext context, Person P) {
       await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
       print("User Upated");
       state.pop();
+      state.pushReplacement(
+          MaterialPageRoute(builder: (context) => MainDashboard()));
     } catch (e) {
       print(e);
     }
