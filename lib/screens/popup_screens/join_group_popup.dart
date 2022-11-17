@@ -1,22 +1,33 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter/screens/main_dashboard.dart';
-
 import '../../auth/firebase_manager.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
-import '../group_screens/group_dashboard.dart';
 
-final FirebaseDatabase database = FirebaseManager.database;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final TextEditingController groupCodeController = TextEditingController();
-final FirebaseDatabase _database = FirebaseDatabase.instance;
+Future<void> joinGroup(BuildContext context, Person person) async {
+  final TextEditingController groupCodeController = TextEditingController();
+  final FirebaseDatabase database = FirebaseManager.database;
 
-List<dynamic> outputGroupsList = [];
+  joinInGroup(BuildContext context) async {
+    try {
+      NavigatorState state = Navigator.of(context);
+      Group group;
+      final grpSnapshot = await database
+          .ref()
+          .child('Group/${groupCodeController.text.toString()}')
+          .get();
+      print(grpSnapshot.value);
+      Map<String, dynamic> map =
+          Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+      group = Group.fromJson(map);
+      await group.retrieveMembers(List.of(map['members'].cast<String>()));
+      await person.addGroup(group);
+      state.pushReplacementNamed('/grpDash', arguments: group);
+    } catch (e) {
+      print(e);
+    }
+  }
 
-Future<void> joinGroup(BuildContext context) async {
   return await showDialog(
       context: context,
       builder: (context) {
@@ -76,79 +87,4 @@ Future<void> joinGroup(BuildContext context) async {
           ],
         );
       });
-}
-
-joinInGroup(BuildContext context) async {
-  try {
-    NavigatorState state = Navigator.of(context);
-    Person P = Provider.of(context, listen: false);
-    Group G;
-
-    final snapshot_group = await database.ref('Group').get();
-    Map<String, dynamic> mapG = Map<String, dynamic>.from(
-        snapshot_group.value as Map<dynamic, dynamic>);
-    List<dynamic> listG = [];
-    listG.clear();
-    //All Groups in DB
-    listG = mapG.values.toList();
-    print(listG);
-
-    var groupID;
-    for (int i = 0; i < listG.length; i++) {
-      if (groupCodeController.text == listG[i]['groupCode']) {
-        groupID = listG[i]['gid'];
-        break;
-      }
-    }
-
-    //Update Group
-    final grpSnapshot = await database.ref().child('Group/${groupID}').get();
-    print(grpSnapshot.value);
-    Map<String, dynamic> maps =
-        Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
-    G = Group.fromJson(maps);
-
-    print(G.members);
-    if (!G.members.contains(_auth.currentUser!.uid)) {
-      Person p = Person();
-      p.retrieveBasicInfo(_auth.currentUser!.uid.toString());
-      G.members.add(p); // Update Group Members
-    }
-    print(G.members);
-    //Push in DB
-    await database.ref().child('Group/${groupID}').update(G.toJson());
-    print("Group Updated");
-
-    //Update User
-    final user_snapshot =
-        await database.ref().child('Users/${_auth.currentUser!.uid}').get();
-    Map<String, dynamic> map =
-        Map<String, dynamic>.from(user_snapshot.value as Map<dynamic, dynamic>);
-
-    if (P.userGroups.contains("null")) {
-      P.userGroups[P.userGroups.indexWhere((element) => element == "null")] =
-          groupID;
-    }
-
-    if (!P.userGroups.contains(groupID)) {
-      P.userGroups.add(groupID); // Update User Groups
-    }
-    print(P.userGroups);
-    //Push in DB
-    await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-    print("User Updated");
-
-    state.pushReplacement(
-        MaterialPageRoute(builder: (context) => MainDashboard()));
-
-    Navigator.of(context).pushNamed(
-      '/grpDash',
-      arguments: groupID,
-    );
-    // state.pushReplacement(
-    //     MaterialPageRoute(builder: (context) => GroupDashboard())
-    // );
-  } catch (e) {
-    print(e);
-  }
 }

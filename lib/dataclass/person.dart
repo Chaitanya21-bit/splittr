@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/dataclass/transactions.dart';
-
 import '../auth/firebase_manager.dart';
 
 final FirebaseAuth auth = FirebaseManager.auth;
@@ -26,9 +25,6 @@ class Person extends ChangeNotifier {
     email = json['email'];
     phoneNo = json['phoneNo'];
     limit = double.parse(json['limit'].toString());
-    // userGroups = json['userGroups'] != null
-    //     ? List.of(json['userGroups'].cast<String>())
-    //     : [];
   }
 
   Map<String, dynamic> toJson() => {
@@ -44,13 +40,22 @@ class Person extends ChangeNotifier {
             userTransactions.length, (index) => userTransactions[index].tid)
       };
 
-  void addTransaction(Transactions transaction) {
+  Future<void> addTransaction(Transactions transaction) async {
+    print("Transaction Created");
     userTransactions.add(transaction);
+    await database
+        .ref('Transactions/${transaction.tid}')
+        .set(transaction.toJson());
+    print("Transaction Stored");
+    await database.ref('Users/${auth.currentUser?.uid}').update(toJson());
+    print("User Upated");
     notifyListeners();
   }
 
-  void deleteTransaction(Transactions transaction) {
+  Future<void> deleteTransaction(Transactions transaction) async {
     userTransactions.remove(transaction);
+    await database.ref('Users/${auth.currentUser?.uid}').update(toJson());
+    await database.ref().child('Transactions/${transaction.tid}').remove();
     notifyListeners();
   }
 
@@ -71,6 +76,24 @@ class Person extends ChangeNotifier {
     }
   }
 
+  Future<void> addGroup(Group group) async {
+    group.members.add(this);
+    print("Group Created");
+    await database.ref('Group/${group.gid}').update(group.toJson());
+    print("Group Stored");
+    userGroups.add(group);
+    await database.ref('Users/${auth.currentUser?.uid}').update(toJson());
+    print("User Upated");
+    notifyListeners();
+  }
+
+  Future<void> deleteGroup(Group group) async {
+    userGroups.remove(group);
+    await database.ref().child('Group/${group.gid}').remove();
+    await database.ref('Users/${auth.currentUser?.uid}').update(toJson());
+    notifyListeners();
+  }
+
   Future<void> retrieveGroups() async {
     final groupsSnapshot = await database
         .ref()
@@ -79,13 +102,13 @@ class Person extends ChangeNotifier {
 
     if (groupsSnapshot.exists) {
       final groupsList = groupsSnapshot.value as List;
-      for (var group in groupsList) {
-        var snapshot = await database.ref().child('Group/$group').get();
+      for (var groupId in groupsList) {
+        var snapshot = await database.ref().child('Group/$groupId').get();
         Map<String, dynamic> map =
             Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-        Group groupO = Group.fromJson(map);
-        await groupO.retrieveMembers(List.of(map['members'].cast<String>()));
-        userGroups.add(groupO);
+        Group group = Group.fromJson(map);
+        await group.retrieveMembers(List.of(map['members'].cast<String>()));
+        userGroups.add(group);
       }
     }
   }
