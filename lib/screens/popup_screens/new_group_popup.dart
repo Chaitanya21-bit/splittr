@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter/screens/main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
-import '../../auth/firebase_manager.dart';
 
-final FirebaseDatabase database = FirebaseManager.database;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final TextEditingController groupNameController = TextEditingController();
-final TextEditingController aboutGroupController = TextEditingController();
-final TextEditingController groupLimitController = TextEditingController();
-final TextEditingController personalLimitController = TextEditingController();
-final TextEditingController groupCodeController = TextEditingController();
-
-Future<void> newGroup(BuildContext context, Person P) {
-  addGroup(BuildContext context) async {
+Future<void> newGroup(BuildContext context, Person person) {
+  final TextEditingController groupNameController = TextEditingController();
+  final TextEditingController aboutGroupController = TextEditingController();
+  final TextEditingController groupLimitController = TextEditingController();
+  final TextEditingController personalLimitController = TextEditingController();
+  final TextEditingController groupCodeController = TextEditingController();
+  addGroup() async {
     try {
       NavigatorState state = Navigator.of(context);
       const uuid = Uuid(); // generate random id
@@ -26,23 +18,11 @@ Future<void> newGroup(BuildContext context, Person P) {
           groupName: groupNameController.text,
           groupCode: groupCodeController.text,
           groupDescription: aboutGroupController.text);
-      group.members.add(P);
-      print("Group Created");
-      await database.ref('Group/${group.gid}').set(group.toJson());
-      print("Group Stored");
-      P.userGroups.add(group);
-
-      await database.ref('Users/${_auth.currentUser?.uid}').update(P.toJson());
-      print("User Upated");
+      await person.addGroup(group);
       state.pop();
     } catch (e) {
       print(e);
     }
-    groupNameController.clear();
-    groupLimitController.clear();
-    aboutGroupController.clear();
-    groupCodeController.clear();
-    personalLimitController.clear();
   }
 
   return showDialog(
@@ -86,6 +66,7 @@ Future<void> newGroup(BuildContext context, Person P) {
                 Expanded(
                   child: TextFormField(
                     controller: groupLimitController,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Group Limit',
                       border: OutlineInputBorder(),
@@ -98,6 +79,7 @@ Future<void> newGroup(BuildContext context, Person P) {
                 Expanded(
                   child: TextFormField(
                     controller: personalLimitController,
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Personal Limit',
                       border: OutlineInputBorder(),
@@ -128,8 +110,7 @@ Future<void> newGroup(BuildContext context, Person P) {
               child: const Text("Cancel"),
             ),
             ElevatedButton(
-              onPressed: () => addGroup(context),
-              // {Navigator.of(context).push(MaterialPageRoute( builder: (context) => GroupDashboard()))},
+              onPressed: () => addGroup(),
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all(const Color(0xff1870B5)),
