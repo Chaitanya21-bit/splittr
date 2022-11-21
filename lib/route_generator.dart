@@ -28,13 +28,10 @@ class RouteGenerator {
             builder: (_) => GroupDashboard(group: args as Group));
       case '/quickSplit':
         return MaterialPageRoute(
-            builder: (_) => QuickSplit(
-                  people: args as List<Map>,
-                ));
+            builder: (_) => QuickSplit(people: args as List<Map>,));
       case '/profile':
         return MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider<Person>.value(
-                  value: args as Person,
+            builder: (_) => ChangeNotifierProvider<Person>.value(value: args as Person,
                   child: ProfileScreen(),
                 ));
       default:
