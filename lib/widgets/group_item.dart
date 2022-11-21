@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
+import 'package:splitter/route_generator.dart';
 
 class GroupItem extends StatelessWidget {
   const GroupItem({super.key, required this.groupItem});
@@ -64,13 +65,8 @@ class GroupItem extends StatelessWidget {
           },
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GroupDashboard(group: groupItem),
-                ),
-              );
+            onTap: () => {
+              Navigator.pushNamed(context, '/grpDash', arguments: groupItem)
             },
             child: Column(
               children: [
