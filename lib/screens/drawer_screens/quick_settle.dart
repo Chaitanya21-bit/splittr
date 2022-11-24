@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/main.dart';
 import '../../auth/firebase_manager.dart';
 import '../auth_screens/login_screen.dart';
 
@@ -58,6 +59,10 @@ class _QuickSettleState extends State<QuickSettle> {
                 return userController(
                     index, nameController[index], amountController[index]);
               }),
+
+          const SizedBox(
+            height: 15,
+          ),
           ElevatedButton(
             onPressed: () => {
               setState(() {
@@ -75,23 +80,21 @@ class _QuickSettleState extends State<QuickSettle> {
           ),
         ]),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          List<Map> people = [];
+              List<Map> people = [];
 
-          for (int i = 0; i < nameController.length; i++) {
-            people.add({
-              'name': nameController[i].text.toString(),
-              'amount': double.parse(amountController[i].text.toString())
-            });
-          }
-          Navigator.pushNamed(context, '/quickSplit', arguments: people);
+              for (int i = 0; i < nameController.length; i++) {
+                people.add({
+                  'name': nameController[i].text.toString(),
+                  'amount': double.parse(amountController[i].text.toString())
+                });
+              }
+              Navigator.pushNamed(context, '/quickSplit', arguments: people);
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        backgroundColor: const Color(0xff1870B5),
-        child: const Icon(Icons.monetization_on, color: Colors.black, size: 55),
+        label: const Text('Split'),
+        // icon: const Icon(Icons.thumb_up),
+        backgroundColor: Colors.pink,
       ),
     );
   }
@@ -100,31 +103,56 @@ class _QuickSettleState extends State<QuickSettle> {
 Widget userController(
     int index, TextEditingController name, TextEditingController amount) {
   return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       const SizedBox(
-        height: 15,
+        height: 11,
       ),
-      TextField(
-        controller: name,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
+      Container(
+            width: 40,
+            height: 40,
+            decoration: new BoxDecoration(
+            color: Colors.orange,
+            shape: BoxShape.circle,
           ),
-          labelText: "Name",
         ),
-      ),
       const SizedBox(
-        height: 15,
+        height: 7,
       ),
-      TextField(
-        controller: amount,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 150,
+                child: TextField(
+                  controller: name,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelText: "Name",
+                  ),
+                ),
+              ),
+              SizedBox(width: 30,),
+              SizedBox(
+                width: 150,
+                child: TextField(
+                  controller: amount,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    labelText: "Amount",
+                  ),
+                ),
+              )
+            ],
           ),
-          labelText: "Amount",
-        ),
-      ),
+
+
+
     ],
+
   );
 }
