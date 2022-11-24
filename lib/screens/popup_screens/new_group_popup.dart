@@ -1,3 +1,4 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/person.dart';
@@ -9,15 +10,32 @@ Future<void> newGroup(BuildContext context, Person person) {
   final TextEditingController groupLimitController = TextEditingController();
   final TextEditingController personalLimitController = TextEditingController();
   final TextEditingController groupCodeController = TextEditingController();
+  Future<Uri> createDynamicLink(String id) async {
+    final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
+        uriPrefix: 'https://splittrflutter.page.link',
+        link: Uri.parse('https://splittrflutter.page.link.com/?id=$id'),
+        androidParameters: const AndroidParameters(
+          packageName: 'com.example.splitter',
+          minimumVersion: 1,
+        ),
+        iosParameters: const IOSParameters(bundleId: 'com.example.splitter'));
+    final dynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+    return dynamicLink.shortUrl;
+    // return shortUrl;
+  }
+
   addGroup() async {
     try {
       NavigatorState state = Navigator.of(context);
       const uuid = Uuid(); // generate random id
+      Uri link = await createDynamicLink(uuid.v1());
       Group group = Group(
           gid: uuid.v1(),
           groupName: groupNameController.text,
           groupCode: groupCodeController.text,
-          groupDescription: aboutGroupController.text);
+          groupDescription: aboutGroupController.text,
+          link: link);
       await person.addGroup(group);
       state.pop();
     } catch (e) {

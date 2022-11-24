@@ -17,13 +17,15 @@ class Group {
   List<Person> members = [];
   late List<dynamic> memberColors = [];
   late List<Transactions> transactions = [];
+  late Uri link;
 
   Group(
       {required this.groupName,
       required this.gid,
       required this.groupCode,
       required this.groupDescription,
-      this.groupLimit = -1});
+      this.groupLimit = -1,
+      required this.link});
 
   static Group fromJson(Map<String, dynamic> json) {
     return Group(
@@ -31,7 +33,8 @@ class Group {
         gid: json['gid'],
         groupCode: json['groupCode'],
         groupDescription: json['groupDescription'],
-        groupLimit: double.parse(json['groupLimit'].toString()));
+        groupLimit: double.parse(json['groupLimit'].toString()),
+        link: Uri.parse(json['link']));
   }
 
   Map<String, dynamic> toJson() => {
@@ -40,8 +43,9 @@ class Group {
         'groupCode': groupCode,
         'groupDescription': groupDescription,
         'groupLimit': groupLimit,
-        'members':
-            List<String>.generate(members.length, (index) => members[index].uid)
+        'members': List<String>.generate(
+            members.length, (index) => members[index].uid),
+        'link': link.toString()
       };
 
   Future<void> retrieveTransactions() async {
