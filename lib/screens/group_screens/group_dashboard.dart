@@ -7,38 +7,21 @@ import '../main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/group.dart';
 import '../popup_screens/add_money_popup.dart';
+import 'group_details_dropdown.dart';
 
 class GroupDashboard extends StatelessWidget {
 
   final Group group;
-  late List<dynamic> user_data = [];
+
   GroupDashboard({
     Key? key,
     required this.group
   }) : super(key: key);
   late Group G;
-  // getGroup(BuildContext context) async{
-  //   final snapshot_group = await database.ref('Group/$data').get();
-  //   Map<String, dynamic> map = Map<String, dynamic>.from(snapshot_group.value as Map<dynamic, dynamic>);
-  // final Group group;
-  // GroupDashboard({Key? key, required this.group}) : super(key: key);
-  //
-  //   G=Group.fromJson(map);
-  //   List<dynamic> user_data = [];
-  //   //All Groups in DB
-  //   user_data = map.values.toList();
-  //   print(user_data);
-  //   print(G.groupName);
-  // }
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late Person P;
 
   @override
   Widget build(BuildContext context) {
-
-    // getGroup(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Dashboard'),
@@ -49,9 +32,8 @@ class GroupDashboard extends StatelessWidget {
               onPressed: () {
                 FirebaseManager.auth.signOut();
                 Navigator.of(context).pushNamed(
-                  '/login'
+                    '/login'
                 );
-                    // MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               icon: const Icon(Icons.logout))
         ],
@@ -67,35 +49,44 @@ class GroupDashboard extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.1,
+              top: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.1,
               right: 10,
               left: 50,
               bottom: 5,
             ),
           ),
           Positioned(
-              top: MediaQuery.of(context).size.height * 0.04,
-              left: MediaQuery.of(context).size.width*0.3,
-              width:MediaQuery.of(context).size.height * 0.2,
+              top: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.04,
+              left: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.3,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.2,
               child: Image.asset("assets/SplittrLogo.png")
           ),
           Container(
               margin: const EdgeInsets.all(25),
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.1,
-                right: 30,
-                left: 30
+                  top: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.1,
+                  right: 30,
+                  left: 30
               ),
               child: Column(
                 children: [
-                  // ListView.builder(
-                  //   itemCount: user_data.length, //user data toh empty hai bc
-                  //   itemBuilder: (context, index) {
-                  //     return Card(
-                  //       child: Text(user_data[index].toString()),
-                  //     );
-                  //   }
-                  // ),
+                  // Row(children: [Expanded(child: GroupDetailsDropdown(group: group,))]),
+                  // Isko uncomment karne se error aara
                   Text(group.gid),
                   Text(group.members.toString()),
                   Text(group.groupName),
@@ -107,4 +98,3 @@ class GroupDashboard extends StatelessWidget {
     );
   }
 }
-
