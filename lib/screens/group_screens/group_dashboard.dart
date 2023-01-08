@@ -74,8 +74,8 @@ class _GroupDashboardState extends State<GroupDashboard> {
                 children: [
                   ListView.builder(
                       shrinkWrap: true,
-                      itemCount:
-                          group.members.length, //user data toh empty hai bc
+                      itemCount: group.members
+                          .length, //user data toh empty hai bc // nahi h khali mc
                       itemBuilder: (context, index) {
                         return Card(
                           child: Text(group.members[index].name.toString()),
