@@ -33,7 +33,7 @@ class _MainDashboardState extends State<MainDashboard> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final dynamic appBar = AppBar(
-      title: const Text('Dashboard'),
+      title:  Text('Dashboard'),
       actions: [
         IconButton(
             onPressed: () {}, icon: const Icon(Icons.notifications_none)),
@@ -61,6 +61,7 @@ class _MainDashboardState extends State<MainDashboard> {
       ),
       body: Column(
         children: [
+          Text(person.name),
           Container(
             height: (mediaQuery.size.height -
                     appBar.preferredSize.height -
