@@ -7,18 +7,23 @@ import '../main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/group.dart';
 import '../popup_screens/add_money_popup.dart';
-import 'group_details_dropdown.dart';
 
-class GroupDashboard extends StatelessWidget {
-
+class GroupDashboard extends StatefulWidget {
   final Group group;
+  const GroupDashboard({Key? key, required this.group}) : super(key: key);
 
-  GroupDashboard({
-    Key? key,
-    required this.group
-  }) : super(key: key);
-  late Group G;
+  @override
+  State<GroupDashboard> createState() => _GroupDashboardState();
+}
 
+class _GroupDashboardState extends State<GroupDashboard> {
+  late Group group;
+
+  @override
+  void initState() {
+    group = widget.group;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +34,10 @@ class GroupDashboard extends StatelessWidget {
         backgroundColor: Colors.deepOrangeAccent,
         actions: [
           IconButton(
-              onPressed: () {
-                FirebaseManager.auth.signOut();
-                Navigator.of(context).pushNamed(
-                    '/login'
-                );
+              onPressed: () async {
+                await FirebaseManager.auth.signOut();
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (Route r) => false);
               },
               icon: const Icon(Icons.logout))
         ],
@@ -49,50 +53,39 @@ class GroupDashboard extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(
-              top: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.1,
+              top: MediaQuery.of(context).size.height * 0.1,
               right: 10,
               left: 50,
               bottom: 5,
             ),
           ),
           Positioned(
-              top: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.04,
-              left: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.3,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .height * 0.2,
-              child: Image.asset("assets/SplittrLogo.png")
-          ),
+              top: MediaQuery.of(context).size.height * 0.04,
+              left: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.height * 0.2,
+              child: Image.asset("assets/SplittrLogo.png")),
           Container(
               margin: const EdgeInsets.all(25),
               padding: EdgeInsets.only(
-                  top: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.1,
+                  top: MediaQuery.of(context).size.height * 0.1,
                   right: 30,
-                  left: 30
-              ),
+                  left: 30),
               child: Column(
                 children: [
-                  // Row(children: [Expanded(child: GroupDetailsDropdown(group: group,))]),
-                  // Isko uncomment karne se error aara
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: group.members
+                          .length, //user data toh empty hai bc // nahi h khali ab mc
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Text(group.members[index].name.toString()),
+                        );
+                      }),
                   Text(group.gid),
                   Text(group.members.toString()),
                   Text(group.groupName),
                 ],
-              )
-          )
+              ))
         ],
       ),
     );

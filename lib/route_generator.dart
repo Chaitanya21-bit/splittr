@@ -1,16 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/main.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
+import 'package:splitter/screens/auth_screens/signup_screen.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
 import 'package:splitter/screens/drawer_screens/quick_split.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
-import 'package:splitter/screens/main_dashboard.dart';
-
-import 'auth/firebase_manager.dart';
 import 'dataclass/group.dart';
 
 class RouteGenerator {
@@ -21,19 +17,26 @@ class RouteGenerator {
     switch (settings.name) {
       case '/login':
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case '/home':
+      case 'home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/grpDash':
         return MaterialPageRoute(
             builder: (_) => GroupDashboard(group: args as Group));
       case '/quickSplit':
         return MaterialPageRoute(
-            builder: (_) => QuickSplit(people: args as List<Map>,));
+            builder: (_) => QuickSplit(
+                  people: args as List<Map>,
+                ));
       case '/profile':
         return MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider<Person>.value(value: args as Person,
+            builder: (_) => ChangeNotifierProvider<Person>.value(
+                  value: args as Person,
                   child: ProfileScreen(),
                 ));
+
+      case '/signUp':
+        return MaterialPageRoute(builder: (_) => SignUpScreen());
+
       default:
         return _errorRoute();
     }

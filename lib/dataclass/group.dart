@@ -11,7 +11,6 @@ final FirebaseDatabase database = FirebaseManager.database;
 class Group {
   late String groupName;
   late String gid;
-  late String groupCode;
   late String groupDescription;
   late double? groupLimit;
   List<Person> members = [];
@@ -22,7 +21,6 @@ class Group {
   Group(
       {required this.groupName,
       required this.gid,
-      required this.groupCode,
       required this.groupDescription,
       this.groupLimit = -1,
       required this.link});
@@ -31,7 +29,6 @@ class Group {
     return Group(
         groupName: json['groupName'],
         gid: json['gid'],
-        groupCode: json['groupCode'],
         groupDescription: json['groupDescription'],
         groupLimit: double.parse(json['groupLimit'].toString()),
         link: Uri.parse(json['link']));
@@ -40,7 +37,6 @@ class Group {
   Map<String, dynamic> toJson() => {
         'groupName': groupName,
         'gid': gid,
-        'groupCode': groupCode,
         'groupDescription': groupDescription,
         'groupLimit': groupLimit,
         'members': List<String>.generate(

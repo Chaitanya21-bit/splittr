@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/dataclass/person.dart';
 import '../../auth/firebase_manager.dart';
 import '../../main.dart';
+import '../../utils/auth_utils.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -101,10 +102,8 @@ class LoginScreen extends StatelessWidget {
                         "Don't have an Account ? ",
                       ),
                       TextButton(
-                          onPressed: () => {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()))
-                              },
+                          onPressed: () =>
+                              {Navigator.of(context).pushNamed('/signUp')},
                           child: const Text("Sign Up"))
                     ],
                   ),
@@ -121,13 +120,16 @@ class LoginScreen extends StatelessWidget {
   }
 
   login(BuildContext context) async {
+    NavigatorState state = Navigator.of(context);
     try {
-      NavigatorState state = Navigator.of(context);
+      AuthUtils.showLoadingDialog(context);
       await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      state.pushNamed('/home');
+      state.pushNamedAndRemoveUntil('home', (Route route) => false);
     } on FirebaseAuthException catch (e) {
+      print(e.code);
       if (e.code == 'user-not-found') {
+        print("user-not-found");
         Fluttertoast.showToast(
           msg: "No user found for that email.",
           toastLength: Toast.LENGTH_SHORT,
@@ -135,13 +137,22 @@ class LoginScreen extends StatelessWidget {
           timeInSecForIosWeb: 1,
         );
       } else if (e.code == 'wrong-password') {
+        print("wrong-password");
         Fluttertoast.showToast(
           msg: "Wrong password provided for that user.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
         );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Enter valid details",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
       }
+      state.pop();
     }
   }
 }

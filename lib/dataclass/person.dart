@@ -114,7 +114,6 @@ class Person extends ChangeNotifier {
   }
 
   Future<void> retrieveBasicInfo(String uid) async {
-    final FirebaseDatabase database = FirebaseManager.database;
     final userSnapshot = await database.ref().child('Users/$uid').get();
     Map<String, dynamic> userMap =
         Map<String, dynamic>.from(userSnapshot.value as Map<dynamic, dynamic>);
