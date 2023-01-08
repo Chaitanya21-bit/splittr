@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../dataclass/person.dart';
@@ -17,11 +18,11 @@ Future addUserTransaction(BuildContext context, Person person) {
         return Fluttertoast.showToast(
             msg: "Please fill the fields",
             toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
+            gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
             textColor: Colors.white);
       }
-
+      AuthUtils.showLoadingDialog(context);
       const tUuid = Uuid();
       Transactions newTrans = Transactions(
           date: DateFormat("dd-MM-yyyy HH:mm:ss").format(selectedDate),
@@ -32,6 +33,7 @@ Future addUserTransaction(BuildContext context, Person person) {
 
       await person.addTransaction(newTrans);
 
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
     } catch (e) {
       print(e);

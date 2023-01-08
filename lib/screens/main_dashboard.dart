@@ -75,7 +75,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return GroupItem(groupItem: data.userGroups[index]);
+                      return GroupItem(group: data.userGroups[index]);
                     });
               },
             ),

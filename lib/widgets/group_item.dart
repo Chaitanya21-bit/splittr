@@ -6,8 +6,8 @@ import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/route_generator.dart';
 
 class GroupItem extends StatelessWidget {
-  const GroupItem({super.key, required this.groupItem});
-  final Group groupItem;
+  const GroupItem({super.key, required this.group});
+  final Group group;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class GroupItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
         ),
         child: Dismissible(
-          key: Key(groupItem.gid),
+          key: Key(group.gid),
           background: Container(
             decoration: BoxDecoration(
               color: Colors.red,
@@ -40,7 +40,7 @@ class GroupItem extends StatelessWidget {
           direction: DismissDirection.up,
           onDismissed: (direction) async {
             await Provider.of<Person>(context, listen: false)
-                .deleteGroup(groupItem);
+                .deleteGroup(group);
           },
           confirmDismiss: (DismissDirection direction) async {
             return await showDialog(
@@ -65,71 +65,63 @@ class GroupItem extends StatelessWidget {
           },
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
-            onTap: () => {
-              Navigator.pushNamed(context, '/grpDash', arguments: groupItem)
-            },
+            onTap: () =>
+                {Navigator.pushNamed(context, '/grpDash', arguments: group)},
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(8),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple[800],
-                        border: Border.all(
-                          // color: Theme.of(context).primaryColor,
-                          color: Colors.limeAccent,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        groupItem.groupName,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                      ),
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(padding: EdgeInsets.only(top: 4.0)),
-                    Text(
-                      'Members : ${groupItem.members.length}',
-                      style: TextStyle(
-                        fontSize: 18,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurple[800],
+                      border: Border.all(
+                        // color: Theme.of(context).primaryColor,
+                        color: Colors.limeAccent,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      group.groupName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple[800],
+                        overflow: TextOverflow.ellipsis,
                       ),
                       textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
-                  ],
+                  ),
                 ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(padding: EdgeInsets.only(bottom: 15.0)),
-                    Text(groupItem.groupCode,
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    'Members : ${group.members.length}',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple[800],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(group.gid.toString(),
                         style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 18,
                           color: Colors.limeAccent,
                         )),
-                  ],
+                  ),
                 ),
               ],
             ),

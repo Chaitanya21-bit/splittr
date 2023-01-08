@@ -14,8 +14,6 @@ import 'auth/firebase_manager.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseManager();
-  // await doSome();
   runApp(MyApp());
 }
 
@@ -66,7 +64,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/home',
+      initialRoute: 'home',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
@@ -92,7 +90,6 @@ class _HomePageState extends State<HomePage> {
     final dynamicLink =
         await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
     return dynamicLink.shortUrl;
-    // return shortUrl;
   }
 
   Future<String> retrieveDynamicLink() async {

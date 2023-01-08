@@ -7,6 +7,7 @@ import 'package:splitter/main.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/main_dashboard.dart';
+import 'package:splitter/utils/auth_utils.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -20,8 +21,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Stack(
@@ -157,28 +157,33 @@ class SignUpScreen extends StatelessWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 
   Future<void> registerUser(BuildContext context) async {
+    NavigatorState state = Navigator.of(context);
     try {
-      NavigatorState state = Navigator.of(context);
+      AuthUtils.showLoadingDialog(context);
       final credentials = await auth.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      Map<String, dynamic> j = {};
-      j['name'] = nameController.text;
-      j['uid'] = credentials.user!.uid;
-      j['alias'] = aliasController.text;
-      j['email'] = emailController.text;
-      j['phoneNo'] = "896473";
-      j['limit'] = -1;
       Person person = Person();
-      person.fromJson(j);
+
+      Map<String, dynamic> personJson = {};
+      personJson['name'] = nameController.text;
+      personJson['uid'] = credentials.user!.uid;
+      personJson['alias'] = aliasController.text;
+      personJson['email'] = emailController.text;
+      personJson['phoneNo'] = "896473";
+      personJson['limit'] = -1;
+
+      person.fromJson(personJson);
 
       await database.ref('Users/${person.uid}').set(person.toJson());
-      state.pushReplacementNamed('/home');
+      //
+      // state.pop();
+      state.pushNamedAndRemoveUntil('home', (Route route) => false);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Fluttertoast.showToast(
@@ -188,8 +193,16 @@ class SignUpScreen extends StatelessWidget {
           timeInSecForIosWeb: 1,
         );
       } else if (e.code == 'email-already-in-use') {
+        state.pop();
         Fluttertoast.showToast(
           msg: "The account already exists for that email.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "Invalid details",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -197,6 +210,7 @@ class SignUpScreen extends StatelessWidget {
       }
     } catch (e) {
       print(e.toString());
+      state.pop();
       Fluttertoast.showToast(
         msg: e.toString(),
         toastLength: Toast.LENGTH_SHORT,

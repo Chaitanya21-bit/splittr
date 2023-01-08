@@ -8,37 +8,25 @@ import '../../dataclass/group.dart';
 import '../../dataclass/group.dart';
 import '../popup_screens/add_money_popup.dart';
 
-class GroupDashboard extends StatelessWidget {
-
+class GroupDashboard extends StatefulWidget {
   final Group group;
-  late List<dynamic> user_data = [];
-  GroupDashboard({
-    Key? key,
-    required this.group
-  }) : super(key: key);
-  late Group G;
-  // getGroup(BuildContext context) async{
-  //   final snapshot_group = await database.ref('Group/$data').get();
-  //   Map<String, dynamic> map = Map<String, dynamic>.from(snapshot_group.value as Map<dynamic, dynamic>);
-  // final Group group;
-  // GroupDashboard({Key? key, required this.group}) : super(key: key);
-  //
-  //   G=Group.fromJson(map);
-  //   List<dynamic> user_data = [];
-  //   //All Groups in DB
-  //   user_data = map.values.toList();
-  //   print(user_data);
-  //   print(G.groupName);
-  // }
+  const GroupDashboard({Key? key, required this.group}) : super(key: key);
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late Person P;
+  @override
+  State<GroupDashboard> createState() => _GroupDashboardState();
+}
+
+class _GroupDashboardState extends State<GroupDashboard> {
+  late Group group;
+
+  @override
+  void initState() {
+    group = widget.group;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    // getGroup(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Group Dashboard'),
@@ -46,12 +34,10 @@ class GroupDashboard extends StatelessWidget {
         backgroundColor: Colors.deepOrangeAccent,
         actions: [
           IconButton(
-              onPressed: () {
-                FirebaseManager.auth.signOut();
-                Navigator.of(context).pushNamed(
-                  '/login'
-                );
-                    // MaterialPageRoute(builder: (context) => LoginScreen()));
+              onPressed: () async {
+                await FirebaseManager.auth.signOut();
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/login', (Route r) => false);
               },
               icon: const Icon(Icons.logout))
         ],
@@ -75,36 +61,33 @@ class GroupDashboard extends StatelessWidget {
           ),
           Positioned(
               top: MediaQuery.of(context).size.height * 0.04,
-              left: MediaQuery.of(context).size.width*0.3,
-              width:MediaQuery.of(context).size.height * 0.2,
-              child: Image.asset("assets/SplittrLogo.png")
-          ),
+              left: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.height * 0.2,
+              child: Image.asset("assets/SplittrLogo.png")),
           Container(
               margin: const EdgeInsets.all(25),
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.1,
-                right: 30,
-                left: 30
-              ),
+                  top: MediaQuery.of(context).size.height * 0.1,
+                  right: 30,
+                  left: 30),
               child: Column(
                 children: [
-                  // ListView.builder(
-                  //   itemCount: user_data.length, //user data toh empty hai bc
-                  //   itemBuilder: (context, index) {
-                  //     return Card(
-                  //       child: Text(user_data[index].toString()),
-                  //     );
-                  //   }
-                  // ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          group.members.length, //user data toh empty hai bc
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Text(group.members[index].name.toString()),
+                        );
+                      }),
                   Text(group.gid),
                   Text(group.members.toString()),
                   Text(group.groupName),
                 ],
-              )
-          )
+              ))
         ],
       ),
     );
   }
 }
-
