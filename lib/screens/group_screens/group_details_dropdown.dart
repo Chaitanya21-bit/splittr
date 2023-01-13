@@ -19,17 +19,26 @@ class MyDropDown extends State<GroupDetailsDropdown> {
   final Group group;
   MyDropDown(this.group);
 
+  String? value;
   @override
   Widget build(BuildContext context) {
-    print(group.groupName);
-    String? dropdownValue = group.members[0].toString() ;
-    final items = group.members;
-    // Dropdown value aur item ka ek same hona chahiye vo nai hora iss liye error aara
+    print('Grp Dashboard Dropdown');
+
+    Iterable<Person> P = group.members;   //Makeing iterable of group members then append each name in a string list
+    List<String> items = [];
+    P.forEach((element) {
+      items.add(element.name.toString());
+    });
+    print('P');
+    print(items);
+
+
     return Container(
       padding: const EdgeInsets.all(10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          Text('GRP'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -45,21 +54,34 @@ class MyDropDown extends State<GroupDetailsDropdown> {
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
-                    icon: const Icon(Icons.keyboard_arrow_down),
                     onChanged: (String? newValue) {
-                      setState(() {dropdownValue = newValue!;});
+                      setState(() {
+                        this.value = newValue!;
+                      });
                     },
-                    value: dropdownValue,
-                    items: items.map((Person items) {
-                      return DropdownMenuItem<String>(value: items.name, child: Text(items.name));
+                    value: value,
+                    items: items.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
                     }).toList(),
                   ),
                 ),
-              ),
+
+
+
+                  // child: DropdownButton(
+                  //   value: value,
+                  // onChanged: (value) => setState(() {
+                  //   this.value = value;
+                  // }),
+                  // items: items.map(buildDD).toList(),
+                  // ),
+                ),
             ],
           ),
         ],
       ),
     );
   }
+
+
 }

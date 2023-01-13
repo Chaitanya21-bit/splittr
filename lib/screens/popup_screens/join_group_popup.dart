@@ -9,22 +9,22 @@ Future<void> joinGroup(BuildContext context, Person person) async {
   final FirebaseDatabase database = FirebaseManager.database;
 
   joinInGroup(BuildContext context) async {
+    print('He');
     try {
       NavigatorState state = Navigator.of(context);
       Group group;
-      final grpSnapshot = await database
-          .ref()
-          .child('Group/${groupCodeController.text.toString()}')
-          .get();
+      final grpSnapshot = await database.ref().child('Group/${groupCodeController.text.toString()}').get();
       print(grpSnapshot.value);
-      Map<String, dynamic> map =
-          Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+      print(groupCodeController.text);
+      Map<String, dynamic> map = Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+      print('Hello');
       group = Group.fromJson(map);
       await group.retrieveMembers(List.of(map['members'].cast<String>()));
       await person.addGroup(group);
       state.pushReplacementNamed('/grpDash', arguments: group);
     } catch (e) {
       print(e);
+      print('Hell');
     }
   }
 
@@ -46,10 +46,7 @@ Future<void> joinGroup(BuildContext context, Person person) async {
                 child: Text('Group Name'),
               ),
               const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 30,
+                height: 50,
               ),
               TextFormField(
                 controller: groupCodeController,
