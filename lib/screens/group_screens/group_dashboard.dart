@@ -7,6 +7,7 @@ import '../main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/group.dart';
 import '../popup_screens/add_money_popup.dart';
+import 'group_details_dropdown.dart';
 
 class GroupDashboard extends StatefulWidget {
   final Group group;
@@ -72,20 +73,22 @@ class _GroupDashboardState extends State<GroupDashboard> {
                   left: 30),
               child: Column(
                 children: [
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: group.members
-                          .length, //user data toh empty hai bc // nahi h khali ab mc
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: Text(group.members[index].name.toString()),
-                        );
-                      }),
+              //     ListView.builder(
+              //         shrinkWrap: true,
+              //         itemCount: group.members
+              //             .length, //user data toh empty hai bc // nahi h khali ab mc
+              //         itemBuilder: (context, index) {
+              //           return Card(
+              //             child: Text(group.members[index].name.toString()),
+              //           );
+              //         }),
+                  Row(children: [Expanded(child: GroupDetailsDropdown(group: group,))]),
                   Text(group.gid),
                   Text(group.members.toString()),
                   Text(group.groupName),
                 ],
               ))
+
         ],
       ),
     );

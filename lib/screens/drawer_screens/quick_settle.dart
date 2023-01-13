@@ -25,61 +25,84 @@ class _QuickSettleState extends State<QuickSettle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Quick Settle'),
-        centerTitle: true,
-        backgroundColor: const Color(0xff1870B5),
-        actions: [
-          IconButton(
-              onPressed: () {
-                FirebaseManager.auth.signOut();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              },
-              icon: const Icon(Icons.logout))
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Quick Settle'),
+      //   centerTitle: true,
+      //   backgroundColor: const Color(0xff1870B5),
+      //   actions: [
+      //     IconButton(
+      //         onPressed: () {
+      //           FirebaseManager.auth.signOut();
+      //           Navigator.of(context).pushReplacement(
+      //               MaterialPageRoute(builder: (context) => LoginScreen()));
+      //         },
+      //         icon: const Icon(Icons.logout))
+      //   ],
+      // ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.1,
-          right: 20,
-          left: 20,
-          bottom: 5,
-        ),
-        child: Column(children: [
-          const Text(
-            "Quick Settle",
-            style: TextStyle(color: Colors.black, fontSize: 40),
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.1,
+            right: 20,
+            left: 20,
+            bottom: 5,
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              itemCount: totalItem,
-              itemBuilder: (context, index) {
-                return userController(
-                    index, nameController[index], amountController[index]);
-              }),
-
-          const SizedBox(
-            height: 15,
-          ),
-          ElevatedButton(
-            onPressed: () => {
-              setState(() {
-                nameController.add(TextEditingController());
-                amountController.add(TextEditingController());
-                totalItem = totalItem + 1;
-              }),
-            },
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xff1870B5)),
-              overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+        child:Stack(
+          children: [
+            Positioned(
+                  top: MediaQuery.of(context).size.height * 0.001,
+                  left: MediaQuery.of(context).size.width * 0.25,
+                  width: MediaQuery.of(context).size.height * 0.2,
+                  child: Image.asset("assets/SplittrLogo.png")
             ),
-            child: const Text("Add"),
-          ),
-        ]),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.12,
+              left: MediaQuery.of(context).size.width * 0,
+              child: const Text("Settle Now",
+                style: TextStyle(color: Colors.black, fontSize: 25),
+              ),
+            ),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 100,
+                ),
+
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: totalItem,
+                    itemBuilder: (context, index) {
+                      return userController(
+                          index, nameController[index], amountController[index]);
+                    }),
+                const SizedBox(
+                  height: 15,
+                ),
+                ElevatedButton(
+                  onPressed: () => {
+                    setState(() {
+                      nameController.add(TextEditingController());
+                      amountController.add(TextEditingController());
+                      totalItem = totalItem + 1;
+                    }),
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all(const Color(0xff1870B5)),
+                    overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+                  ),
+                  child: const Text("Add"),
+                ),
+
+              ],
+            )
+
+          ],
+        )
       ),
+
+
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
               List<Map> people = [];
@@ -123,34 +146,36 @@ Widget userController(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 150,
+                width: 170,
+                height: 50,
                 child: TextField(
                   controller: name,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(width: 3,color: Colors.teal),
                     ),
                     labelText: "Name",
                   ),
                 ),
               ),
-              SizedBox(width: 30,),
+              SizedBox(width: 10,),
               SizedBox(
-                width: 150,
+                width: 170,
+                height: 50,
                 child: TextField(
                   controller: amount,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(width: 3,color: Colors.teal),
                     ),
                     labelText: "Amount",
                   ),
                 ),
-              )
+              ),
             ],
           ),
-
-
 
     ],
 
