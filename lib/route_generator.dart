@@ -15,7 +15,7 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      case '/login':
+      case 'login':
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case 'home':
         return MaterialPageRoute(builder: (_) => const HomePage());

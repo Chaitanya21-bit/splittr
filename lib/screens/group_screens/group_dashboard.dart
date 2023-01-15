@@ -38,14 +38,14 @@ class _GroupDashboardState extends State<GroupDashboard> {
               onPressed: () async {
                 await FirebaseManager.auth.signOut();
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (Route r) => false);
+                    .pushNamedAndRemoveUntil('login', (Route r) => false);
               },
               icon: const Icon(Icons.logout))
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await openDialogue(context);
+          await openDialogue(context, group);
         },
         backgroundColor: Colors.deepOrange,
         child: const Icon(Icons.add),
@@ -73,22 +73,27 @@ class _GroupDashboardState extends State<GroupDashboard> {
                   left: 30),
               child: Column(
                 children: [
-              //     ListView.builder(
-              //         shrinkWrap: true,
-              //         itemCount: group.members
-              //             .length, //user data toh empty hai bc // nahi h khali ab mc
-              //         itemBuilder: (context, index) {
-              //           return Card(
-              //             child: Text(group.members[index].name.toString()),
-              //           );
-              //         }),
-                  Row(children: [Expanded(child: GroupDetailsDropdown(group: group,))]),
+                  //     ListView.builder(
+                  //         shrinkWrap: true,
+                  //         itemCount: group.members
+                  //             .length, //user data toh empty hai bc // nahi h khali ab mc
+                  //         itemBuilder: (context, index) {
+                  //           return Card(
+                  //             child: Text(group.members[index].name.toString()),
+                  //           );
+                  //         }),
+                  Row(children: [
+                    Expanded(
+                        child: GroupDetailsDropdown(
+                      group: group,
+                    ))
+                  ]),
                   Text(group.gid),
                   Text(group.members.toString()),
                   Text(group.groupName),
+                  SelectableText(group.link.toString()),
                 ],
               ))
-
         ],
       ),
     );

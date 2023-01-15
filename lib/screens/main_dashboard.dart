@@ -1,13 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/screens/popup_screens/add_transaction_popup.dart';
 import 'package:splitter/screens/popup_screens/new_group_popup.dart';
+import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/widgets/group_item.dart';
 import 'package:splitter/widgets/navigation_drawer.dart';
+import '../dataclass/group.dart';
 import '../dataclass/transactions.dart';
 import '../widgets/transaction_item.dart';
 import 'popup_screens/join_group_popup.dart';
@@ -22,10 +26,67 @@ class _MainDashboardState extends State<MainDashboard> {
   final FirebaseDatabase database = FirebaseManager.database;
   final FirebaseAuth auth = FirebaseManager.auth;
   late Person person;
+  Future<void> retrieveDynamicLink() async {
+    String? gid;
+    Group? group;
+
+    try {
+      final PendingDynamicLinkData? data =
+          await FirebaseDynamicLinks.instance.getInitialLink();
+      final Uri? deepLink = data?.link;
+
+      if (deepLink != null) {
+        if (deepLink.queryParameters.containsKey("id")) {
+          gid = deepLink.queryParameters['id'];
+          group = await getGroup(gid!);
+          await wantToJoin(context, person, group!);
+        } else {
+          return;
+        }
+      }
+
+      FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) async {
+        if (dynamicLinkData.link.queryParameters.containsKey("id")) {
+          gid = dynamicLinkData.link.queryParameters['id'];
+          group = await getGroup(gid!);
+          if (group == null) {
+            return;
+          }
+          await wantToJoin(context, person, group!);
+        } else {
+          return;
+        }
+      }).onError((error) {
+        // Handle errors
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<Group?> getGroup(String gid) async {
+    AuthUtils.showLoadingDialog(context);
+    FirebaseDatabase database = FirebaseManager.database;
+    final grpSnapshot = await database.ref().child('Group/$gid').get();
+
+    if (!grpSnapshot.exists) {
+      Fluttertoast.showToast(msg: "Group Not Found $gid");
+      Navigator.pop(context);
+      return null;
+    }
+    print(gid);
+    Map<String, dynamic> map =
+        Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+    Group group = Group.fromJson(map);
+    await group.retrieveMembers(List.of(map['members'].cast<String>()));
+    Navigator.pop(context);
+    return group;
+  }
 
   @override
   void initState() {
     person = Provider.of<Person>(context, listen: false);
+    retrieveDynamicLink();
     super.initState();
   }
 
@@ -33,7 +94,7 @@ class _MainDashboardState extends State<MainDashboard> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final dynamic appBar = AppBar(
-      title:  Text('Dashboard'),
+      title: Text('Dashboard'),
       actions: [
         IconButton(
             onPressed: () {}, icon: const Icon(Icons.notifications_none)),
