@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/dataclass/transactions.dart';
 import '../auth/firebase_manager.dart';
@@ -69,9 +70,13 @@ class Person extends ChangeNotifier {
       for (var transaction in transactionsList) {
         var snapshot =
             await database.ref().child('Transactions/$transaction').get();
-        Map<String, dynamic> map =
-            Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-        userTransactions.add(Transactions.fromJson(map));
+        if (snapshot.exists) {
+          Map<String, dynamic> map = Map<String, dynamic>.from(
+              snapshot.value as Map<dynamic, dynamic>);
+          userTransactions.add(Transactions.fromJson(map));
+        } else {
+          Fluttertoast.showToast(msg: "Transaction not found: $transaction");
+        }
       }
     }
   }
@@ -104,11 +109,15 @@ class Person extends ChangeNotifier {
       final groupsList = groupsSnapshot.value as List;
       for (var groupId in groupsList) {
         var snapshot = await database.ref().child('Group/$groupId').get();
-        Map<String, dynamic> map =
-            Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-        Group group = Group.fromJson(map);
-        await group.retrieveMembers(List.of(map['members'].cast<String>()));
-        userGroups.add(group);
+        if (snapshot.exists) {
+          Map<String, dynamic> map = Map<String, dynamic>.from(
+              snapshot.value as Map<dynamic, dynamic>);
+          Group group = Group.fromJson(map);
+          await group.retrieveMembers(List.of(map['members'].cast<String>()));
+          userGroups.add(group);
+        } else {
+          Fluttertoast.showToast(msg: "Group Not Found: $groupId");
+        }
       }
     }
   }

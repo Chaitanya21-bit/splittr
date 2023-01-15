@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/widgets/what_for_dropdown.dart';
 
-Future<void> openDialogue(BuildContext context) async {
+import '../../dataclass/group.dart';
+
+Future<void> openDialogue(BuildContext context, Group group) async {
   return await showDialog(
       context: context,
       builder: (context) {
@@ -20,8 +22,8 @@ Future<void> openDialogue(BuildContext context) async {
               child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Center(
-                child: Text('Group Name'),
+              Center(
+                child: Text(group.groupName),
               ),
               const SizedBox(
                 height: 20,
@@ -34,6 +36,7 @@ Future<void> openDialogue(BuildContext context) async {
               ),
               TextFormField(
                 controller: addMoneyController,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Add money',
                   border: OutlineInputBorder(),
