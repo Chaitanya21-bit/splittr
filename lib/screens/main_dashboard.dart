@@ -123,24 +123,26 @@ class _MainDashboardState extends State<MainDashboard> {
       body: Column(
         children: [
           Text(person.name),
-          Container(
-            height: (mediaQuery.size.height -
+          Expanded(
+              child: Container(
+                height: (mediaQuery.size.height -
                     appBar.preferredSize.height -
                     mediaQuery.padding.top) *
-                0.3,
-            margin: const EdgeInsets.all(10.0),
-            width: 400,
-            child: Consumer<Person>(
-              builder: (_, data, __) {
-                return ListView.builder(
-                    itemCount: data.userGroups.length,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GroupItem(group: data.userGroups[index]);
-                    });
-              },
-            ),
+                    0.3,
+                margin: const EdgeInsets.all(10.0),
+                width: 400,
+                child: Consumer<Person>(
+                  builder: (_, data, __) {
+                    return ListView.builder(
+                        itemCount: data.userGroups.length,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return GroupItem(group: data.userGroups[index]);
+                        });
+                  },
+                ),
+              ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
