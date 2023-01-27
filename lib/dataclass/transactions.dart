@@ -9,7 +9,8 @@ class Transactions {
   // late String personId;
 
   Transactions(
-      {required this.tid,
+      {
+        required this.tid,
       required this.title,
       required this.amount,
       required this.date,

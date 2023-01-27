@@ -1,9 +1,12 @@
+import 'package:splitter/dataclass/person.dart';
+
 class GroupTransactions {
   late String tid;
   late String title;
   late double amount;
   late String date;
   late String remarks;
+  List<Person> split = [];
   // late String personId;
 
   GroupTransactions(

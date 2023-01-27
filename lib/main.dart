@@ -34,28 +34,6 @@ Future<void> checkUser() async {
   }
 }
 
-// Future<void> doSome() async {
-//   final snapshot = await FirebaseManager.database.ref("Group").get();
-//   if (snapshot.exists) {
-//     final l = snapshot.value;
-//     for (var group in snapshot.children) {
-//       final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
-//           uriPrefix: 'https://splittrflutter.page.link',
-//           link: Uri.parse(
-//               'https://splittrflutter.page.link.com/?id=${group.key}'),
-//           androidParameters: const AndroidParameters(
-//             packageName: 'com.example.splitter',
-//             minimumVersion: 1,
-//           ),
-//           iosParameters: const IOSParameters(bundleId: 'com.example.splitter'));
-//       final dynamicLink =
-//           await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
-//       await FirebaseManager.database
-//           .ref("Group/${group.key}/link")
-//           .set(dynamicLink.shortUrl.toString());
-//     }
-//   }
-// }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -94,20 +72,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Future<Uri> createDynamicLink(String id) async {
-  //   final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
-  //       uriPrefix: 'https://splittrflutter.page.link',
-  //       link: Uri.parse('https://splittrflutter.page.link.com/?id=$id'),
-  //       androidParameters: const AndroidParameters(
-  //         packageName: 'com.example.splitter',
-  //         minimumVersion: 1,
-  //       ),
-  //       iosParameters: const IOSParameters(bundleId: 'com.example.splitter'));
-  //   final dynamicLink =
-  //       await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
-  //   return dynamicLink.shortUrl;
-  // }
-
   Future<Person>? retrievePersonInfo() async {
     Person person = Person();
     await person.retrieveBasicInfo(FirebaseManager.auth.currentUser!.uid);
