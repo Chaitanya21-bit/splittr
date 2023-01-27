@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/dataclass/person.dart';
@@ -15,6 +16,14 @@ class GroupItem extends StatefulWidget {
 }
 
 class _GroupItemState extends State<GroupItem> {
+
+  Future<void> _copyToClipboard() async {
+    await Clipboard.setData(ClipboardData(text: widget.group.link.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Copied to clipboard'),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -134,12 +143,23 @@ class _GroupItemState extends State<GroupItem> {
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.group.link.toString(),
-                        style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 15,
-                          color: Colors.limeAccent,
-                        )),
+                    child:
+                    // Text(widget.group.link.toString(),
+                    //     );
+                    TextButton.icon(     // <-- TextButton
+                      onPressed: () {_copyToClipboard();},
+                      label: Text(widget.group.link.toString()),
+                      icon: Icon(
+                      Icons.copy,
+                      size: 24.0,
+                    ),
+                      style: ButtonStyle(
+                        foregroundColor:
+                        MaterialStateProperty.all(const Color(0xff1870B5)),
+                      ),
+
+                    ),
+                    
                   ),
                 ),
               ],
