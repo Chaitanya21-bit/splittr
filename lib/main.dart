@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         title: 'Login',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+            fontFamily: 'Poppins',
         ),
         initialRoute: 'login',
         onGenerateRoute: RouteGenerator.generateRoute,
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
       title: 'Login',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Poppins',
       ),
       initialRoute: 'home',
       onGenerateRoute: RouteGenerator.generateRoute,
