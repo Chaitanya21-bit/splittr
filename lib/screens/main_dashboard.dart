@@ -32,7 +32,7 @@ class _MainDashboardState extends State<MainDashboard> {
 
     try {
       final PendingDynamicLinkData? data =
-          await FirebaseDynamicLinks.instance.getInitialLink();
+      await FirebaseDynamicLinks.instance.getInitialLink();
       final Uri? deepLink = data?.link;
 
       if (deepLink != null) {
@@ -76,7 +76,7 @@ class _MainDashboardState extends State<MainDashboard> {
     }
     print(gid);
     Map<String, dynamic> map =
-        Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
+    Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
     Group group = Group.fromJson(map);
     await group.retrieveMembers(List.of(map['members'].cast<String>()));
     Navigator.pop(context);
@@ -103,10 +103,10 @@ class _MainDashboardState extends State<MainDashboard> {
       flexibleSpace: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-          colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-        )),
+              colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+            )),
       ),
     );
 
@@ -124,25 +124,25 @@ class _MainDashboardState extends State<MainDashboard> {
         children: [
           Text(person.name),
           Expanded(
-              child: Container(
-                height: (mediaQuery.size.height -
-                    appBar.preferredSize.height -
-                    mediaQuery.padding.top) *
-                    0.3,
-                margin: const EdgeInsets.all(10.0),
-                width: 400,
-                child: Consumer<Person>(
-                  builder: (_, data, __) {
-                    return ListView.builder(
-                        itemCount: data.userGroups.length,
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return GroupItem(group: data.userGroups[index]);
-                        });
-                  },
-                ),
+            child: Container(
+              height: (mediaQuery.size.height -
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
+                  0.3,
+              margin: const EdgeInsets.all(10.0),
+              width: 400,
+              child: Consumer<Person>(
+                builder: (_, data, __) {
+                  return ListView.builder(
+                      itemCount: data.userGroups.length,
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return GroupItem(group: data.userGroups[index]);
+                      });
+                },
               ),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,13 +185,13 @@ class _MainDashboardState extends State<MainDashboard> {
           ),
           SizedBox(
               height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
+                  appBar.preferredSize.height -
+                  mediaQuery.padding.top) *
                   0.585,
               child: Consumer<Person>(
                 builder: (_, data, __) {
                   List<Transactions> transactionsList =
-                      data.userTransactions.reversed.toList();
+                  data.userTransactions.reversed.toList();
                   return ListView.builder(
                       itemCount: transactionsList.length,
                       itemBuilder: (context, index) {

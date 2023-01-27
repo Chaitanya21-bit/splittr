@@ -49,7 +49,7 @@ class Person extends ChangeNotifier {
         .set(transaction.toJson());
     print("Transaction Stored");
     await database.ref('Users/${auth.currentUser?.uid}').update(toJson());
-    print("User Upated");
+    print("User Updated");
     notifyListeners();
   }
 
