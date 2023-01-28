@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/dataclass/final_transaction.dart';
 import 'dart:convert';
+import 'package:splitter/widgets/final_transaction_card.dart';
 
 class QuickSplit extends StatefulWidget {
   const QuickSplit({Key? key, required this.people}) : super(key: key);
@@ -131,11 +132,11 @@ class _QuickSplitState extends State<QuickSplit> {
       body: ListView.builder(
           itemCount: finalTransaction.length,
           itemBuilder: (context, index) {
-            return Card(
-              color: Colors.yellow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
+            return FinalTransactionCard(
+              // color: Colors.yellow,
+              // shape: RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.circular(15),
+              // ),
               child: Padding(
                 padding: EdgeInsets.all(12),
                    // child: Text(finalTransaction[index].toString()),
