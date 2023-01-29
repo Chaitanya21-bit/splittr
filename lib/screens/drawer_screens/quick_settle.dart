@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/main.dart';
-import '../../auth/firebase_manager.dart';
-import '../auth_screens/login_screen.dart';
+// import 'package:splitter/main.dart';
+// import '../../auth/firebase_manager.dart';
+// import '../auth_screens/login_screen.dart';
 
 class QuickSettle extends StatefulWidget {
   const QuickSettle({Key? key}) : super(key: key);
@@ -131,14 +131,14 @@ Widget userController(
       const SizedBox(
         height: 11,
       ),
-      Container(
-            width: 40,
-            height: 40,
-            decoration: new BoxDecoration(
-            color: Colors.orange,
-            shape: BoxShape.circle,
-          ),
-        ),
+      // Container(
+      //       width: 40,
+      //       height: 40,
+      //       decoration: new BoxDecoration(
+      //       color: Colors.orange,
+      //       shape: BoxShape.circle,
+      //     ),
+      //   ),
       const SizedBox(
         height: 7,
       ),
