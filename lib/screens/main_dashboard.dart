@@ -96,6 +96,7 @@ class _MainDashboardState extends State<MainDashboard> {
     final dynamic appBar = AppBar(
       title: Text('Dashboard'),
       actions: [
+
         IconButton(
             onPressed: () {}, icon: const Icon(Icons.notifications_none)),
       ],
@@ -113,12 +114,52 @@ class _MainDashboardState extends State<MainDashboard> {
     return Scaffold(
       appBar: appBar,
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          addUserTransaction(context, person);
-        },
-        backgroundColor: Colors.teal,
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () async {
+                await newGroup(context, person);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.greenAccent,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+
+                    //minimumSize: Size(100, 40),
+                  )),
+              icon: const Text("Create"),
+              label: const Icon(Icons.add_circle),
+            ),
+            ElevatedButton.icon(
+              onPressed: () async {
+                await joinGroup(context, person);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightBlue,
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.greenAccent,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+
+                    //minimumSize: Size(100, 40),
+                  )),
+              icon: const Text("Join"),
+              label: const Icon(Icons.add_circle),
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                addUserTransaction(context, person);
+              },
+              backgroundColor: Colors.teal,
+              child: const Icon(Icons.add),
+            ),
+          ]
       ),
       body: Column(
         children: [
@@ -133,56 +174,70 @@ class _MainDashboardState extends State<MainDashboard> {
               width: 400,
               child: Consumer<Person>(
                 builder: (_, data, __) {
-                  return ListView.builder(
-                      itemCount: data.userGroups.length,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GroupItem(group: data.userGroups[index]);
-                      });
+                  if(data.userGroups.length == 0){
+                    return Column(
+                      children: <Widget>[
+                    // Row(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    //   children: <Widget>[
+                    //     Padding(
+                    //       padding: const EdgeInsets.fromLTRB(0, 40, 20, 0),
+                    //       child: IconButton(
+                    //         onPressed: () => _signOut(context),
+                    //         icon: Icon(Icons.exit_to_app),
+                    //         color: Theme.of(context).secondaryHeaderColor,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                  // Spacer(
+                  // flex: 1,
+                  // ),
+                  // Padding(
+                  // padding: EdgeInsets.all(80.0),
+                  // child: Image.asset("assets/SplittrLogo.png"),
+                  // ),
+                  Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: Text(
+                  "Welcome to Splittr",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.grey[600],
+                  ),
+                  ),
+                  ),
+                  Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text(
+                  "Since you are not in any group, you can select either " +
+                  "to join or create a group.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.grey[600],
+                  ),
+                  ),
+                  ),
+                      ]
+                  );
+                  }
+                  else{
+                    return ListView.builder(
+                        itemCount: data.userGroups.length,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return GroupItem(group: data.userGroups[index]);
+                        });
+                  }
+
                 },
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () async {
-                  await joinGroup(context, person);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.greenAccent,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
 
-                      //minimumSize: Size(100, 40),
-                    )),
-                icon: const Text("Join Group"),
-                label: const Icon(Icons.add_circle),
-              ),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  await newGroup(context, person);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.lightBlue,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.greenAccent,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-
-                      //minimumSize: Size(100, 40),
-                    )),
-                icon: const Text("New Group"),
-                label: const Icon(Icons.add_circle),
-              ),
-            ],
-          ),
           SizedBox(
               height: (mediaQuery.size.height -
                   appBar.preferredSize.height -
@@ -192,20 +247,54 @@ class _MainDashboardState extends State<MainDashboard> {
                 builder: (_, data, __) {
                   List<Transactions> transactionsList =
                   data.userTransactions.reversed.toList();
-                  return ListView.builder(
-                      itemCount: transactionsList.length,
-                      itemBuilder: (context, index) {
-                        if (index == transactionsList.length) {
-                          return const SizedBox(height: 75.0);
-                        }
-                        return Column(
-                          children: [
-                            TransactionItem(transItem: transactionsList[index]),
-                          ],
-                        );
-                      });
+                  if(transactionsList.length == 0){
+                    return Expanded(
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                            child: Text(
+                              "Currently no transactions are added",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 30.0,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          ),
+                        )
+                    );
+                  }
+                  else{
+                    return ListView.builder(
+                        itemCount: transactionsList.length,
+                        itemBuilder: (context, index) {
+                          if (index == transactionsList.length) {
+                            return const SizedBox(height: 75.0);
+                          }
+                          return Column(
+                            children: [
+                              TransactionItem(transItem: transactionsList[index]),
+                            ],
+                          );
+                        });
+                  }
+
                 },
               )),
+
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //     Align(
+          //       alignment: Alignment.bottomLeft,
+          //       child:
+          //     ),
+          //     Align(
+          //       alignment: Alignment.center,
+          //       child:
+          //     )
+          //   ],
+          // ),
         ],
       ),
       drawer: const NavigationDrawerWidget(),
