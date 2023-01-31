@@ -32,6 +32,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
     print(group.members);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +57,8 @@ class _GroupDashboardState extends State<GroupDashboard> {
         backgroundColor: Colors.deepOrange,
         child: const Icon(Icons.add),
       ),
-      body: Column(
-        children: [
+      body: SingleChildScrollView(
+        child:
           // Container(
           //   padding: EdgeInsets.only(
           //     top: MediaQuery.of(context).size.height * 0.1,
@@ -71,39 +72,35 @@ class _GroupDashboardState extends State<GroupDashboard> {
           //     left: MediaQuery.of(context).size.width * 0.3,
           //     width: MediaQuery.of(context).size.height * 0.2,
           //     child: Image.asset("assets/SplittrLogo.png")),
-          Container(
-              margin: const EdgeInsets.all(25),
-              padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.1,
-                  right: 30,
-                  left: 30),
-              child: Column(
+           Column(
                 children: [
-                  //     ListView.builder(
-                  //         shrinkWrap: true,
-                  //         itemCount: group.members
-                  //             .length, //user data toh empty hai bc // nahi h khali ab mc
-                  //         itemBuilder: (context, index) {
-                  //           return Card(
-                  //             child: Text(group.members[index].name.toString()),
-                  //           );
-                  //         }),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: group.members
+                              .length, //user data toh empty hai bc // nahi h khali ab mc
+                          itemBuilder: (context, index) {
+                            return Card(
+                              child: Text(group.members[index].name.toString()),
+                            );
+                          }),
                   Row(children: [
                     Expanded(
                         child: GroupDetailsDropdown(
-                      group: group,
-                    ))
+                          group: group,
+                        ))
                   ]),
-                  // Text(group.gid),
-                  // Text(group.members.toString()),
-                  // Text(group.groupName),
-                  // SelectableText(group.link.toString()),
+                  Text(group.gid),
+                  Text(group.members.toString()),
+                  Text(group.groupName),
+                  Text("You are ${person.name}"),
+                  SelectableText(group.link.toString()),
                   Consumer<Person>(
                     builder: (_, data, __) {
                       List<Transactions> transactionsList =
                       data.userTransactions.reversed.toList();
                       return ListView.builder(
                           itemCount: transactionsList.length,
+                          shrinkWrap: true,
                           itemBuilder: (context, index) {
                             if (index == transactionsList.length) {
                               return const SizedBox(height: 75.0);
@@ -114,12 +111,12 @@ class _GroupDashboardState extends State<GroupDashboard> {
                               ],
                             );
                           });
-                        },
-                      ),
+                    },
+                  ),
                 ],
               ))
-        ],
-      ),
+
+
     );
   }
 }

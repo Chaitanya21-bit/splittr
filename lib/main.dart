@@ -17,7 +17,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await checkUser();
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+          create: (context) => Person()
+      ),
+    ],
+    child:  MyApp(),
+  ));
 }
 
 Future<void> checkUser() async {
@@ -75,7 +82,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Future<Person>? retrievePersonInfo() async {
-    Person person = Person();
+    Person person = Provider.of<Person>(context,listen: false);
     await person.retrieveBasicInfo(FirebaseManager.auth.currentUser!.uid);
     await person.retrieveTransactions();
     await person.retrieveGroups();
@@ -96,14 +103,8 @@ class _HomePageState extends State<HomePage> {
             Fluttertoast.showToast(msg: "User Not Found");
             return LoginScreen();
           }
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                  create: (context) => snapshot.data as Person
-              ),
-            ],
-            child: const MainDashboard(),
-          );
+          return  const MainDashboard()
+          ;
         });
   }
 }

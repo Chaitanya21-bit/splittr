@@ -94,7 +94,7 @@ class _GroupItemState extends State<GroupItem> {
             borderRadius: BorderRadius.circular(15.0),
             onTap: () => {
               Navigator.pushNamed(context, '/grpDash',
-                  arguments: {"group" : widget.group,"person" : Provider.of<Person>(context, listen: false) })
+                  arguments: widget.group)
             },
             child: Column(
               children: [

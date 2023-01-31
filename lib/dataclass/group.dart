@@ -18,6 +18,7 @@ class Group extends ChangeNotifier{
   late List<dynamic> memberColors = [];
   late List<Transactions> transactions = [];
   late Uri link;
+  bool _disposed = false;
 
   Group(
       {required this.groupName,
@@ -44,6 +45,18 @@ class Group extends ChangeNotifier{
             members.length, (index) => members[index].uid),
         'link': link.toString()
       };
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
 
   Future<void> retrieveTransactions() async {
     final transactionsSnapshot = await database
