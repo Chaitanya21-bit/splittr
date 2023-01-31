@@ -79,6 +79,7 @@ class Person extends ChangeNotifier {
         }
       }
     }
+    notifyListeners();
   }
 
   Future<void> addGroup(Group group) async {
@@ -120,6 +121,7 @@ class Person extends ChangeNotifier {
         }
       }
     }
+    notifyListeners();
   }
 
   Future<void> retrieveBasicInfo(String uid) async {
@@ -127,5 +129,6 @@ class Person extends ChangeNotifier {
     Map<String, dynamic> userMap =
         Map<String, dynamic>.from(userSnapshot.value as Map<dynamic, dynamic>);
     fromJson(userMap);
+    notifyListeners();
   }
 }

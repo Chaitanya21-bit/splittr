@@ -174,7 +174,7 @@ class _MainDashboardState extends State<MainDashboard> {
               width: 400,
               child: Consumer<Person>(
                 builder: (_, data, __) {
-                  if(data.userGroups.length == 0){
+                  if(data.userGroups.isEmpty){
                     return Column(
                       children: <Widget>[
                     // Row(
@@ -237,7 +237,6 @@ class _MainDashboardState extends State<MainDashboard> {
               ),
             ),
           ),
-
           SizedBox(
               height: (mediaQuery.size.height -
                   appBar.preferredSize.height -
@@ -247,7 +246,7 @@ class _MainDashboardState extends State<MainDashboard> {
                 builder: (_, data, __) {
                   List<Transactions> transactionsList =
                   data.userTransactions.reversed.toList();
-                  if(transactionsList.length == 0){
+                  if(transactionsList.isEmpty){
                     return Expanded(
                         child: Container(
                           child: Padding(
@@ -281,20 +280,6 @@ class _MainDashboardState extends State<MainDashboard> {
                   }
                 },
               )),
-
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   children: [
-          //     Align(
-          //       alignment: Alignment.bottomLeft,
-          //       child:
-          //     ),
-          //     Align(
-          //       alignment: Alignment.center,
-          //       child:
-          //     )
-          //   ],
-          // ),
         ],
       ),
       drawer: const NavigationDrawerWidget(),

@@ -1,5 +1,3 @@
-import 'package:splitter/dataclass/person.dart';
-
 class Transactions {
   late String tid;
   late String title;

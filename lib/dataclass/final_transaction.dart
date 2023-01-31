@@ -1,16 +1,16 @@
-class FinalTransaction {
+class SplitTransaction {
   late String sender;
   late String receiver;
   late double amount;
 
-  FinalTransaction(
+  SplitTransaction(
          this.sender,
          this.receiver,
          this.amount
   );
 
-  factory FinalTransaction.fromJson(dynamic json){
-    return FinalTransaction(
+  factory SplitTransaction.fromJson(dynamic json){
+    return SplitTransaction(
         json['sender'] as String,
         json['receiver'] as String,
         json['amount'] as double

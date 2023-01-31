@@ -12,8 +12,8 @@ class QuickSplit extends StatefulWidget {
 }
 
 class _QuickSplitState extends State<QuickSplit> {
-  @override
-  QuickSplit get widget => super.widget;
+  // @override
+  // QuickSplit get widget => super.widget;
   late List<Map> people;
   List<Map> finalTransaction = [];
   List<Map> senderReceiver = [];
@@ -22,7 +22,7 @@ class _QuickSplitState extends State<QuickSplit> {
   late List<double> individualShareList;
 
   //for storing the sender receiver and amount of final transaction in the form of class instance(objects)
-  List<FinalTransaction> tags = [];
+  List<SplitTransaction> tags = [];
 
   // will be storing the json object after jsonEncode() function has been used
   late String jsonTags;
@@ -61,7 +61,7 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(FinalTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
+        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
@@ -75,7 +75,7 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(FinalTransaction(people[i]['name'], people[j]['name'], -individualShareList[j]));
+        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], -individualShareList[j]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
@@ -88,7 +88,7 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(FinalTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
+        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
