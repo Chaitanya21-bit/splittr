@@ -197,29 +197,29 @@ class _MainDashboardState extends State<MainDashboard> {
                   // padding: EdgeInsets.all(80.0),
                   // child: Image.asset("assets/SplittrLogo.png"),
                   // ),
-                  Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                  child: Text(
-                  "Welcome to Splittr",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.grey[600],
-                  ),
-                  ),
-                  ),
-                  Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                  "Since you are not in any group, you can select either " +
-                  "to join or create a group.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.grey[600],
-                  ),
-                  ),
-                  ),
+                      Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: Text(
+                          "Welcome to Splittr",
+                          textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          "Since you are not in any group, you can select either " +
+                          "to join or create a group.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
                       ]
                   );
                   }
@@ -276,9 +276,9 @@ class _MainDashboardState extends State<MainDashboard> {
                               TransactionItem(transItem: transactionsList[index]),
                             ],
                           );
-                        });
+                        }
+                        );
                   }
-
                 },
               )),
 

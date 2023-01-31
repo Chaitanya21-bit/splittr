@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
     return FutureBuilder<Person>(
         future: retrievePersonInfo(),
         builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) { // Splash Screen
             return SizedBox(
                 child: DecoratedBox(
                     decoration: const BoxDecoration(color: Colors.white),
@@ -99,7 +99,8 @@ class _HomePageState extends State<HomePage> {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
-                  create: (context) => snapshot.data as Person),
+                  create: (context) => snapshot.data as Person
+              ),
             ],
             child: const MainDashboard(),
           );

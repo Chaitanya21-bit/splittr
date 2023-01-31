@@ -93,7 +93,8 @@ class _GroupItemState extends State<GroupItem> {
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
             onTap: () => {
-              Navigator.pushNamed(context, '/grpDash', arguments: widget.group)
+              Navigator.pushNamed(context, '/grpDash',
+                  arguments: {"group" : widget.group,"person" : Provider.of<Person>(context, listen: false) })
             },
             child: Column(
               children: [
@@ -157,7 +158,6 @@ class _GroupItemState extends State<GroupItem> {
                         foregroundColor:
                         MaterialStateProperty.all(const Color(0xff1870B5)),
                       ),
-
                     ),
                     
                   ),
