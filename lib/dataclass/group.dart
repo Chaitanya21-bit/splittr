@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/dataclass/transactions.dart';
 
@@ -8,7 +9,7 @@ import '../auth/firebase_manager.dart';
 final FirebaseAuth auth = FirebaseManager.auth;
 final FirebaseDatabase database = FirebaseManager.database;
 
-class Group {
+class Group extends ChangeNotifier{
   late String groupName;
   late String gid;
   late String groupDescription;
@@ -69,3 +70,4 @@ class Group {
     }
   }
 }
+//Add notify listner

@@ -20,8 +20,22 @@ class RouteGenerator {
       case 'home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/grpDash':
+        Map map = args as Map;
         return MaterialPageRoute(
-            builder: (_) => GroupDashboard(group: args as Group));
+            builder: (_) =>
+        // );
+            MultiProvider(
+              providers: [
+                ChangeNotifierProvider<Person>(
+                    create: (context) => args['person'] as Person
+                ),
+                ChangeNotifierProvider<Group>(
+                    create: (context) => args['group'] as Group
+                ),
+              ],
+              child: GroupDashboard(),
+            )
+            );
       case '/quickSplit':
         return MaterialPageRoute(
             builder: (_) => QuickSplit(
