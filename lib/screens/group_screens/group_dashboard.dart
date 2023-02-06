@@ -13,8 +13,8 @@ import '../popup_screens/add_money_popup.dart';
 import 'group_details_dropdown.dart';
 
 class GroupDashboard extends StatefulWidget {
-  // final Group group;
-  const GroupDashboard({Key? key}) : super(key: key);
+  final Group group;
+  const GroupDashboard({Key? key, required this.group}) : super(key: key);
 
   @override
   State<GroupDashboard> createState() => _GroupDashboardState();
@@ -26,7 +26,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
 
   @override
   void initState() {
-    group = Provider.of<Group>(context, listen: false);
+    group = widget.group;
     person = Provider.of<Person>(context, listen: false);
     super.initState();
     print(group.members);
@@ -35,54 +35,60 @@ class _GroupDashboardState extends State<GroupDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Group Dashboard'),
-        centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseManager.auth.signOut();
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('login', (Route r) => false);
-              },
-              icon: const Icon(Icons.logout))
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await openDialogue(context, group);
-        },
-        backgroundColor: Colors.deepOrange,
-        child: const Icon(Icons.add),
-      ),
-      body: SingleChildScrollView(
-        child:
-          // Container(
-          //   padding: EdgeInsets.only(
-          //     top: MediaQuery.of(context).size.height * 0.1,
-          //     right: 10,
-          //     left: 50,
-          //     bottom: 5,
-          //   ),
-          // ),
-          // Positioned(
-          //     top: MediaQuery.of(context).size.height * 0.04,
-          //     left: MediaQuery.of(context).size.width * 0.3,
-          //     width: MediaQuery.of(context).size.height * 0.2,
-          //     child: Image.asset("assets/SplittrLogo.png")),
-           Column(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Group>(
+            create: (context) => group
+        ),
+      ],
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Group Dashboard'),
+            centerTitle: true,
+            backgroundColor: Colors.deepOrangeAccent,
+            actions: [
+              IconButton(
+                  onPressed: () async {
+                    await FirebaseManager.auth.signOut();
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('login', (Route r) => false);
+                  },
+                  icon: const Icon(Icons.logout))
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await openDialogue(context, group);
+            },
+            backgroundColor: Colors.deepOrange,
+            child: const Icon(Icons.add),
+          ),
+          body: SingleChildScrollView(
+              child:
+              // Container(
+              //   padding: EdgeInsets.only(
+              //     top: MediaQuery.of(context).size.height * 0.1,
+              //     right: 10,
+              //     left: 50,
+              //     bottom: 5,
+              //   ),
+              // ),
+              // Positioned(
+              //     top: MediaQuery.of(context).size.height * 0.04,
+              //     left: MediaQuery.of(context).size.width * 0.3,
+              //     width: MediaQuery.of(context).size.height * 0.2,
+              //     child: Image.asset("assets/SplittrLogo.png")),
+              Column(
                 children: [
-                      ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: group.members
-                              .length, //user data toh empty hai bc // nahi h khali ab mc
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: Text(group.members[index].name.toString()),
-                            );
-                          }),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: group.members
+                          .length, //user data toh empty hai bc // nahi h khali ab mc
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: Text(group.members[index].name.toString()),
+                        );
+                      }),
                   Row(children: [
                     Expanded(
                         child: GroupDetailsDropdown(
@@ -117,6 +123,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
               ))
 
 
+      ),
     );
   }
 }
