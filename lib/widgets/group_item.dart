@@ -99,7 +99,7 @@ class _GroupItemState extends State<GroupItem> {
             child: Column(
               children: [
                 Expanded(
-                  flex: 0,
+                    flex: 0,
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.symmetric(

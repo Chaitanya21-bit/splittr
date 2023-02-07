@@ -7,7 +7,10 @@ class GroupTransactions {
   late String date;
   late String remarks;
   List<Person> split = [];
-  // late String personId;
+  late String category;
+  late String authorId;
+
+
 
   GroupTransactions(
       {
