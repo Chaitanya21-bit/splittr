@@ -23,6 +23,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) =>
              GroupDashboard(group: args as Group)
+
             );
       case '/quickSplit':
         return MaterialPageRoute(
