@@ -22,14 +22,8 @@ class RouteGenerator {
       case '/grpDash':
         return MaterialPageRoute(
             builder: (_) =>
-            MultiProvider(
-              providers: [
-                ChangeNotifierProvider<Group>(
-                    create: (context) => args as Group
-                ),
-              ],
-              child: GroupDashboard(),
-            )
+             GroupDashboard(group: args as Group)
+
             );
       case '/quickSplit':
         return MaterialPageRoute(
