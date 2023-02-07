@@ -59,19 +59,6 @@ class _GroupDashboardState extends State<GroupDashboard> {
       ),
       body: SingleChildScrollView(
         child:
-          // Container(
-          //   padding: EdgeInsets.only(
-          //     top: MediaQuery.of(context).size.height * 0.1,
-          //     right: 10,
-          //     left: 50,
-          //     bottom: 5,
-          //   ),
-          // ),
-          // Positioned(
-          //     top: MediaQuery.of(context).size.height * 0.04,
-          //     left: MediaQuery.of(context).size.width * 0.3,
-          //     width: MediaQuery.of(context).size.height * 0.2,
-          //     child: Image.asset("assets/SplittrLogo.png")),
            Column(
                 children: [
                       ListView.builder(
