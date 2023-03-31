@@ -23,13 +23,14 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
+
   final FirebaseDatabase database = FirebaseManager.database;
   final FirebaseAuth auth = FirebaseManager.auth;
   late Person person;
+
   Future<void> retrieveDynamicLink() async {
     String? gid;
     Group? group;
-
     try {
       final PendingDynamicLinkData? data =
       await FirebaseDynamicLinks.instance.getInitialLink();
@@ -77,7 +78,7 @@ class _MainDashboardState extends State<MainDashboard> {
     print(gid);
     Map<String, dynamic> map =
     Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
-    Group group = Group.fromJson(map);
+    Group group = await Group.fromJson(map);
     await group.retrieveMembers(List.of(map['members'].cast<String>()));
     Navigator.pop(context);
     return group;
@@ -164,6 +165,7 @@ class _MainDashboardState extends State<MainDashboard> {
       body: Column(
         children: [
           Text(person.name),
+          // Groups
           Expanded(
             child: Container(
               height: (mediaQuery.size.height -
@@ -211,8 +213,7 @@ class _MainDashboardState extends State<MainDashboard> {
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Text(
-                          "Since you are not in any group, you can select either " +
-                          "to join or create a group.",
+                          "Since you are not in any group, you can select either " "to join or create a group.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 20.0,
@@ -237,6 +238,7 @@ class _MainDashboardState extends State<MainDashboard> {
               ),
             ),
           ),
+          // Transactions
           SizedBox(
               height: (mediaQuery.size.height -
                   appBar.preferredSize.height -
@@ -247,20 +249,16 @@ class _MainDashboardState extends State<MainDashboard> {
                   List<Transactions> transactionsList =
                   data.userTransactions.reversed.toList();
                   if(transactionsList.isEmpty){
-                    return Expanded(
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: Text(
-                              "Currently no transactions are added",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 30.0,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ),
-                        )
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                      child: Text(
+                        "Currently no transactions are added",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          color: Colors.grey[600],
+                        ),
+                      ),
                     );
                   }
                   else{
@@ -270,11 +268,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           if (index == transactionsList.length) {
                             return const SizedBox(height: 75.0);
                           }
-                          return Column(
-                            children: [
-                              TransactionItem(transItem: transactionsList[index]),
-                            ],
-                          );
+                          return TransactionItem(transItem: transactionsList[index]);
                         }
                         );
                   }

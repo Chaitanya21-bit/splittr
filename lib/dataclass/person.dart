@@ -73,13 +73,14 @@ class Person extends ChangeNotifier {
         if (snapshot.exists) {
           Map<String, dynamic> map = Map<String, dynamic>.from(
               snapshot.value as Map<dynamic, dynamic>);
-          userTransactions.add(Transactions.fromJson(map));
+          print(map);
+          userTransactions.add(await Transactions.fromJson(map));
         } else {
           Fluttertoast.showToast(msg: "Transaction not found: $transaction");
         }
       }
+      print("Retrieved Transactions");
     }
-    notifyListeners();
   }
 
   Future<void> addGroup(Group group) async {
@@ -113,15 +114,16 @@ class Person extends ChangeNotifier {
         if (snapshot.exists) {
           Map<String, dynamic> map = Map<String, dynamic>.from(
               snapshot.value as Map<dynamic, dynamic>);
-          Group group = Group.fromJson(map);
+          Group group = await Group.fromJson(map);
           await group.retrieveMembers(List.of(map['members'].cast<String>()));
           userGroups.add(group);
         } else {
           Fluttertoast.showToast(msg: "Group Not Found: $groupId");
         }
       }
+      print("Retrieved Groups");
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   Future<void> retrieveBasicInfo(String uid) async {
@@ -129,6 +131,5 @@ class Person extends ChangeNotifier {
     Map<String, dynamic> userMap =
         Map<String, dynamic>.from(userSnapshot.value as Map<dynamic, dynamic>);
     fromJson(userMap);
-    notifyListeners();
   }
 }

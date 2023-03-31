@@ -29,7 +29,7 @@ Future addUserTransaction(BuildContext context, Person person) {
           amount: double.parse(addMoneyController.text),
           title: addTitleController.text,
           remarks: addRemarksController.text,
-          tid: tUuid.v1());
+          tid: tUuid.v1(), split: [], category: '', authorId: '', isGroup: false);
 
       await person.addTransaction(newTrans);
 

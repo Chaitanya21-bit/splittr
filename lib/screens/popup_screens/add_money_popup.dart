@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:splitter/dataclass/person.dart';
 import 'package:splitter/widgets/what_for_dropdown.dart';
+import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 import '../../dataclass/group.dart';
+import '../../dataclass/transactions.dart';
+import '../../utils/auth_utils.dart';
 
-Future<void> openDialogue(BuildContext context, Group group) async {
+Future<void> openDialogue(BuildContext context, Group group,Person person) async {
+  final TextEditingController addMoneyController =
+  TextEditingController();
+  final TextEditingController addRemarksController =
+  TextEditingController();
+
+  addTransaction(BuildContext context) async {
+    try {
+      if (addRemarksController.text.isEmpty || addMoneyController.text.isEmpty) {
+        return Fluttertoast.showToast(
+            msg: "Please fill the fields");
+      }
+      AuthUtils.showLoadingDialog(context);
+      const tUuid = Uuid();
+      Transactions newTrans = Transactions(
+          date: DateFormat("dd-MM-yyyy HH:mm:ss").format(DateTime.now()),
+          amount: double.parse(addMoneyController.text),
+          title: "addTitleController.text",
+          remarks: addRemarksController.text,
+          tid: tUuid.v1(), split: [person], category: 'Lalal', authorId: person.uid, isGroup: true);
+
+      await person.addTransaction(newTrans);
+      await group.addTransaction(newTrans,person);
+
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e);
+    }
+    addMoneyController.clear();
+    addRemarksController.clear();
+  }
+
   return await showDialog(
       context: context,
       builder: (context) {
-        final TextEditingController addMoneyController =
-            TextEditingController();
-        final TextEditingController addRemarksController =
-            TextEditingController();
+
         return AlertDialog(
           scrollable: true,
           shape: const RoundedRectangleBorder(
@@ -80,7 +115,7 @@ Future<void> openDialogue(BuildContext context, Group group) async {
               child: const Text("Cancel"),
             ),
             ElevatedButton(
-              onPressed: () => {},
+              onPressed: () => {addTransaction(context)},
               style: ButtonStyle(
                 // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor:

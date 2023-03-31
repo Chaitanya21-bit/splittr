@@ -43,7 +43,7 @@ class MyDropDown extends State<WhatForDropdown> {
                     icon: const Icon(Icons.keyboard_arrow_down),
                     onChanged: (String? newValue) {
                       setState(() {
-                        this.dropdownValue = newValue!;
+                        dropdownValue = newValue!;
                       });
                     },
                     value: dropdownValue,

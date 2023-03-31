@@ -17,14 +17,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await checkUser();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-          create: (context) => Person()
-      ),
-    ],
-    child:  MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Person()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 Future<void> checkUser() async {
@@ -41,7 +41,6 @@ Future<void> checkUser() async {
   }
 }
 
-
 class MyApp extends StatelessWidget {
   MyApp({super.key});
   final FirebaseAuth auth = FirebaseManager.auth;
@@ -54,7 +53,7 @@ class MyApp extends StatelessWidget {
         title: 'Login',
         theme: ThemeData(
           primarySwatch: Colors.blue,
-            fontFamily: 'Poppins',
+          fontFamily: 'Poppins',
         ),
         initialRoute: 'login',
         onGenerateRoute: RouteGenerator.generateRoute,
@@ -81,20 +80,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   Future<Person>? retrievePersonInfo() async {
-    Person person = Provider.of<Person>(context,listen: false);
+    Person person = Provider.of<Person>(context, listen: false);
     await person.retrieveBasicInfo(FirebaseManager.auth.currentUser!.uid);
     await person.retrieveTransactions();
     await person.retrieveGroups();
     return person;
   }
 
+  late Future<Person>? future;
+  @override
+  void initState() {
+    future = retrievePersonInfo();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Person>(
-        future: retrievePersonInfo(),
+        future: future,
         builder: (BuildContext context, AsyncSnapshot<Person> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) { // Splash Screen
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Splash Screen
             return SizedBox(
                 child: DecoratedBox(
                     decoration: const BoxDecoration(color: Colors.white),
@@ -103,8 +111,7 @@ class _HomePageState extends State<HomePage> {
             Fluttertoast.showToast(msg: "User Not Found");
             return LoginScreen();
           }
-          return  const MainDashboard()
-          ;
+          return const MainDashboard();
         });
   }
 }

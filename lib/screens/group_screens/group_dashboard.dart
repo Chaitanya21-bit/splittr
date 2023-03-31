@@ -29,7 +29,6 @@ class _GroupDashboardState extends State<GroupDashboard> {
     group = widget.group;
     person = Provider.of<Person>(context, listen: false);
     super.initState();
-    print(group.members);
   }
 
 
@@ -58,7 +57,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              await openDialogue(context, group);
+              await openDialogue(context, group, person);
             },
             backgroundColor: Colors.deepOrange,
             child: const Icon(Icons.add),
@@ -100,25 +99,19 @@ class _GroupDashboardState extends State<GroupDashboard> {
                   Text(group.groupName),
                   Text("You are ${person.name}"),
                   SelectableText(group.link.toString()),
-                  Consumer<Person>(
-                    builder: (_, data, __) {
-                      List<Transactions> transactionsList =
-                      data.userTransactions.reversed.toList();
-                      return ListView.builder(
-                          itemCount: transactionsList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            if (index == transactionsList.length) {
-                              return const SizedBox(height: 75.0);
-                            }
-                            return Column(
-                              children: [
-                                TransactionItem(transItem: transactionsList[index]),
-                              ],
-                            );
-                          });
-                    },
-                  ),
+                  ListView.builder(
+                      itemCount: group.transactions.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        if (index == group.transactions.length) {
+                          return const SizedBox(height: 75.0);
+                        }
+                        return Column(
+                          children: [
+                            TransactionItem(transItem: group.transactions[index]),
+                          ],
+                        );
+                      }),
                 ],
               ))
 
