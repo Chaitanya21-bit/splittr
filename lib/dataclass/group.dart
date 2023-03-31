@@ -18,7 +18,6 @@ class Group extends ChangeNotifier{
   late List<dynamic> memberColors = [];
   late List<Transactions> transactions = [];
   late Uri link;
-  bool _disposed = false;
 
   Group(
       {required this.groupName,
@@ -27,13 +26,24 @@ class Group extends ChangeNotifier{
       this.groupLimit = -1,
       required this.link});
 
-  static Group fromJson(Map<String, dynamic> json) {
-    return Group(
+  static Future<Group> fromJson(Map<String, dynamic> json) async {
+    Group group = Group(
         groupName: json['groupName'],
         gid: json['gid'],
         groupDescription: json['groupDescription'],
         groupLimit: double.parse(json['groupLimit'].toString()),
         link: Uri.parse(json['link']));
+
+    List transactionsList = json['transactions'] ?? [];
+    for (var transaction in transactionsList) {
+      var snapshot =
+          await database.ref().child('Transactions/$transaction').get();
+      Map<String, dynamic> map =
+      Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
+      group.transactions.add(await Transactions.fromJson(map));
+  }
+
+    return group;
   }
 
   Map<String, dynamic> toJson() => {
@@ -43,37 +53,12 @@ class Group extends ChangeNotifier{
         'groupLimit': groupLimit,
         'members': List<String>.generate(
             members.length, (index) => members[index].uid),
+    'transactions': List<String>.generate(
+        transactions.length, (index) => transactions[index].tid),
         'link': link.toString()
       };
 
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
-  @override
-  void notifyListeners() {
-    if (!_disposed) {
-      super.notifyListeners();
-    }
-  }
 
-  Future<void> retrieveTransactions() async {
-    final transactionsSnapshot = await database
-        .ref()
-        .child('Users/${auth.currentUser!.uid}/userTransactions')
-        .get();
-    if (transactionsSnapshot.exists) {
-      final transactionsList = transactionsSnapshot.value as List;
-      for (var transaction in transactionsList) {
-        var snapshot =
-            await database.ref().child('Transactions/$transaction').get();
-        Map<String, dynamic> map =
-            Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-        transactions.add(Transactions.fromJson(map));
-      }
-    }
-  }
 
   Future<void> retrieveMembers(List<String> membersList) async {
     for (var member in membersList) {
@@ -81,6 +66,21 @@ class Group extends ChangeNotifier{
       await person.retrieveBasicInfo(member);
       members.add(person);
     }
+  }
+
+  Future<void> addTransaction(Transactions transaction,Person person) async {
+    print("Group Transaction Created");
+    transactions.add(transaction);
+    await database
+        .ref('Transactions/${transaction.tid}')
+        .set(transaction.toJson());
+    print("Transaction Stored");
+    await database.ref('Users/${person.uid}').update(person.toJson());
+
+    await database.ref('Group/$gid').update(toJson());
+
+    print("User Updated");
+    notifyListeners();
   }
 }
 //Add notify listner

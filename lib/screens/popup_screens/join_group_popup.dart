@@ -24,7 +24,7 @@ Future<void> joinGroup(BuildContext context, Person person) async {
       Map<String, dynamic> map =
           Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
       print('Hello');
-      group = Group.fromJson(map);
+      group = await Group.fromJson(map);
       await group.retrieveMembers(List.of(map['members'].cast<String>()));
       await person.addGroup(group);
       state.pushReplacementNamed('/grpDash', arguments: group);
