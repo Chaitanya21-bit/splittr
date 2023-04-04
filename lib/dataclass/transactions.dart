@@ -41,7 +41,8 @@ class Transactions {
         split: personListFinal,
         category: json['category'],
         authorId: json['authorId'],
-        isGroup: json['isGroup']);
+        isGroup: json['isGroup']
+    );
   }
 
   Map<String, dynamic> toJson() => {

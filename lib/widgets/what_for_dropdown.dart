@@ -8,16 +8,16 @@ class WhatForDropdown extends StatefulWidget {
 }
 
 class MyDropDown extends State<WhatForDropdown> {
-  String? dropdownValue = 'Apple';
+  String? dropdownValue = 'Unknown';
   @override
   Widget build(BuildContext context) {
     final items = [
-      'Apple',
-      'Banana',
-      'Grapes',
-      'Orange',
-      'watermelon',
-      'Pineapple'
+      'Unknown',
+      'Food',
+      'Travel',
+      'Taxi',
+      'Settle',
+      'Other'
     ];
 
     return Container(
@@ -32,11 +32,11 @@ class MyDropDown extends State<WhatForDropdown> {
                 height: 40,
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                       color: Colors.grey,
                       style: BorderStyle.solid,
-                      width: 0.80),
+                      width: 0),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
