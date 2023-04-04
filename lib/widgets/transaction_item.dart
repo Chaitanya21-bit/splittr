@@ -10,18 +10,26 @@ class TransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color.fromARGB(255, 255, 240, 190),
-      margin: const EdgeInsets.all(6),
+      color: const Color(0xff9CC4DD),
+      margin: const EdgeInsets.symmetric(
+        vertical: 5,
+        horizontal: 20,
+      ),
       elevation: 8,
       shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: Color(0xff3A8ABD),
+          width: 4,
+        ),
+
         borderRadius: BorderRadius.circular(18),
       ),
       child: Dismissible(
         key: Key(transItem.tid),
         background: Container(
           decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(18),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
           ),
           padding: const EdgeInsets.only(right: 20.0),
           child: const Align(
@@ -99,13 +107,13 @@ class TransactionItem extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                            color: Colors.black,
                           ),
                         ),
                         Text(
                           transItem.date,
                           style: TextStyle(
-                            color: Colors.grey[500],
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -120,7 +128,7 @@ class TransactionItem extends StatelessWidget {
                   Text(transItem.remarks,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey[700],
+                        color: Colors.black,
                       )),
                 ],
               ),

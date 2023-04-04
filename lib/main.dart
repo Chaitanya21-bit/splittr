@@ -36,7 +36,9 @@ Future<void> checkUser() async {
     if (!snapshot.exists) {
       await FirebaseManager.auth.signOut();
       Fluttertoast.showToast(
-          msg: "^_^ You Got Deleted ^_^", toastLength: Toast.LENGTH_LONG);
+          msg: "^_^ You Got Deleted ^_^",
+          toastLength: Toast.LENGTH_LONG
+      );
     }
   }
 }

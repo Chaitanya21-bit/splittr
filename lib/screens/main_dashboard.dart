@@ -114,64 +114,121 @@ class _MainDashboardState extends State<MainDashboard> {
 
     return Scaffold(
       appBar: appBar,
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       floatingActionButton: Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ElevatedButton.icon(
               onPressed: () async {
-                await newGroup(context, person);
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.greenAccent,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-
-                    //minimumSize: Size(100, 40),
-                  )),
-              icon: const Text("Create"),
-              label: const Icon(Icons.add_circle),
-            ),
-            ElevatedButton.icon(
-              onPressed: () async {
-                await joinGroup(context, person);
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
-                  foregroundColor: Colors.white,
-                  shadowColor: Colors.greenAccent,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-
-                    //minimumSize: Size(100, 40),
-                  )),
-              icon: const Text("Join"),
-              label: const Icon(Icons.add_circle),
-            ),
-            FloatingActionButton(
-              onPressed: () {
                 addUserTransaction(context, person);
               },
-              backgroundColor: Colors.teal,
-              child: const Icon(Icons.add),
+              style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 25,
+                  ),
+                  backgroundColor: Color(0xff223146),
+                  foregroundColor: Colors.white,
+                  shadowColor: Colors.blueAccent,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  )
+              ),
+              icon: const Text("Add"),
+              label: const Icon(Icons.add_circle,),
             ),
+
+            // FloatingActionButton(
+            //   onPressed: () {
+            //     addUserTransaction(context, person);
+            //   },
+            //   backgroundColor: Color(0xff223146),
+            //   child: const Icon(Icons.add),
+            // ),
           ]
       ),
       body: Column(
         children: [
-          Text(person.name),
+          //Name
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.015,
+              right: 0,
+              left: 30
+            ),
+            child:
+              Text(
+                person.name,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+          ),
+
+          //Button
+          Padding(padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.01,
+          ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton.icon(
+                onPressed: () async {
+                  await newGroup(context, person);
+                },
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 25,
+                    ),
+                    backgroundColor: Color(0xff223146),
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.blueAccent,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+
+                      //minimumSize: Size(100, 40),
+                    )),
+                icon: const Text("Create"),
+                label: const Icon(Icons.add_circle),
+              ),
+                ElevatedButton.icon(
+                onPressed: () async {
+                  await joinGroup(context, person);
+                },
+                style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 25,
+                    ),
+                    backgroundColor: Color(0xff223146),
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.blueAccent,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    )
+                ),
+                  icon: const Text("Join"),
+                  label: const Icon(Icons.add_circle,),
+              ),
+              ],
+            ),
+          ),
+
+
           // Groups
           Expanded(
             child: Container(
-              height: (mediaQuery.size.height -
+              height: (
+                  mediaQuery.size.height -
                   appBar.preferredSize.height -
                   mediaQuery.padding.top) *
-                  0.3,
+                  0.5,
               margin: const EdgeInsets.all(10.0),
               width: 400,
               child: Consumer<Person>(
@@ -206,7 +263,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 30.0,
-                              color: Colors.grey[600],
+                              color: Colors.grey[700],
                             ),
                           ),
                         ),
@@ -217,7 +274,7 @@ class _MainDashboardState extends State<MainDashboard> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 20.0,
-                              color: Colors.grey[600],
+                              color: Colors.grey[500],
                             ),
                           ),
                         ),
@@ -243,7 +300,7 @@ class _MainDashboardState extends State<MainDashboard> {
               height: (mediaQuery.size.height -
                   appBar.preferredSize.height -
                   mediaQuery.padding.top) *
-                  0.585,
+                  0.5,
               child: Consumer<Person>(
                 builder: (_, data, __) {
                   List<Transactions> transactionsList =
