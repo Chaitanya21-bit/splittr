@@ -113,12 +113,10 @@ class _MainDashboardState extends State<MainDashboard> {
     );
 
     return Scaffold(
-      appBar: appBar,
+      // appBar: appBar,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
+      floatingActionButton:
             ElevatedButton.icon(
               onPressed: () async {
                 addUserTransaction(context, person);
@@ -146,17 +144,24 @@ class _MainDashboardState extends State<MainDashboard> {
             //   },
             //   backgroundColor: Color(0xff223146),
             //   child: const Icon(Icons.add),
-            // ),
-          ]
-      ),
+            // )
       body: Column(
         children: [
+          Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.05,
+                // bottom: MediaQuery.of(context).size.height * 0.05,
+              ),
+              child: Image.asset("assets/SplittrLogo.png",
+                width: MediaQuery.of(context).size.height * 0.2,
+              )
+          ),
           //Name
           Padding(
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.015,
               right: 0,
-              left: 30
+              left: 0
             ),
             child:
               Text(
