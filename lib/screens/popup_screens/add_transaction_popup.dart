@@ -24,12 +24,17 @@ Future addUserTransaction(BuildContext context, Person person) {
       }
       AuthUtils.showLoadingDialog(context);
       const tUuid = Uuid();
+
       Transactions newTrans = Transactions(
           date: DateFormat("dd-MM-yyyy HH:mm:ss").format(selectedDate),
           amount: double.parse(addMoneyController.text),
           title: addTitleController.text,
           remarks: addRemarksController.text,
-          tid: tUuid.v1(), split: [], category: '', authorId: '', isGroup: false);
+          tid: tUuid.v1(),
+          split: [],
+          category: '',
+          authorId: '',
+          isGroup: false);
 
       await person.addTransaction(newTrans);
 
@@ -79,10 +84,11 @@ Future addUserTransaction(BuildContext context, Person person) {
               ),
               content: Form(
                   child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Center(
-                    child: TextFormField(
+                // mainAxisSize: MainAxisSize.min,
+
+                  children: [
+                    Center(
+                      child: TextFormField(
                       controller: addTitleController,
                       decoration: const InputDecoration(
                         labelText: 'Add Title',

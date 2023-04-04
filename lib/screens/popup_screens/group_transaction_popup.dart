@@ -10,10 +10,9 @@ import '../../dataclass/transactions.dart';
 import '../../utils/auth_utils.dart';
 
 Future<void> openDialogue(BuildContext context, Group group,Person person) async {
-  final TextEditingController addMoneyController =
-  TextEditingController();
-  final TextEditingController addRemarksController =
-  TextEditingController();
+  final TextEditingController addMoneyController = TextEditingController();
+  final TextEditingController addTitleController = TextEditingController();
+  final TextEditingController addRemarksController = TextEditingController();
 
   addTransaction(BuildContext context) async {
     try {
@@ -23,12 +22,17 @@ Future<void> openDialogue(BuildContext context, Group group,Person person) async
       }
       AuthUtils.showLoadingDialog(context);
       const tUuid = Uuid();
+
       Transactions newTrans = Transactions(
           date: DateFormat("dd-MM-yyyy HH:mm:ss").format(DateTime.now()),
           amount: double.parse(addMoneyController.text),
-          title: "addTitleController.text",
+          title: addTitleController.text,
           remarks: addRemarksController.text,
-          tid: tUuid.v1(), split: [person], category: 'Lalal', authorId: person.uid, isGroup: true);
+          tid: tUuid.v1(),
+          split: [person],
+          category: 'Lalal',
+          authorId: person.uid,
+          isGroup: true);
 
       await person.addTransaction(newTrans);
       await group.addTransaction(newTrans,person);
@@ -45,51 +49,69 @@ Future<void> openDialogue(BuildContext context, Group group,Person person) async
   return await showDialog(
       context: context,
       builder: (context) {
-
         return AlertDialog(
           scrollable: true,
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              borderRadius: BorderRadius.all(Radius.circular(10.0))
+          ),
           title: const Center(
-            child: Text('New Payment'),
+            child: Text('New Payment',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),),
           ),
           content: Form(
               child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Center(
-                child: Text(group.groupName),
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                    Center(
+                      child: Text(group.groupName),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Text('Category :'),
+                        Expanded(child: WhatForDropdown())
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: addTitleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Title',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  TextFormField(
+                    controller: addMoneyController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Amount',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                    TextFormField(
+                      controller: addRemarksController,
+                  decoration: const InputDecoration(
+                    labelText: 'Remarks',
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(vertical: 50,horizontal: 10),
+                ),
               ),
               const SizedBox(
                 height: 20,
-              ),
-              Row(
-                children: const [Expanded(child: WhatForDropdown())],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                controller: addMoneyController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Add money',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                controller: addRemarksController,
-                decoration: const InputDecoration(
-                  labelText: 'Add Remarks',
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(vertical: 30),
-                ),
-              ),
-              const SizedBox(
-                height: 30,
               ),
               ElevatedButton(
                 onPressed: () => {},

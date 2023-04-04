@@ -29,7 +29,6 @@ class MyDropDown extends State<GroupDetailsDropdown> {
     P.forEach((element) {
       items.add(element.name.toString());
     });
-    print('P');
     print(items);
 
 
@@ -38,7 +37,6 @@ class MyDropDown extends State<GroupDetailsDropdown> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('GRP'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
