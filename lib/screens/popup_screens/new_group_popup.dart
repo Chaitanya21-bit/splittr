@@ -50,6 +50,7 @@ Future<void> newGroup(BuildContext context, Person person) {
   return showDialog(
       context: context,
       builder: (context) {
+
         return AlertDialog(
           scrollable: true,
           shape: const RoundedRectangleBorder(
