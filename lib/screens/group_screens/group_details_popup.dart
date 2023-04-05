@@ -29,18 +29,15 @@ Future groupDetails(BuildContext context, Group group) {
                       //List for Members
                       // SizedBox(
                       //   height: 200,
+                      //   width: 200,
                       //   child: ListView.builder(
                       //       itemCount: 5,
                       //       shrinkWrap: true,
                       //       physics: const BouncingScrollPhysics(),
-                      //       scrollDirection: Axis.horizontal,
                       //
                       //       itemBuilder: (BuildContext context, int index) {
                       //         return ListTile(
-                      //             leading: const Icon(Icons.list),
-                      //             trailing: const Text("GFG",style: TextStyle(color: Colors.green, fontSize: 15),
-                      //             ),
-                      //             title: Text("List item ${items[index]}"));
+                      //             title: Text("${items[index]}"));
                       //       }
                       //   ),
                       // ),

@@ -33,6 +33,7 @@ Future<void> openDialogue(BuildContext context, Group group,Person person) async
           category: 'Lalal',
           authorId: person.uid,
           isGroup: true);
+      group.totalAmount = group.totalAmount + double.parse(addMoneyController.text);
 
       await person.addTransaction(newTrans);
       await group.addTransaction(newTrans,person);

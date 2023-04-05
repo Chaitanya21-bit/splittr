@@ -18,6 +18,7 @@ class Group extends ChangeNotifier{
   late List<dynamic> memberColors = [];
   late List<Transactions> transactions = [];
   late Uri link;
+  late double totalAmount = 0;
 
   Group(
       {required this.groupName,
