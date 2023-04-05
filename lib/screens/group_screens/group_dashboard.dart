@@ -142,7 +142,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
                       ),
                     ),
                   ),
-
+                  Text('Group Total : ${group.totalAmount.toString()}'),
                   // ListView.builder(
                   //     shrinkWrap: true,
                   //     itemCount: group.members.length, //user data toh empty hai bc // nahi h khali ab mc
@@ -166,7 +166,16 @@ class _GroupDashboardState extends State<GroupDashboard> {
                   // Text(group.members.toString()),
                   // Text(group.groupName),
                   Text("You are ${person.name}"),
-                  // SelectableText(group.link.toString()),
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text('See Settelment'),
+                    style: OutlinedButton.styleFrom(
+                     foregroundColor: Color(0xff223146),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
                   Divider(
                     color: Colors.black,
                     indent: 50,
