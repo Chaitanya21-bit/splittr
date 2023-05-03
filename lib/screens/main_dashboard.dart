@@ -13,6 +13,7 @@ import 'package:splitter/widgets/group_item.dart';
 import 'package:splitter/widgets/navigation_drawer.dart';
 import '../dataclass/group.dart';
 import '../dataclass/transactions.dart';
+import '../widgets/new_transaction_item.dart';
 import '../widgets/transaction_item.dart';
 import 'popup_screens/join_group_popup.dart';
 
@@ -330,7 +331,7 @@ class _MainDashboardState extends State<MainDashboard> {
                           if (index == transactionsList.length) {
                             return const SizedBox(height: 75.0);
                           }
-                          return TransactionItem(transItem: transactionsList[index]);
+                          return NewTransactionItem(transItem: transactionsList[index]);
                         }
                         );
                   }

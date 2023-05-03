@@ -26,7 +26,7 @@ Future addUserTransaction(BuildContext context, Person person) {
       const tUuid = Uuid();
 
       Transactions newTrans = Transactions(
-          date: DateFormat("dd-MM-yyyy HH:mm:ss").format(selectedDate),
+          date: DateFormat("dd-MM-yyyy").format(selectedDate),
           amount: double.parse(addMoneyController.text),
           title: addTitleController.text,
           remarks: addRemarksController.text,

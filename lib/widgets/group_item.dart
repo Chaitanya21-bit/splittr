@@ -43,20 +43,7 @@ class _GroupItemState extends State<GroupItem> {
             size: 30.0,
           ),
         ),
-        //   decoration: BoxDecoration(
-        //     color: Colors.red,
-        //     borderRadius: BorderRadius.circular(18),
-        //   ),
-        //   // padding: EdgeInsets.only(right: 20.0),
-        //   child: const Align(
-        //     alignment: Alignment.bottomCenter,
-        //     child: Icon(
-        //       Icons.delete,
-        //       color: Colors.white,
-        //       size: 30.0,
-        //     ),
-        //   ),
-        // ),
+
         direction: DismissDirection.up,
         onDismissed: (direction) async {
           await Provider.of<Person>(context, listen: false)
