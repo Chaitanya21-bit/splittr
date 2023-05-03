@@ -16,7 +16,7 @@ class Group extends ChangeNotifier{
   late double? groupLimit;
   List<Person> members = [];
   late List<dynamic> memberColors = [];
-  late List<Transactions> transactions = [];
+  late List<PersonalTransaction> transactions = [];
   late Uri link;
   late double totalAmount = 0;
 
@@ -41,7 +41,7 @@ class Group extends ChangeNotifier{
           await database.ref().child('Transactions/$transaction').get();
       Map<String, dynamic> map =
       Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
-      group.transactions.add(await Transactions.fromJson(map));
+      group.transactions.add(PersonalTransaction.fromJson(map));
   }
 
     return group;
@@ -62,14 +62,14 @@ class Group extends ChangeNotifier{
 
 
   Future<void> retrieveMembers(List<String> membersList) async {
-    for (var member in membersList) {
-      Person person = Person();
-      await person.retrieveBasicInfo(member);
-      members.add(person);
-    }
+    // for (var member in membersList) {
+    //   Person person = Person();
+    //   await person.retrieveBasicInfo(member);
+    //   members.add(person);
+    // }
   }
 
-  Future<void> addTransaction(Transactions transaction,Person person) async {
+  Future<void> addTransaction(PersonalTransaction transaction,Person person) async {
     print("Group Transaction Created");
     transactions.add(transaction);
     await database

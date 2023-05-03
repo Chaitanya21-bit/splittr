@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/person.dart';
-import 'package:splitter/main.dart';
+import 'package:splitter/routes.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/auth_screens/signup_screen.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
 import 'package:splitter/screens/drawer_screens/quick_split.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
+import 'package:splitter/screens/main_dashboard.dart';
 import 'dataclass/group.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    // Getting arguments passed in while alling Navigator.pushNamed
+
     final args = settings.arguments;
 
     switch (settings.name) {
-      case 'login':
+      case Routes.login:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case 'home':
-        return MaterialPageRoute(builder: (_) => const HomePage());
-      case '/grpDash':
+      case Routes.home:
+        return MaterialPageRoute(builder: (_) => const MainDashboard());
+      case Routes.grpDash:
         return MaterialPageRoute(
             builder: (_) =>
              GroupDashboard(group: args as Group)
@@ -30,14 +31,14 @@ class RouteGenerator {
             builder: (_) => QuickSplit(
                   people: args as List<Map>,
                 ));
-      case '/profile':
+      case Routes.profile:
         return MaterialPageRoute(
             builder: (_) => ChangeNotifierProvider<Person>.value(
                   value: args as Person,
-                  child: ProfileScreen(),
+                  child: const ProfileScreen(),
                 ));
 
-      case '/signUp':
+      case Routes.singUp:
         return MaterialPageRoute(builder: (_) => SignUpScreen());
 
       default:
@@ -49,9 +50,9 @@ class RouteGenerator {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: const Text('Error'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('ERROR'),
         ),
       );

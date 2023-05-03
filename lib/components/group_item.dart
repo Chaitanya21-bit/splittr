@@ -46,8 +46,8 @@ class _GroupItemState extends State<GroupItem> {
 
         direction: DismissDirection.up,
         onDismissed: (direction) async {
-          await Provider.of<Person>(context, listen: false)
-              .deleteGroup(widget.group);
+          // await Provider.of<Person>(context, listen: false)
+          //     .deleteGroup(widget.group);
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(

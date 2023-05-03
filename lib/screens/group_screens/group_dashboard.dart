@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:splitter/auth/firebase_manager.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/dataclass/person.dart';
+import '../../components/transaction_item.dart';
 import '../../dataclass/transactions.dart';
-import '../../widgets/transaction_item.dart';
+import '../../size_config.dart';
 import '../main_dashboard.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/group.dart';
@@ -70,11 +71,11 @@ class _GroupDashboardState extends State<GroupDashboard> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.05,
-                      bottom: MediaQuery.of(context).size.height * 0.05,
+                      top: SizeConfig.screenHeight * 0.05,
+                      bottom: SizeConfig.screenHeight * 0.05,
                     ),
                     child: Image.asset("assets/SplittrLogo.png",
-                      width: MediaQuery.of(context).size.height * 0.2,
+                      width: SizeConfig.screenHeight * 0.2,
                     )
                   ),
                   Card(
@@ -93,13 +94,13 @@ class _GroupDashboardState extends State<GroupDashboard> {
 
                         child:
                             SizedBox(
-                              height: MediaQuery.of(context).size.height / 6,
-                              width: MediaQuery.of(context).size.width - 50,
+                              height: SizeConfig.screenHeight / 6,
+                              width: SizeConfig.screenWidth - 50,
                         child:
                             Padding(
                                 padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * 0.02,
-                                  left: MediaQuery.of(context).size.width * 0.07,
+                                  top: SizeConfig.screenHeight * 0.02,
+                                  left: SizeConfig.screenWidth * 0.07,
                                 ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +119,7 @@ class _GroupDashboardState extends State<GroupDashboard> {
                                   ),
                                 ),
                                 Padding(padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.width * 0.02,
+                                  top: SizeConfig.screenWidth * 0.02,
                                 ),
                                   child: TextButton(     // <-- TextButton
                                     onPressed: () {_copyToClipboard();},
