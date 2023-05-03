@@ -11,7 +11,6 @@ Future groupDetails(BuildContext context, Group group) {
   P.forEach((element) {
     items.add(element.name.toString());
   });
-  print(items);
 
   return showDialog(
       context: context,
@@ -26,30 +25,31 @@ Future groupDetails(BuildContext context, Group group) {
               content: Column(
                   children: [
                     Text(group.groupName.toString()),
+                    Text("Members"),
                       //List for Members
-                      // SizedBox(
-                      //   height: 200,
-                      //   width: 200,
-                      //   child: ListView.builder(
-                      //       itemCount: 5,
-                      //       shrinkWrap: true,
-                      //       physics: const BouncingScrollPhysics(),
-                      //
-                      //       itemBuilder: (BuildContext context, int index) {
-                      //         return ListTile(
-                      //             title: Text("${items[index]}"));
-                      //       }
-                      //   ),
-                      // ),
-                    Row(
-                        children: [
-                          Expanded(
-                              child: GroupDetailsDropdown(
-                                group: group,
-                              )
-                          )
-                        ]
-                    ),
+                      SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: ListView.builder(
+                            itemCount: items.length,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                  title: Text("${items[index]}"));
+                            }
+                        ),
+                      ),
+                    // Row(
+                    //     children: [
+                    //       Expanded(
+                    //           child: GroupDetailsDropdown(
+                    //             group: group,
+                    //           )
+                    //       )
+                    //     ]
+                    // ),
                   ],
               ),
             );

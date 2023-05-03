@@ -24,7 +24,7 @@ Future<void> openDialogue(BuildContext context, Group group,Person person) async
       const tUuid = Uuid();
 
       Transactions newTrans = Transactions(
-          date: DateFormat("dd-MM-yyyy HH:mm:ss").format(DateTime.now()),
+          date: DateFormat("dd-MM-yyyy").format(DateTime.now()),
           amount: double.parse(addMoneyController.text),
           title: addTitleController.text,
           remarks: addRemarksController.text,
