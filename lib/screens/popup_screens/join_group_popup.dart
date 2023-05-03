@@ -26,7 +26,7 @@ Future<void> joinGroup(BuildContext context, Person person) async {
       print('Hello');
       group = await Group.fromJson(map);
       await group.retrieveMembers(List.of(map['members'].cast<String>()));
-      await person.addGroup(group);
+      // await person.addGroup(group);
       state.pushReplacementNamed('/grpDash', arguments: group);
     } catch (e) {
       print(e);
@@ -97,15 +97,15 @@ Future<void> wantToJoin(
   joinInGroup(BuildContext context) async {
     try {
       AuthUtils.showLoadingDialog(context);
-      if (person.userGroups.indexWhere((element) => element.gid == group.gid) ==
-          -1) {
-        print("Not Exists");
-        await person.addGroup(group);
-        Navigator.pop(context);
-      } else {
-        print("Exits");
-        Fluttertoast.showToast(msg: "Already Joined");
-      }
+      // if (person.groups.indexWhere((element) => element.gid == group.gid) ==
+      //     -1) {
+      //   print("Not Exists");
+      //   // await person.addGroup(group);
+      //   Navigator.pop(context);
+      // } else {
+      //   print("Exits");
+      //   Fluttertoast.showToast(msg: "Already Joined");
+      // }
       Navigator.pop(context);
       // state.pushReplacementNamed('/grpDash', arguments: group);
     } catch (e) {

@@ -38,7 +38,7 @@ Future<void> newGroup(BuildContext context, Person person) {
           groupName: groupNameController.text,
           groupDescription: aboutGroupController.text,
           link: link);
-      await person.addGroup(group);
+      // await person.addGroup(group);
       state.pop();
       state.pop();
     } catch (e) {

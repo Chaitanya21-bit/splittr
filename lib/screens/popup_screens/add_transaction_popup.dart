@@ -1,52 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:splitter/components/dialogs/date_picker.dart';
+import 'package:splitter/services/datetime_service.dart';
+import 'package:splitter/services/personal_transaction_service.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../dataclass/person.dart';
 import '../../dataclass/transactions.dart';
 
-Future addUserTransaction(BuildContext context, Person person) {
+Future addPersonalTransactionDialog(BuildContext context, Person person) {
+
   final TextEditingController addMoneyController = TextEditingController();
   final TextEditingController addRemarksController = TextEditingController();
   final TextEditingController addTitleController = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-  addTransaction(BuildContext context) async {
+  final personalTransactionService =
+      Provider.of<PersonalTransactionService>(context, listen: false);
+
+  createNewPersonalTransaction() async {
+    NavigatorState state = Navigator.of(context);
+    final dateTimeService = Provider.of<DateTimeService>(context,listen: false);
     try {
       if (addTitleController.text.isEmpty || addMoneyController.text.isEmpty) {
-        return Fluttertoast.showToast(
-            msg: "Please fill the fields",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            textColor: Colors.white);
+        return Fluttertoast.showToast(msg: "Please fill the fields");
       }
       AuthUtils.showLoadingDialog(context);
       const tUuid = Uuid();
+      PersonalTransaction newTrans = PersonalTransaction(
+        date: dateTimeService.selectedDateTime,
+        amount: double.parse(addMoneyController.text),
+        title: addTitleController.text,
+        remarks: addRemarksController.text,
+        tid: tUuid.v1(),
+        category: 'food',
+        userId: person.uid,
+      );
 
-      Transactions newTrans = Transactions(
-          date: DateFormat("dd-MM-yyyy").format(selectedDate),
-          amount: double.parse(addMoneyController.text),
-          title: addTitleController.text,
-          remarks: addRemarksController.text,
-          tid: tUuid.v1(),
-          split: [],
-          category: '',
-          authorId: '',
-          isGroup: false);
-
-      await person.addTransaction(newTrans);
-
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
+      await personalTransactionService.addTransaction(newTrans, person);
+      dateTimeService.setDateTime(DateTime.now());
+      addTitleController.clear();
+      addMoneyController.clear();
+      addRemarksController.clear();
+      state.pop();
+      state.pop();
     } catch (e) {
-      print(e);
+      addTitleController.clear();
+      addMoneyController.clear();
+      addRemarksController.clear();
+      state.pop();
     }
-
-    addTitleController.clear();
-    addMoneyController.clear();
-    addRemarksController.clear();
   }
 
   return showDialog(
@@ -55,25 +57,6 @@ Future addUserTransaction(BuildContext context, Person person) {
         return StatefulBuilder(
           builder:
               (BuildContext context, void Function(void Function()) setState) {
-            openDatePicker() {
-              return showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2021),
-                      lastDate: DateTime.now())
-                  .then((date) {
-                if (date == null && date.toString().isEmpty) {
-                  return Fluttertoast.showToast(
-                      msg: "Please select a date",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      textColor: Colors.white);
-                }
-
-                setState(() => selectedDate = date!);
-              });
-            }
 
             return AlertDialog(
               scrollable: true,
@@ -84,8 +67,6 @@ Future addUserTransaction(BuildContext context, Person person) {
               ),
               content: Form(
                   child: Column(
-                // mainAxisSize: MainAxisSize.min,
-
                   children: [
                     Center(
                       child: TextFormField(
@@ -101,20 +82,7 @@ Future addUserTransaction(BuildContext context, Person person) {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 8.0, bottom: 5.0),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(0.0),
-                      horizontalTitleGap: 0.0,
-                      trailing:
-                          Text(DateFormat("dd-MM-yyyy").format(selectedDate)),
-                      leading: const Icon(Icons.date_range),
-                      title: TextButton(
-                        onPressed: openDatePicker,
-                        child: Text(
-                          'Choose Date',
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                      ),
-                    ),
+                    child: const DatePicker(),
                   ),
                   const SizedBox(
                     height: 25,
@@ -156,7 +124,7 @@ Future addUserTransaction(BuildContext context, Person person) {
                   child: const Text("Cancel"),
                 ),
                 ElevatedButton(
-                  onPressed: () async => {await addTransaction(context)},
+                  onPressed: createNewPersonalTransaction,
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(const Color(0xff1870B5)),

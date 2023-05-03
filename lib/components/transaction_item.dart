@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/transactions.dart';
+import 'package:splitter/services/personal_transaction_service.dart';
 import '../dataclass/person.dart';
 
 class TransactionItem extends StatelessWidget {
   const TransactionItem({super.key, required this.transItem});
-  final Transactions transItem;
+  final PersonalTransaction transItem;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +44,8 @@ class TransactionItem extends StatelessWidget {
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) async {
-          await Provider.of<Person>(context, listen: false)
-              .deleteTransaction(transItem);
+          await Provider.of<PersonalTransactionService>(context, listen: false)
+              .deleteTransaction(transItem, Provider.of<Person>(context,listen: false));
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(
@@ -111,7 +112,7 @@ class TransactionItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          transItem.date,
+                          transItem.date.toString(),
                           style: TextStyle(
                             color: Colors.black,
                           ),

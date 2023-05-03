@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/dataclass/person.dart';
-import 'package:splitter/widgets/what_for_dropdown.dart';
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart';
-
+import '../../components/what_for_dropdown.dart';
 import '../../dataclass/group.dart';
-import '../../dataclass/transactions.dart';
 import '../../utils/auth_utils.dart';
 
 Future<void> openDialogue(BuildContext context, Group group,Person person) async {
@@ -23,20 +20,20 @@ Future<void> openDialogue(BuildContext context, Group group,Person person) async
       AuthUtils.showLoadingDialog(context);
       const tUuid = Uuid();
 
-      Transactions newTrans = Transactions(
-          date: DateFormat("dd-MM-yyyy").format(DateTime.now()),
-          amount: double.parse(addMoneyController.text),
-          title: addTitleController.text,
-          remarks: addRemarksController.text,
-          tid: tUuid.v1(),
-          split: [person],
-          category: 'Lalal',
-          authorId: person.uid,
-          isGroup: true);
-      group.totalAmount = group.totalAmount + double.parse(addMoneyController.text);
-
-      await person.addTransaction(newTrans);
-      await group.addTransaction(newTrans,person);
+      // Transactions newTrans = Transactions(
+      //     date: DateFormat("dd-MM-yyyy HH:mm:ss").format(DateTime.now()),
+      //     amount: double.parse(addMoneyController.text),
+      //     title: addTitleController.text,
+      //     remarks: addRemarksController.text,
+      //     tid: tUuid.v1(),
+      //     split: [person],
+      //     category: 'Lalal',
+      //     authorId: person.uid,
+      //     isGroup: true);
+      // group.totalAmount = group.totalAmount + double.parse(addMoneyController.text);
+      //
+      // // await person.addTransaction(newTrans);
+      // await group.addTransaction(newTrans,person);
 
       Navigator.of(context).pop();
       Navigator.of(context).pop();

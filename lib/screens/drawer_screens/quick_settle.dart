@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../size_config.dart';
 // import 'package:splitter/main.dart';
 // import '../../auth/firebase_manager.dart';
 // import '../auth_screens/login_screen.dart';
@@ -41,7 +43,7 @@ class _QuickSettleState extends State<QuickSettle> {
       // ),
       body: SingleChildScrollView(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.1,
+            top: SizeConfig.screenHeight * 0.1,
             right: 20,
             left: 20,
             bottom: 5,
@@ -49,14 +51,14 @@ class _QuickSettleState extends State<QuickSettle> {
         child:Stack(
           children: [
             Positioned(
-                  top: MediaQuery.of(context).size.height * 0.001,
-                  left: MediaQuery.of(context).size.width * 0.25,
-                  width: MediaQuery.of(context).size.height * 0.2,
+                  top: SizeConfig.screenHeight * 0.001,
+                  left: SizeConfig.screenWidth * 0.25,
+                  width: SizeConfig.screenHeight * 0.2,
                   child: Image.asset("assets/SplittrLogo.png")
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.12,
-              left: MediaQuery.of(context).size.width * 0,
+              top: SizeConfig.screenHeight * 0.12,
+              left: SizeConfig.screenWidth * 0,
               child: const Text("Settle Now",
                 style: TextStyle(color: Colors.black, fontSize: 25),
               ),

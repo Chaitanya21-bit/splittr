@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/dataclass/final_transaction.dart';
 import 'dart:convert';
-import 'package:splitter/widgets/final_transaction_card.dart';
+
+import '../../components/final_transaction_card.dart';
 
 class QuickSplit extends StatefulWidget {
   const QuickSplit({Key? key, required this.people}) : super(key: key);
