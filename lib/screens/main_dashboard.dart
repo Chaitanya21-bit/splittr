@@ -14,6 +14,7 @@ import '../components/transaction_card.dart';
 import '../dataclass/group.dart';
 import '../dataclass/transactions.dart';
 import '../size_config.dart';
+import 'drawer_screens/profile.dart';
 import 'popup_screens/join_group_popup.dart';
 
 class MainDashboard extends StatefulWidget {
@@ -150,7 +151,14 @@ class _MainDashboardState extends State<MainDashboard> {
                     "assets/SplittrLogo.png",
                     width: SizeConfig.screenHeight * 0.2,
                   )),
-              IconButton(onPressed: () => FirebaseAuth.instance.signOut(), icon: Icon(Icons.logout))
+              IconButton(onPressed: () => FirebaseAuth.instance.signOut(), icon: Icon(Icons.logout)),
+              IconButton(onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              }, icon: Icon(Icons.account_circle_sharp)),
+              // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
             ],
           ),
           //Name
@@ -240,17 +248,17 @@ class _MainDashboardState extends State<MainDashboard> {
           List<PersonalTransaction> transactionsList =
               List<PersonalTransaction>.from(data.personalTransactions.reversed);
           return transactionsList.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                  child: Text(
-                    "Currently no transactions are added",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      color: Colors.grey[600],
+                 ? Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "No Transactions",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600],
+                      ),
                     ),
-                  ),
-                )
+                  )
               : ListView.builder(
                   itemCount: transactionsList.length + 1,
                   itemBuilder: (context, index) {

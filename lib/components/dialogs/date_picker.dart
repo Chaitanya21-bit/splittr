@@ -35,7 +35,6 @@ class DatePicker extends StatelessWidget {
       if (date != null) {
         dateTimeService.setDateTime(date);
       }
-
     });
   }
 }
