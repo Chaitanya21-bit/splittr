@@ -147,7 +147,7 @@ class TransactionCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "2023-23-32",
+                                transaction.date.toString(),
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,

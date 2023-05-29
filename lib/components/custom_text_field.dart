@@ -6,13 +6,16 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.labelText,
     this.textInputAction,
-    this.padding
+    this.padding,
+
+    this.enable,
   });
 
   final TextEditingController controller;
   final String labelText;
   final TextInputType? textInputAction;
   final EdgeInsetsGeometry? padding;
+  final bool? enable;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,6 +28,7 @@ class CustomTextField extends StatelessWidget {
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
           labelText: labelText,
         ),
+        enabled: enable,
       ),
     );
   }
