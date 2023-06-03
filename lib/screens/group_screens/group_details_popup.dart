@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../dataclass/group.dart';
-import '../../dataclass/person.dart';
+import '../../dataclass/user.dart';
 import 'group_details_dropdown.dart';
 
 Future groupDetails(BuildContext context, Group group) {
 
-  Iterable<Person> P = group.members;   //Makeing iterable of group members then append each name in a string list
+  Iterable<User> P = group.members;   //Makeing iterable of group members then append each name in a string list
   List<String> items = [];
   P.forEach((element) {
     items.add(element.name.toString());

@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class FirebaseAuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseAuth get auth => _auth;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<User?> signUp(String email, password) async {
+  static Future<User?> signUp(String email, password) async {
     try {
-      final credentials = await _auth.createUserWithEmailAndPassword(
+      final credentials = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       return credentials.user;
     } on FirebaseAuthException catch (e) {
@@ -36,10 +35,10 @@ class FirebaseAuthService {
     }
   }
 
-  Future<User?> signInWithEmail(
+  static Future<User?> signInWithEmail(
       {required String email, required String password}) async {
     try {
-      final credential = await _auth.signInWithEmailAndPassword(
+      final credential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       return credential.user;
     } on FirebaseAuthException catch (e) {
@@ -68,7 +67,7 @@ class FirebaseAuthService {
     }
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
+  static Future<void> signOut() async {
+    await auth.signOut();
   }
 }

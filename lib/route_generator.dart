@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/dataclass/person.dart';
-import 'package:splitter/routes.dart';
+import 'package:splitter/dataclass/user.dart';
+import 'package:splitter/constants/routes.dart';
 import 'package:splitter/screens/auth_screens/login_screen.dart';
 import 'package:splitter/screens/auth_screens/signup_screen.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
@@ -33,8 +33,8 @@ class RouteGenerator {
                 ));
       case Routes.profile:
         return MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider<Person>.value(
-                  value: args as Person,
+            builder: (_) => ChangeNotifierProvider<User>.value(
+                  value: args as User,
                   child: const ProfileScreen(),
                 ));
 

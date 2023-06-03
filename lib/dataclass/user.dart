@@ -1,12 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-import '../auth/firebase_manager.dart';
 
-final FirebaseAuth auth = FirebaseManager.auth;
-final FirebaseDatabase database = FirebaseManager.database;
-
-class Person extends ChangeNotifier {
+class User extends ChangeNotifier {
   late String name;
   late String uid;
   late String alias;
@@ -16,7 +10,7 @@ class Person extends ChangeNotifier {
   late List<String> personalTransactions;
   double limit = -1;
 
-  Person({
+  User({
     required this.uid,
     required this.name,
     required this.alias,
@@ -26,8 +20,8 @@ class Person extends ChangeNotifier {
     required this.personalTransactions,
   });
 
-  factory Person.fromJson(Map<String, dynamic> json) {
-    return Person(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
         uid: json['uid'],
         name: json['name'],
         alias: json['alias'],

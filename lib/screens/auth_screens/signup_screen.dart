@@ -1,21 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitter/components/custom_text_field.dart';
-import 'package:splitter/dataclass/person.dart';
-import 'package:splitter/services/firebase_database_service.dart';
 import 'package:splitter/utils/auth_utils.dart';
-import '../../routes.dart';
 import '../../services/firebase_auth_service.dart';
 import '../../size_config.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController aliasController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
+
   final TextEditingController cnfPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    nameController.dispose();
+    aliasController.dispose();
+    passwordController.dispose();
+    cnfPasswordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +70,11 @@ class SignUpScreen extends StatelessWidget {
             style: TextStyle(color: Colors.black, fontSize: 40),
           ),
         ),
-        CustomTextField(controller: emailController, labelText: 'Email', padding: padding,),
-        CustomTextField(controller: nameController, labelText: 'Name', padding: padding,),
-        CustomTextField(controller: aliasController, labelText: 'Alias', padding: padding,),
-        CustomTextField(controller: passwordController, labelText: 'Password', padding: padding,),
-        CustomTextField(controller: cnfPasswordController, labelText: 'Confirm Password', padding: padding,),
+        InputTextField(controller: emailController, labelText: 'Email', padding: padding,),
+        InputTextField(controller: nameController, labelText: 'Name', padding: padding,),
+        InputTextField(controller: aliasController, labelText: 'Alias', padding: padding,),
+        InputTextField(controller: passwordController, labelText: 'Password', padding: padding,),
+        InputTextField(controller: cnfPasswordController, labelText: 'Confirm Password', padding: padding,),
         Padding(
           padding: EdgeInsets.only(
             top: SizeConfig.screenHeight * 0.035,
@@ -91,28 +109,17 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Future<void> registerUser(BuildContext context) async {
-    NavigatorState state = Navigator.of(context);
-    final authService =
-        Provider.of<FirebaseAuthService>(context, listen: false);
-    final databaseService =
-        Provider.of<FirebaseDatabaseService>(context, listen: false);
     AuthUtils.showLoadingDialog(context);
-    final user =
-        await authService.signUp(emailController.text, passwordController.text);
-    if (user == null) {
-      state.pop();
-      return;
-    }
-    Person person = Person(
-        uid: user.uid,
-        name: nameController.text,
-        alias: aliasController.text,
-        email: emailController.text,
-        phoneNo: "883467",
-        groups: [],
-        personalTransactions: []);
-
-    await databaseService.set("Users/${person.uid}", person.toJson());
-    // state.pushNamedAndRemoveUntil(Routes.home, (Route route) => false);
+    final userMap = {
+      'name': nameController.text,
+      'alias': aliasController.text,
+      'email': emailController.text,
+      'phoneNo': "883467",
+      'groups': [],
+      'personalTransactions': []
+    };
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userMap', jsonEncode(userMap));
+    await FirebaseAuthService.signUp(emailController.text, passwordController.text);
   }
 }

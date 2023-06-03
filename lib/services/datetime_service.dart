@@ -4,7 +4,7 @@ class DateTimeService extends ChangeNotifier{
   DateTime _selectedDateTime = DateTime.now();
   DateTime get selectedDateTime => _selectedDateTime;
 
-  setDateTime(DateTime newDateTime){
+  void setDateTime(DateTime newDateTime){
     _selectedDateTime = newDateTime;
     notifyListeners();
   }

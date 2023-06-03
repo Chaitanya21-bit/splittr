@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../dataclass/group.dart';
-import '../../dataclass/person.dart';
+import '../../dataclass/user.dart';
 
 class GroupDetailsDropdown extends StatefulWidget {
 
@@ -24,7 +24,7 @@ class MyDropDown extends State<GroupDetailsDropdown> {
   Widget build(BuildContext context) {
     print('Grp Dashboard Dropdown');
 
-    Iterable<Person> P = group.members;   //Makeing iterable of group members then append each name in a string list
+    Iterable<User> P = group.members;   //Makeing iterable of group members then append each name in a string list
     List<String> items = [];
     P.forEach((element) {
       items.add(element.name.toString());

@@ -1,20 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
-import 'package:splitter/dataclass/person.dart';
-import 'package:splitter/dataclass/transactions.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:splitter/dataclass/user.dart' as model;
+import 'package:splitter/dataclass/personalTransactions.dart';
+import 'package:splitter/services/firebase_database_service.dart';
 
-import '../auth/firebase_manager.dart';
-
-final FirebaseAuth auth = FirebaseManager.auth;
-final FirebaseDatabase database = FirebaseManager.database;
 
 class Group extends ChangeNotifier{
   late String groupName;
   late String gid;
   late String groupDescription;
   late double? groupLimit;
-  List<Person> members = [];
+  List<model.User> members = [];
   late List<dynamic> memberColors = [];
   late List<PersonalTransaction> transactions = [];
   late Uri link;
@@ -38,7 +34,7 @@ class Group extends ChangeNotifier{
     List transactionsList = json['transactions'] ?? [];
     for (var transaction in transactionsList) {
       var snapshot =
-          await database.ref().child('Transactions/$transaction').get();
+          await FirebaseDatabaseService.database.ref().child('Transactions/$transaction').get();
       Map<String, dynamic> map =
       Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
       group.transactions.add(PersonalTransaction.fromJson(map));
@@ -61,27 +57,27 @@ class Group extends ChangeNotifier{
 
 
 
-  Future<void> retrieveMembers(List<String> membersList) async {
-    // for (var member in membersList) {
-    //   Person person = Person();
-    //   await person.retrieveBasicInfo(member);
-    //   members.add(person);
-    // }
-  }
-
-  Future<void> addTransaction(PersonalTransaction transaction,Person person) async {
-    print("Group Transaction Created");
-    transactions.add(transaction);
-    await database
-        .ref('Transactions/${transaction.tid}')
-        .set(transaction.toJson());
-    print("Transaction Stored");
-    await database.ref('Users/${person.uid}').update(person.toJson());
-
-    await database.ref('Group/$gid').update(toJson());
-
-    print("User Updated");
-    notifyListeners();
-  }
+  // Future<void> retrieveMembers(List<String> membersList) async {
+  //   // for (var member in membersList) {
+  //   //   Person person = Person();
+  //   //   await person.retrieveBasicInfo(member);
+  //   //   members.add(person);
+  //   // }
+  // }
+  //
+  // Future<void> addTransaction(PersonalTransaction transaction,User person) async {
+  //   print("Group Transaction Created");
+  //   transactions.add(transaction);
+  //   await database
+  //       .ref('Transactions/${transaction.tid}')
+  //       .set(transaction.toJson());
+  //   print("Transaction Stored");
+  //   await database.ref('Users/${person.uid}').update(person.toJson());
+  //
+  //   await database.ref('Group/$gid').update(toJson());
+  //
+  //   print("User Updated");
+  //   notifyListeners();
+  // }
 }
 //Add notify listner

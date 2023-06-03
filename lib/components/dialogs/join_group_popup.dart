@@ -4,9 +4,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import '../../auth/firebase_manager.dart';
 import '../../dataclass/group.dart';
-import '../../dataclass/person.dart';
+import '../../dataclass/user.dart';
 
-Future<void> joinGroup(BuildContext context, Person person) async {
+Future<void> joinGroup(BuildContext context, User person) async {
   final TextEditingController groupCodeController = TextEditingController();
   final FirebaseDatabase database = FirebaseManager.database;
 
@@ -25,7 +25,7 @@ Future<void> joinGroup(BuildContext context, Person person) async {
           Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
       print('Hello');
       group = await Group.fromJson(map);
-      await group.retrieveMembers(List.of(map['members'].cast<String>()));
+      // await group.retrieveMembers(List.of(map['members'].cast<String>()));
       // await person.addGroup(group);
       state.pushReplacementNamed('/grpDash', arguments: group);
     } catch (e) {
@@ -93,7 +93,7 @@ Future<void> joinGroup(BuildContext context, Person person) async {
 }
 
 Future<void> wantToJoin(
-    BuildContext context, Person person, Group group) async {
+    BuildContext context, User person, Group group) async {
   joinInGroup(BuildContext context) async {
     try {
       AuthUtils.showLoadingDialog(context);
