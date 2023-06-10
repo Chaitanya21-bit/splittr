@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "68709953361",
+    "firebase_url": "https://splittr-ccdeb-default-rtdb.firebaseio.com",
     "project_id": "splittr-ccdeb",
     "storage_bucket": "splittr-ccdeb.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "68709953361-geapv0liqk9pi13g3nn7dei59n0u01q4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.splitter",
+            "certificate_hash": "fb9b7ff18527ade1f3150319cf4780c4344ace78"
+          }
+        },
         {
           "client_id": "68709953361-6e4t2ion856jgg77lj4m894pm1vjbqqq.apps.googleusercontent.com",
           "client_type": 3

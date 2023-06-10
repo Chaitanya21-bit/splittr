@@ -1,69 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/dataclass/user.dart';
-import '../../components/transaction_item.dart';
-import '../../services/user_service.dart';
+import 'package:splitter/services/user_service.dart';
+import '../../services/group_service.dart';
 import '../../size_config.dart';
-import '../../dataclass/group.dart';
 import '../../components/dialogs/group_transaction_popup.dart';
 import 'group_details_popup.dart';
 
-class GroupDashboard extends StatefulWidget {
-  final Group group;
-  const GroupDashboard({Key? key, required this.group}) : super(key: key);
+class GroupDashboard extends StatelessWidget {
+  const GroupDashboard({Key? key}) : super(key: key);
 
-  @override
-  State<GroupDashboard> createState() => _GroupDashboardState();
-}
-
-class _GroupDashboardState extends State<GroupDashboard> {
-  late Group group;
-  late User person;
-
-  @override
-  void initState() {
-    group = widget.group;
-    person = Provider.of<UserService>(context, listen: false).user;
-    super.initState();
+  Future<void> _copyToClipboard(String data) async {
+    await Clipboard.setData(ClipboardData(text: data));
+    Fluttertoast.showToast(msg: "Copied to clipboard");
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<Group>(
-            create: (context) => group
-        ),
-      ],
-      child: Scaffold(
-          floatingActionButton: ElevatedButton.icon(
-            onPressed: () async {
-                  await openDialogue(context, group, person);
-            },
-            style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 25,
-                ),
-                backgroundColor: Color(0xff223146),
-                foregroundColor: Colors.white,
-                shadowColor: Colors.blueAccent,
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                )
-            ),
-            icon: const Text("Add"),
-            label: const Icon(Icons.add_circle,),
+    final groupService = Provider.of<GroupService>(context);
+    final group = groupService.getCurrentGroup();
+    final user = Provider.of<UserService>(context,listen: false).user;
+    return Scaffold(
+        floatingActionButton: ElevatedButton.icon(
+          onPressed: () async {
+            await openDialogue(context, group, user);
+          },
+          style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 25,
+              ),
+              backgroundColor: const Color(0xff223146),
+              foregroundColor: Colors.white,
+              shadowColor: Colors.blueAccent,
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              )
           ),
+          icon: const Text("Add"),
+          label: const Icon(Icons.add_circle,),
+        ),
 
-          body: SingleChildScrollView(
-              child:
-              Column(
-                children: [
-                  Padding(
+        body: SingleChildScrollView(
+            child:
+            Column(
+              children: [
+                Padding(
                     padding: EdgeInsets.only(
                       top: SizeConfig.screenHeight * 0.05,
                       bottom: SizeConfig.screenHeight * 0.05,
@@ -71,132 +55,127 @@ class _GroupDashboardState extends State<GroupDashboard> {
                     child: Image.asset("assets/SplittrLogo.png",
                       width: SizeConfig.screenHeight * 0.2,
                     )
+                ),
+                Card(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    color: Color(0xff223146),
-                    clipBehavior: Clip.hardEdge,
-                    child:  InkWell(
-                        splashColor: Colors.blueAccent,
-                        onTap: ()
-                          async {
-                            await groupDetails(context, group);
-                            debugPrint('Open POP UP');
-                          },
+                  color: const Color(0xff223146),
+                  clipBehavior: Clip.hardEdge,
+                  child:  InkWell(
+                    splashColor: Colors.blueAccent,
+                    onTap: ()
+                    async {
+                      await groupDetails(context, group);
+                      debugPrint('Open POP UP');
+                    },
 
-                        child:
-                            SizedBox(
-                              height: SizeConfig.screenHeight / 6,
-                              width: SizeConfig.screenWidth - 50,
-                        child:
-                            Padding(
-                                padding: EdgeInsets.only(
-                                  top: SizeConfig.screenHeight * 0.02,
-                                  left: SizeConfig.screenWidth * 0.07,
-                                ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(group.groupName,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 25
-                                  ),
-                                ),
-                                Text('${group.members.length.toString()} Members',
-                                  style: TextStyle(
+                    child:
+                    SizedBox(
+                      height: SizeConfig.screenHeight / 6,
+                      width: SizeConfig.screenWidth - 50,
+                      child:
+                      Padding(
+                          padding: EdgeInsets.only(
+                            top: SizeConfig.screenHeight * 0.02,
+                            left: SizeConfig.screenWidth * 0.07,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(group.groupName,
+                                style: const TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w400, fontSize: 15,
-                                  ),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 25
                                 ),
-                                Padding(padding: EdgeInsets.only(
-                                  top: SizeConfig.screenWidth * 0.02,
+                              ),
+                              Text('${group.members.length.toString()} Members',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400, fontSize: 15,
                                 ),
-                                  child: TextButton(     // <-- TextButton
-                                    onPressed: () {_copyToClipboard();},
-                                    child: Text('Copy Link',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        decoration: TextDecoration.underline,
-                                      ),),
+                              ),
+                              Padding(padding: EdgeInsets.only(
+                                top: SizeConfig.screenWidth * 0.02,
+                              ),
+                                child: TextButton(     // <-- TextButton
+                                  onPressed: () {_copyToClipboard(group.link.toString());},
 
-                                    style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
-                                    ),
+                                  style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
                                   ),
-                                )
-                              ],
-                            )
+                                  child: const Text('Copy Link',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      decoration: TextDecoration.underline,
+                                    ),),
+                                ),
+                              )
+                            ],
+                          )
 
-                        ),
                       ),
                     ),
                   ),
-                  Text('Group Total : ${group.totalAmount.toString()}'),
-                  // ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount: group.members.length, //user data toh empty hai bc // nahi h khali ab mc
-                  //     itemBuilder: (context, index) {
-                  //       return Card(
-                  //         child: Text(group.members[index].name.toString()),
-                  //       );
-                  //     }),
+                ),
+                Text('Group Total : ${group.totalAmount.toString()}'),
+                // ListView.builder(
+                //     shrinkWrap: true,
+                //     itemCount: group.members.length, //user data toh empty hai bc // nahi h khali ab mc
+                //     itemBuilder: (context, index) {
+                //       return Card(
+                //         child: Text(group.members[index].name.toString()),
+                //       );
+                //     }),
 
-                  // Row(
-                  //     children: [
-                  //   Expanded(
-                  //       child: GroupDetailsDropdown(
-                  //         group: group,
-                  //       )
-                  //     )
-                  //   ]
-                  // ),
+                // Row(
+                //     children: [
+                //   Expanded(
+                //       child: GroupDetailsDropdown(
+                //         group: group,
+                //       )
+                //     )
+                //   ]
+                // ),
 
-                  // Text(group.gid),
-                  // Text(group.members.toString()),
-                  // Text(group.groupName),
-                  Text("You are ${person.name}"),
-                  OutlinedButton(
-                    onPressed: () {},
-                    child: Text('See Settelment'),
-                    style: OutlinedButton.styleFrom(
-                     foregroundColor: Color(0xff223146),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
+                // Text(group.gid),
+                // Text(group.members.toString()),
+                // Text(group.groupName),
+                Text("You are ${user.name}"),
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Color(0xff223146),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  Divider(
-                    color: Colors.black,
-                    indent: 50,
-                    endIndent: 50,
-                    thickness: 2,
-                  ),
-                  ListView.builder(
-                      itemCount: group.transactions.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        if (index == group.transactions.length) {
-                          return const SizedBox(height: 75.0);
-                        }
-                        return TransactionItem(transItem: group.transactions[index]);
-                      }),
-                ],
-              ))
+                  child: const Text('See Settelment'),
+                ),
+                const Divider(
+                  color: Colors.black,
+                  indent: 50,
+                  endIndent: 50,
+                  thickness: 2,
+                ),
+                ListView.builder(
+                    itemCount: group.transactions.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if (index == group.transactions.length) {
+                        return const SizedBox(height: 75.0);
+                      }
+                      // return TransactionItem(transItem: group.transactions[index]);
+                      return const SizedBox();
+                    }),
+              ],
+            ))
 
 
-      ),
     );
   }
-  Future<void> _copyToClipboard() async {
-    await Clipboard.setData(ClipboardData(text: widget.group.link.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Copied to clipboard'),
-    ));
-  }
 }
+

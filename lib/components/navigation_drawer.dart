@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
 import 'package:splitter/screens/drawer_screens/quick_settle.dart';
-import 'package:splitter/screens/group_screens/group_dashboard.dart';
-
-import '../auth/firebase_manager.dart';
-import '../dataclass/user.dart';
 import '../screens/auth_screens/login_screen.dart';
+import '../services/firebase_auth_service.dart';
 import '../services/user_service.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -79,7 +76,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const ProfileScreen()));
         break;
       case 1:
-        FirebaseManager.auth.signOut();
+        FirebaseAuthService.auth.signOut();
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()));
         break;

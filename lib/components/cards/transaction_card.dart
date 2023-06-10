@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/personalTransactions.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
-import '../dataclass/user.dart';
-import '../services/user_service.dart';
-import '../size_config.dart';
+import '../../dataclass/user.dart';
+import '../../services/user_service.dart';
+import '../../size_config.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({super.key, required this.transaction});

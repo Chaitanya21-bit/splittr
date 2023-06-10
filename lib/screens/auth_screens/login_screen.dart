@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                   alignment: Alignment.center,
                   child: Image.asset("assets/SplittrLogo.png",
-                    width: SizeConfig.screenHeight * 0.2,
+                    width: 150,
                   )
               ),
               buildBody(context),
