@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth/firebase_manager.dart';
 import '../../components/custom_text_field.dart';
-import '../../dataclass/person.dart';
-import '../auth_screens/login_screen.dart';
+import '../../dataclass/user.dart';
+import '../../services/user_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,14 +12,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late Person person;
+  late User person;
 
   bool isEditing = false;
   TextEditingController nameEditingController = TextEditingController();
 
   @override
   void initState() {
-    person = Provider.of<Person>(context, listen: false);
+    person = Provider.of<UserService>(context, listen: false).user;
     super.initState();
     nameEditingController = TextEditingController(text: person.name);
   }
@@ -48,8 +45,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: const Icon(Icons.arrow_back)),
 
             isEditing ?
-            CustomTextField(controller: nameEditingController, labelText: 'Name')
-            : CustomTextField(controller: nameEditingController, labelText: 'Name', enable: false),
+            InputTextField(controller: nameEditingController, labelText: 'Name')
+            : InputTextField(controller: nameEditingController, labelText: 'Name', enable: false),
 
 
             ElevatedButton(onPressed: () => { toggle() },

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import '../../dataclass/group.dart';
-import '../../dataclass/person.dart';
+import '../../dataclass/user.dart';
 import 'package:uuid/uuid.dart';
 
-Future<void> newGroup(BuildContext context, Person person) {
+Future<void> newGroup(BuildContext context, User person) {
   final TextEditingController groupNameController = TextEditingController();
   final TextEditingController aboutGroupController = TextEditingController();
   final TextEditingController groupLimitController = TextEditingController();

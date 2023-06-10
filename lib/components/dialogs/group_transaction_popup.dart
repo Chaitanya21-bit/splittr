@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:splitter/dataclass/person.dart';
+import 'package:splitter/dataclass/user.dart';
 import 'package:uuid/uuid.dart';
-import '../../components/what_for_dropdown.dart';
+import '../what_for_dropdown.dart';
 import '../../dataclass/group.dart';
 import '../../utils/auth_utils.dart';
 
-Future<void> openDialogue(BuildContext context, Group group,Person person) async {
+Future<void> openDialogue(BuildContext context, Group group,User person) async {
   final TextEditingController addMoneyController = TextEditingController();
   final TextEditingController addTitleController = TextEditingController();
   final TextEditingController addRemarksController = TextEditingController();

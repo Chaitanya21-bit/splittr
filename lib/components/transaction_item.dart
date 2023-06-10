@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/dataclass/transactions.dart';
+import 'package:splitter/dataclass/personalTransactions.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
-import '../dataclass/person.dart';
+import '../dataclass/user.dart';
+import '../services/user_service.dart';
 
 class TransactionItem extends StatelessWidget {
   const TransactionItem({super.key, required this.transItem});
@@ -45,7 +46,7 @@ class TransactionItem extends StatelessWidget {
         direction: DismissDirection.endToStart,
         onDismissed: (direction) async {
           await Provider.of<PersonalTransactionService>(context, listen: false)
-              .deleteTransaction(transItem, Provider.of<Person>(context,listen: false));
+              .deleteTransaction(transItem, Provider.of<UserService>(context,listen: false).user);
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(

@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter/main.dart';
 import 'package:splitter/services/firebase_auth_service.dart';
 import '../../components/custom_text_field.dart';
-import '../../routes.dart';
+import '../../constants/routes.dart';
 import '../../size_config.dart';
 import '../../utils/auth_utils.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +69,8 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ),
-        CustomTextField(controller: emailController, labelText: 'Email'),
-        CustomTextField(controller: passwordController, labelText: 'Password'),
-
+        InputTextField(controller: emailController, labelText: 'Email'),
+        InputTextField(controller: passwordController, labelText: 'Password'),
         Padding(
           padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.05,
@@ -99,17 +108,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   login(BuildContext context) async {
-    NavigatorState state = Navigator.of(context);
-    final authService =
-        Provider.of<FirebaseAuthService>(context, listen: false);
     AuthUtils.showLoadingDialog(context);
-    final user = await authService.signInWithEmail(
+    await FirebaseAuthService.signInWithEmail(
         email: emailController.text, password: passwordController.text);
-    if (user == null) {
-      state.pop();
-      return;
-    }
-    // state.pushAndRemoveUntil(MaterialPageRoute(builder: (_) => MyApp()), (route) => false);
   }
 }
 

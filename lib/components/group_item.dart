@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/group.dart';
-import 'package:splitter/dataclass/person.dart';
+import 'package:splitter/dataclass/user.dart';
 import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/route_generator.dart';
 

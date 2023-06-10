@@ -1,18 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/auth/firebase_manager.dart';
-import 'package:splitter/screens/auth_screens/login_screen.dart';
-import 'package:splitter/dataclass/person.dart';
+import 'package:splitter/dataclass/user.dart';
 import '../../components/transaction_item.dart';
-import '../../dataclass/transactions.dart';
+import '../../services/user_service.dart';
 import '../../size_config.dart';
-import '../main_dashboard.dart';
 import '../../dataclass/group.dart';
-import '../../dataclass/group.dart';
-import '../popup_screens/group_transaction_popup.dart';
-import 'group_details_dropdown.dart';
+import '../../components/dialogs/group_transaction_popup.dart';
 import 'group_details_popup.dart';
 
 class GroupDashboard extends StatefulWidget {
@@ -25,12 +19,12 @@ class GroupDashboard extends StatefulWidget {
 
 class _GroupDashboardState extends State<GroupDashboard> {
   late Group group;
-  late Person person;
+  late User person;
 
   @override
   void initState() {
     group = widget.group;
-    person = Provider.of<Person>(context, listen: false);
+    person = Provider.of<UserService>(context, listen: false).user;
     super.initState();
   }
 
