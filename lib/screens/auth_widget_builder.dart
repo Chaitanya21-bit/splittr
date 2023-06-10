@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/user.dart' as model;
+import 'package:splitter/services/dynamic_link_service.dart';
+import 'package:splitter/services/group_service.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
 import 'package:splitter/services/user_service.dart';
 
@@ -39,13 +41,15 @@ class AuthWidgetBuilder extends StatelessWidget {
               }
               if (snapshot.data == null) return builder();
 
-              model.User person = snapshot.data!;
+              model.User user = snapshot.data!;
 
               return MultiProvider(
                 providers: [
                   ChangeNotifierProvider<PersonalTransactionService>(
-                    create: (_) => PersonalTransactionService()..fetchTransactions(person.personalTransactions),
-                  )
+                    create: (_) => PersonalTransactionService()..fetchTransactions(user.personalTransactions),
+                  ),
+                  ChangeNotifierProvider<GroupService>(create: (_) => GroupService()..fetchGroups(user.groups)),
+                  Provider<DynamicLinkService>(create: (_) => DynamicLinkService())
                 ],
                 child: builder(),
               );

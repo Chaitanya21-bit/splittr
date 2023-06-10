@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/user.dart';
 import 'package:splitter/components/dialogs/add_personal_transaction_dialog.dart';
 import 'package:splitter/services/firebase_auth_service.dart';
+import 'package:splitter/services/group_service.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
 import 'package:splitter/services/user_service.dart';
 
 import '../components/dialogs/join_group_popup.dart';
-import '../components/dialogs/new_group_popup.dart';
-import '../components/transaction_card.dart';
+import '../components/dialogs/create_group_dialog.dart';
+import '../components/cards/group_card.dart';
+import '../components/cards/transaction_card.dart';
 import '../dataclass/personalTransactions.dart';
 import '../size_config.dart';
 import 'drawer_screens/profile.dart';
@@ -23,42 +25,7 @@ class MainDashboard extends StatefulWidget {
 class _MainDashboardState extends State<MainDashboard> {
   late User user;
 
-  // Future<void> retrieveDynamicLink() async {
-  //   String? gid;
-  //   Group? group;
-  //   try {
-  //     final PendingDynamicLinkData? data =
-  //         await FirebaseDynamicLinks.instance.getInitialLink();
-  //     final Uri? deepLink = data?.link;
-  //
-  //     if (deepLink != null) {
-  //       if (deepLink.queryParameters.containsKey("id")) {
-  //         gid = deepLink.queryParameters['id'];
-  //         group = await getGroup(gid!);
-  //         await wantToJoin(context, person, group!);
-  //       } else {
-  //         return;
-  //       }
-  //     }
-  //
-  //     FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) async {
-  //       if (dynamicLinkData.link.queryParameters.containsKey("id")) {
-  //         gid = dynamicLinkData.link.queryParameters['id'];
-  //         group = await getGroup(gid!);
-  //         if (group == null) {
-  //           return;
-  //         }
-  //         await wantToJoin(context, person, group!);
-  //       } else {
-  //         return;
-  //       }
-  //     }).onError((error) {
-  //       // Handle errors
-  //     });
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
+
 
   // Future<Group?> getGroup(String gid) async {
   //   AuthUtils.showLoadingDialog(context);
@@ -177,7 +144,7 @@ class _MainDashboardState extends State<MainDashboard> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () async {
-                    await newGroup(context, user);
+                    await createGroupDialog(context, user);
                   },
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -230,45 +197,12 @@ class _MainDashboardState extends State<MainDashboard> {
     );
   }
 
-  Widget buildTransactions() {
-    return Expanded(
-      flex: 8,
-      child: Consumer<PersonalTransactionService>(
-        builder: (_, data, __) {
-          List<PersonalTransaction> transactionsList =
-              List<PersonalTransaction>.from(
-                  data.personalTransactions.reversed);
-          return transactionsList.isEmpty
-                 ? Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "No Transactions",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  )
-              : ListView.builder(
-                  itemCount: transactionsList.length + 1,
-                  itemBuilder: (context, index) {
-                    return index == transactionsList.length
-                        ? const SizedBox(height: 75.0)
-                        : TransactionCard(transaction: transactionsList[index]);
-                  },
-                );
-        },
-      ),
-    );
-  }
-
   Widget buildGroups() {
     return Expanded(
-      flex: 3,
-      child: Consumer<UserService>(
-        builder: (_, data, __) {
-          if (data.user.groups.isEmpty) {
+      flex: 4,
+      child: Consumer<GroupService>(
+        builder: (_, groupService, __) {
+          if (groupService.groups.isEmpty) {
             return Column(children: <Widget>[
               Expanded(
                 child: Padding(
@@ -298,16 +232,49 @@ class _MainDashboardState extends State<MainDashboard> {
                 ),
               ),
             ]);
-          } else {
+          }
+          else {
             return ListView.builder(
-                itemCount: data.user.groups.length,
+                itemCount: groupService.groups.length,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return const SizedBox();
-                  // return GroupItem(group: data.userGroups[index]);
+                  return GroupCard(group: groupService.groups[index],index: index,);
                 });
           }
+        },
+      ),
+    );
+  }
+
+  Widget buildTransactions() {
+    return Expanded(
+      flex: 8,
+      child: Consumer<PersonalTransactionService>(
+        builder: (_, data, __) {
+          List<PersonalTransaction> transactionsList =
+              List<PersonalTransaction>.from(
+                  data.personalTransactions.reversed);
+          return transactionsList.isEmpty
+                 ? Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "No Transactions",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  )
+              : ListView.builder(
+                  itemCount: transactionsList.length + 1,
+                  itemBuilder: (context, index) {
+                    return index == transactionsList.length
+                        ? const SizedBox(height: 75.0)
+                        : TransactionCard(transaction: transactionsList[index]);
+                  },
+                );
         },
       ),
     );

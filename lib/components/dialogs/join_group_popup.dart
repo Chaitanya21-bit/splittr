@@ -1,14 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:splitter/services/firebase_database_service.dart';
 import 'package:splitter/utils/auth_utils.dart';
-import '../../auth/firebase_manager.dart';
 import '../../dataclass/group.dart';
 import '../../dataclass/user.dart';
 
 Future<void> joinGroup(BuildContext context, User person) async {
   final TextEditingController groupCodeController = TextEditingController();
-  final FirebaseDatabase database = FirebaseManager.database;
+  final FirebaseDatabase database = FirebaseDatabaseService.database;
 
   joinInGroup(BuildContext context) async {
     print('He');

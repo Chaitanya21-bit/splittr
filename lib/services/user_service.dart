@@ -14,6 +14,7 @@ class UserService extends ChangeNotifier{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final userMap = prefs.getString('userMap');
     if(userMap != null){
+      debugPrint("Retrieving User Info from cache");
       final userJson = jsonDecode(userMap) as Map<String, dynamic>;
       userJson['uid'] = uid;
       await prefs.remove('userMap');
@@ -26,6 +27,7 @@ class UserService extends ChangeNotifier{
       await FirebaseAuthService.signOut();
       return null;
     }
+    debugPrint("Retrieving User Info from database");
     _user = User.fromJson(json);
     return _user;
   }

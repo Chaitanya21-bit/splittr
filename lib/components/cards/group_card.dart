@@ -1,40 +1,31 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/group.dart';
-import 'package:splitter/dataclass/user.dart';
-import 'package:splitter/screens/group_screens/group_dashboard.dart';
-import 'package:splitter/route_generator.dart';
+import 'package:splitter/services/group_service.dart';
 
-class GroupItem extends StatefulWidget {
-  const GroupItem({super.key, required this.group});
+import '../../constants/routes.dart';
+
+class GroupCard extends StatelessWidget {
+  const GroupCard({Key? key, required this.group, required this.index}) : super(key: key);
   final Group group;
-
-  @override
-  State<GroupItem> createState() => _GroupItemState();
-}
-
-class _GroupItemState extends State<GroupItem> {
+  final int index;
 
   Future<void> _copyToClipboard() async {
-    await Clipboard.setData(ClipboardData(text: widget.group.link.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Copied to clipboard'),
-    ));
+    await Clipboard.setData(ClipboardData(text: group.link.toString()));
+    Fluttertoast.showToast(msg: "Copied to clipboard");
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final groupService = Provider.of<GroupService>(context,listen: false);
+
     return SizedBox(
       width: 200,
       child: Dismissible(
-        key: Key(widget.group.gid),
-        onUpdate: (DismissUpdateDetails d) {
-          if (d.progress < 0.2 && d.progress > 0.1) {
-            setState(() {});
-          }
-        },
+        key: Key(group.gid),
         background: const Align(
           alignment: Alignment.bottomCenter,
           child: Icon(
@@ -56,7 +47,7 @@ class _GroupItemState extends State<GroupItem> {
               return AlertDialog(
                 title: const Text("Confirm"),
                 content:
-                    const Text("Are you sure you wish to delete this group?"),
+                const Text("Are you sure you wish to delete this group?"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -79,14 +70,14 @@ class _GroupItemState extends State<GroupItem> {
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
-            onTap: () => {
-              Navigator.pushNamed(context, '/grpDash',
-                  arguments: widget.group)
+            onTap: ()  {
+              groupService.setCurrentGroup(index);
+              Navigator.pushNamed(context, Routes.grpDash);
             },
             child: Column(
               children: [
                 Expanded(
-                    flex: 0,
+                  flex: 0,
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     margin: const EdgeInsets.symmetric(
@@ -103,7 +94,7 @@ class _GroupItemState extends State<GroupItem> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      widget.group.groupName,
+                      group.groupName,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -118,7 +109,7 @@ class _GroupItemState extends State<GroupItem> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    'Members : ${widget.group.members.length}',
+                    'Members : ${group.members.length}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -132,21 +123,21 @@ class _GroupItemState extends State<GroupItem> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:
-                    // Text(widget.group.link.toString(),
+                    // Text(group.link.toString(),
                     //     );
                     TextButton.icon(     // <-- TextButton
                       onPressed: () {_copyToClipboard();},
-                      label: Text(widget.group.link.toString()),
-                      icon: Icon(
-                      Icons.copy,
-                      size: 24.0,
-                    ),
+                      label: Text(group.link.toString()),
+                      icon: const Icon(
+                        Icons.copy,
+                        size: 24.0,
+                      ),
                       style: ButtonStyle(
                         foregroundColor:
                         MaterialStateProperty.all(const Color(0xff1870B5)),
                       ),
                     ),
-                    
+
                   ),
                 ),
               ],
@@ -157,3 +148,4 @@ class _GroupItemState extends State<GroupItem> {
     );
   }
 }
+
