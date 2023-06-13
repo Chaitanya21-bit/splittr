@@ -5,6 +5,7 @@ import 'package:splitter/services/personal_transaction_service.dart';
 import '../../dataclass/user.dart';
 import '../../services/user_service.dart';
 import '../../size_config.dart';
+import '../../utils/get_provider.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({super.key, required this.transaction});
@@ -16,9 +17,9 @@ class TransactionCard extends StatelessWidget {
       key: Key(transaction.tid),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) async {
-        await Provider.of<PersonalTransactionService>(context, listen: false)
+        await getProvider<PersonalTransactionService>(context)
             .deleteTransaction(
-                transaction, Provider.of<UserService>(context, listen: false).user);
+                transaction, getProvider<UserService>(context).user);
       },
       confirmDismiss: (DismissDirection direction) async {
         return await showDialog(

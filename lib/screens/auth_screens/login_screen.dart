@@ -13,14 +13,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    super.initState();
+  }
 
   @override
   void dispose() {
-    super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -29,26 +36,24 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Image.asset("assets/LoginTop BlobImg.png"), // Logo,
-              ),
-              Align(
-                  alignment: Alignment.center,
-                  child: Image.asset("assets/SplittrLogo.png",
-                    width: 150,
-                  )
-              ),
-              buildBody(context),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Image.asset("assets/LoginBottom BlobImg.png"), // Logo,
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Image.asset("assets/LoginTop BlobImg.png"), // Logo,
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Image.asset("assets/SplittrLogo.png",
+                  width: 150,
+                )
+            ),
+            buildBody(context),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Image.asset("assets/LoginBottom BlobImg.png"), // Logo,
+            ),
+          ],
         ),
       ),
     );

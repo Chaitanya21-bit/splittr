@@ -2,12 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/user.dart' as model;
-import 'package:splitter/services/dynamic_link_service.dart';
-import 'package:splitter/services/group_service.dart';
-import 'package:splitter/services/personal_transaction_service.dart';
-import 'package:splitter/services/user_service.dart';
-
-import '../services/firebase_auth_service.dart';
+import 'package:splitter/services/services.dart';
+import '../utils/get_provider.dart';
 
 class AuthWidgetBuilder extends StatelessWidget {
   const AuthWidgetBuilder({Key? key, required this.builder}) : super(key: key);
@@ -15,7 +11,7 @@ class AuthWidgetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userService = Provider.of<UserService>(context, listen: false);
+    final userService = getProvider<UserService>(context);
     return StreamBuilder<User?>(
       stream: FirebaseAuthService.auth.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> authUserSnapshot) {

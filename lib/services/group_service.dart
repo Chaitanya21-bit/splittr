@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:splitter/dataclass/group.dart';
-import 'package:splitter/dataclass/group_transaction.dart';
-import 'package:splitter/dataclass/user.dart';
+import 'package:splitter/constants/firebase_endpoints.dart';
+import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/services/firebase_database_service.dart';
 
 class GroupService extends ChangeNotifier{
@@ -20,18 +19,18 @@ class GroupService extends ChangeNotifier{
     user.groups.add(group.gid);
     debugPrint("Group Created");
     await FirebaseDatabaseService.set(
-        'Groups/${group.gid}', group.toJson());
+        '$groupsEndpoint${group.gid}', group.toJson());
     debugPrint("Group Added in Database");
 
     await FirebaseDatabaseService.update(
-        'Users/${user.uid}', user.toJson());
+        '$usersEndpoint${user.uid}', user.toJson());
     debugPrint("User Updated");
     notifyListeners();
   }
 
   Future<void> fetchGroups(List<String> groupsList) async {
     for(String groupId in groupsList){
-      final json = await FirebaseDatabaseService.get("Groups/$groupId");
+      final json = await FirebaseDatabaseService.get("$groupsEndpoint$groupId");
       if(json == null){
         continue;
       }
@@ -40,6 +39,7 @@ class GroupService extends ChangeNotifier{
       group.transactions = await fetchGroupTransactions(json['transactions'] ?? []);
       _groups.add(group);
     }
+    debugPrint("Retrieved Groups");
     notifyListeners();
   }
 
@@ -47,7 +47,7 @@ class GroupService extends ChangeNotifier{
     final List<GroupTransaction> transactions = [];
     for (String transactionId in transactionsList) {
       final json =
-          await FirebaseDatabaseService.get("Transactions/$transactionId");
+          await FirebaseDatabaseService.get("$transactionsEndpoint$transactionId");
       if (json != null) {
         transactions.add(GroupTransaction.fromJson(json));
       }

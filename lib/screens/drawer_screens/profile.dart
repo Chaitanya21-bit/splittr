@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../components/custom_text_field.dart';
 import '../../dataclass/user.dart';
 import '../../services/user_service.dart';
+import '../../utils/get_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    person = Provider.of<UserService>(context, listen: false).user;
+    person = getProvider<UserService>(context).user;
     super.initState();
     nameEditingController = TextEditingController(text: person.name);
   }

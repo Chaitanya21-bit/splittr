@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/services/datetime_service.dart';
+import 'package:splitter/utils/get_provider.dart';
 
 class DatePicker extends StatelessWidget {
   const DatePicker({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final dateTimeService = Provider.of<DateTimeService>(context);
+    final dateTimeService = getProvider<DateTimeService>(context,listen: true);
     return ListTile(
       contentPadding: const EdgeInsets.all(0.0),
       horizontalTitleGap: 0.0,

@@ -6,6 +6,7 @@ import 'package:splitter/services/user_service.dart';
 import '../../services/group_service.dart';
 import '../../size_config.dart';
 import '../../components/dialogs/group_transaction_popup.dart';
+import '../../utils/get_provider.dart';
 import 'group_details_popup.dart';
 
 class GroupDashboard extends StatelessWidget {
@@ -18,9 +19,9 @@ class GroupDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupService = Provider.of<GroupService>(context);
+    final groupService = getProvider<GroupService>(context);
     final group = groupService.getCurrentGroup();
-    final user = Provider.of<UserService>(context,listen: false).user;
+    final user = getProvider<UserService>(context).user;
     return Scaffold(
         floatingActionButton: ElevatedButton.icon(
           onPressed: () async {
@@ -122,14 +123,14 @@ class GroupDashboard extends StatelessWidget {
                   ),
                 ),
                 Text('Group Total : ${group.totalAmount.toString()}'),
-                // ListView.builder(
-                //     shrinkWrap: true,
-                //     itemCount: group.members.length, //user data toh empty hai bc // nahi h khali ab mc
-                //     itemBuilder: (context, index) {
-                //       return Card(
-                //         child: Text(group.members[index].name.toString()),
-                //       );
-                //     }),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: group.members.length, //user data toh empty hai bc // nahi h khali ab mc
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: Text(group.members[index].name.toString()),
+                      );
+                    }),
 
                 // Row(
                 //     children: [
@@ -141,9 +142,9 @@ class GroupDashboard extends StatelessWidget {
                 //   ]
                 // ),
 
-                // Text(group.gid),
-                // Text(group.members.toString()),
-                // Text(group.groupName),
+                Text(group.gid),
+                Text(group.members.toString()),
+                Text(group.groupName),
                 Text("You are ${user.name}"),
                 OutlinedButton(
                   onPressed: () {},

@@ -7,7 +7,6 @@ class InputTextField extends StatelessWidget {
     required this.labelText,
     this.textInputAction,
     this.padding,
-
     this.enable,
   });
 
