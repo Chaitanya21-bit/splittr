@@ -5,6 +5,7 @@ import 'package:splitter/screens/drawer_screens/quick_settle.dart';
 import '../screens/auth_screens/login_screen.dart';
 import '../services/firebase_auth_service.dart';
 import '../services/user_service.dart';
+import '../utils/get_provider.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               drawerText: 'Profile',
               drawerIcon: Icons.person,
               onClicked: () => Navigator.pushNamed(context, '/profile',
-                  arguments: Provider.of<UserService>(context, listen: false).user),
+                  arguments: getProvider<UserService>(context).user),
             ),
             const SizedBox(
               height: 20,

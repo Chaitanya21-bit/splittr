@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:splitter/route_generator.dart';
 import 'package:splitter/constants/routes.dart';
 import 'package:splitter/screens/auth_widget_builder.dart';
-import 'package:splitter/services/datetime_service.dart';
-import 'package:splitter/services/firebase_auth_service.dart';
-import 'package:splitter/services/user_service.dart';
+import 'package:splitter/services/services.dart';
 import 'auth/firebase_options.dart';
 
 Future<void> main() async {
@@ -31,6 +29,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
                 fontFamily: 'Poppins',
+                // useMaterial3: true
               ),
               initialRoute: FirebaseAuthService.auth.currentUser == null
                   ? Routes.login

@@ -6,6 +6,7 @@ import 'package:splitter/dataclass/group.dart';
 import 'package:splitter/services/group_service.dart';
 
 import '../../constants/routes.dart';
+import '../../utils/get_provider.dart';
 
 class GroupCard extends StatelessWidget {
   const GroupCard({Key? key, required this.group, required this.index}) : super(key: key);
@@ -20,7 +21,7 @@ class GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final groupService = Provider.of<GroupService>(context,listen: false);
+    final groupService = getProvider<GroupService>(context);
 
     return SizedBox(
       width: 200,

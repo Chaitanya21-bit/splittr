@@ -1,60 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/dataclass/user.dart';
-import 'package:splitter/components/dialogs/add_personal_transaction_dialog.dart';
-import 'package:splitter/services/firebase_auth_service.dart';
-import 'package:splitter/services/group_service.dart';
-import 'package:splitter/services/personal_transaction_service.dart';
-import 'package:splitter/services/user_service.dart';
+import 'package:splitter/services/services.dart';
 
-import '../components/dialogs/join_group_popup.dart';
-import '../components/dialogs/create_group_dialog.dart';
 import '../components/cards/group_card.dart';
 import '../components/cards/transaction_card.dart';
+import '../components/dialogs/add_personal_transaction_dialog.dart';
+import '../components/dialogs/create_group_dialog.dart';
+import '../components/dialogs/join_group_popup.dart';
 import '../dataclass/personalTransactions.dart';
 import '../size_config.dart';
+import '../utils/get_provider.dart';
 import 'drawer_screens/profile.dart';
 
-class MainDashboard extends StatefulWidget {
+class MainDashboard extends StatelessWidget {
   const MainDashboard({super.key});
 
   @override
-  State<MainDashboard> createState() => _MainDashboardState();
-}
-
-class _MainDashboardState extends State<MainDashboard> {
-  late User user;
-
-
-
-  // Future<Group?> getGroup(String gid) async {
-  //   AuthUtils.showLoadingDialog(context);
-  //   FirebaseDatabase database = FirebaseManager.database;
-  //   final grpSnapshot = await database.ref().child('Group/$gid').get();
-  //
-  //   if (!grpSnapshot.exists) {
-  //     Fluttertoast.showToast(msg: "Group Not Found $gid");
-  //     Navigator.pop(context);
-  //     return null;
-  //   }
-  //   print(gid);
-  //   Map<String, dynamic> map =
-  //       Map<String, dynamic>.from(grpSnapshot.value as Map<dynamic, dynamic>);
-  //   Group group = await Group.fromJson(map);
-  //   await group.retrieveMembers(List.of(map['members'].cast<String>()));
-  //   Navigator.pop(context);
-  //   return group;
-  // }
-
-  @override
-  void initState() {
-    user = Provider.of<UserService>(context, listen: false).user;
-    // retrieveDynamicLink();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final user = getProvider<UserService>(context).user;
     SizeConfig().init(context);
     // final dynamic appBar = AppBar(
     //   title: const Text('Dashboard'),
@@ -78,7 +41,7 @@ class _MainDashboardState extends State<MainDashboard> {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       floatingActionButton: ElevatedButton.icon(
-        onPressed: () => addPersonalTransactionDialog(context, user),
+        onPressed: () => AddPersonalTransactionDialog(context).show(),
         style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(
               vertical: 10,
@@ -110,13 +73,18 @@ class _MainDashboardState extends State<MainDashboard> {
                     "assets/SplittrLogo.png",
                     width: SizeConfig.screenHeight * 0.2,
                   )),
-              IconButton(onPressed: () => FirebaseAuthService.signOut(), icon: const Icon(Icons.logout)),
-              IconButton(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
-                );
-              }, icon: const Icon(Icons.account_circle_sharp)),
+              IconButton(
+                  onPressed: () => FirebaseAuthService.signOut(),
+                  icon: const Icon(Icons.logout)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileScreen()),
+                    );
+                  },
+                  icon: const Icon(Icons.account_circle_sharp)),
               // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
             ],
           ),
@@ -143,9 +111,7 @@ class _MainDashboardState extends State<MainDashboard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () async {
-                    await createGroupDialog(context, user);
-                  },
+                  onPressed: () => CreateGroupDialog(context).show(),
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         vertical: 10,
@@ -232,14 +198,16 @@ class _MainDashboardState extends State<MainDashboard> {
                 ),
               ),
             ]);
-          }
-          else {
+          } else {
             return ListView.builder(
                 itemCount: groupService.groups.length,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return GroupCard(group: groupService.groups[index],index: index,);
+                  return GroupCard(
+                    group: groupService.groups[index],
+                    index: index,
+                  );
                 });
           }
         },
@@ -256,17 +224,17 @@ class _MainDashboardState extends State<MainDashboard> {
               List<PersonalTransaction>.from(
                   data.personalTransactions.reversed);
           return transactionsList.isEmpty
-                 ? Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "No Transactions",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.grey[600],
-                      ),
+              ? Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "No Transactions",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.grey[600],
                     ),
-                  )
+                  ),
+                )
               : ListView.builder(
                   itemCount: transactionsList.length + 1,
                   itemBuilder: (context, index) {
