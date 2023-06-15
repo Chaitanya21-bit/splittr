@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:splitter/dataclass/personalTransactions.dart';
+import 'package:splitter/providers/personal_transaction_provider.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
-import '../dataclass/user.dart';
-import '../services/user_service.dart';
+import '../providers/providers.dart';
 import '../utils/get_provider.dart';
 
 class TransactionItem extends StatelessWidget {
@@ -20,7 +19,7 @@ class TransactionItem extends StatelessWidget {
       ),
       elevation: 8,
       shape: RoundedRectangleBorder(
-        side: BorderSide(
+        side: const BorderSide(
           color: Color(0xff3A8ABD),
           width: 4,
         ),
@@ -46,8 +45,8 @@ class TransactionItem extends StatelessWidget {
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) async {
-          await getProvider<PersonalTransactionService>(context)
-              .deleteTransaction(transItem, getProvider<UserService>(context).user);
+          await getProvider<PersonalTransactionProvider>(context)
+              .deleteTransaction(transItem);
         },
         confirmDismiss: (DismissDirection direction) async {
           return await showDialog(
@@ -115,7 +114,7 @@ class TransactionItem extends StatelessWidget {
                         ),
                         Text(
                           transItem.date.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -129,7 +128,7 @@ class TransactionItem extends StatelessWidget {
                   const Padding(
                       padding: EdgeInsets.only(left: 20.0, bottom: 25.0)),
                   Text(transItem.remarks,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Colors.black,
                       )),

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
 import 'package:splitter/screens/drawer_screens/quick_settle.dart';
-import '../screens/auth_screens/login_screen.dart';
-import '../services/firebase_auth_service.dart';
-import '../services/user_service.dart';
 import '../utils/get_provider.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
@@ -25,7 +22,7 @@ class NavigationDrawerWidget extends StatelessWidget {
               drawerText: 'Profile',
               drawerIcon: Icons.person,
               onClicked: () => Navigator.pushNamed(context, '/profile',
-                  arguments: getProvider<UserService>(context).user),
+                  arguments: getProvider<UserProvider>(context).user),
             ),
             const SizedBox(
               height: 20,
@@ -77,9 +74,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             MaterialPageRoute(builder: (context) => const ProfileScreen()));
         break;
       case 1:
-        FirebaseAuthService.auth.signOut();
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginScreen()));
+        getProvider<UserProvider>(context).signOut();
         break;
       case 2:
         Navigator.of(context)

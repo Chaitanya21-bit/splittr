@@ -1,8 +1,4 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
-
-import '../components/dialogs/join_group_popup.dart';
-import '../dataclass/group.dart';
 
 class DynamicLinkService{
 

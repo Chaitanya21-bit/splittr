@@ -1,48 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:splitter/constants/firebase_endpoints.dart';
 import 'package:splitter/dataclass/personalTransactions.dart';
-import 'package:splitter/dataclass/user.dart';
-import 'package:splitter/services/firebase_auth_service.dart';
 import 'package:splitter/services/firebase_database_service.dart';
 
-class PersonalTransactionService extends ChangeNotifier {
-  final List<PersonalTransaction> _personalTransactions = [];
+class PersonalTransactionService {
 
-  List<PersonalTransaction> get personalTransactions => _personalTransactions;
-
-  addTransaction(PersonalTransaction transaction, User user) async {
-    _personalTransactions.add(transaction);
-    user.personalTransactions.add(transaction.tid);
-    debugPrint("Personal Transaction Created");
+  Future<void> addTransactionToDatabase(PersonalTransaction transaction) async {
     await FirebaseDatabaseService.set(
         '$transactionsEndpoint${transaction.tid}', transaction.toJson());
     debugPrint("Transaction Updated in Database");
-
-    await FirebaseDatabaseService.update(
-        '$usersEndpoint${transaction.userId}', user.toJson());
-    debugPrint("User Updated");
-    notifyListeners();
   }
 
-  Future<void> deleteTransaction(
-      PersonalTransaction transaction, User person) async {
-    _personalTransactions.remove(transaction);
-    person.personalTransactions.remove(transaction.tid);
-    await FirebaseDatabaseService.update(
-        '$usersEndpoint${FirebaseAuthService.auth.currentUser?.uid}', person.toJson());
+  Future<PersonalTransaction?> getTransactionFromDatabase(String transactionId) async {
+    final json =
+        await FirebaseDatabaseService.get<PersonalTransaction>("$transactionsEndpoint$transactionId");
+    return json == null ? null : PersonalTransaction.fromJson(json);
+  }
+
+
+  Future<void> deleteTransactionFromDatabase(
+      PersonalTransaction transaction) async {
     await FirebaseDatabaseService.remove('$transactionsEndpoint${transaction.tid}');
-    notifyListeners();
+    debugPrint("Transaction deleted from Database");
   }
 
-  fetchTransactions(List<String> transactionsList) async {
-    for (String transactionId in transactionsList) {
-      final json =
-          await FirebaseDatabaseService.get("$transactionsEndpoint$transactionId");
-      if (json != null) {
-        _personalTransactions.add(PersonalTransaction.fromJson(json));
-      }
-    }
-    debugPrint("Retrieved Transactions");
-    notifyListeners();
-  }
+
 }

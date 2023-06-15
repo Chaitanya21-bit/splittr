@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter/dataclass/group.dart';
-import 'package:splitter/services/group_service.dart';
+import 'package:splitter/dataclass/dataclass.dart';
+import 'package:splitter/providers/providers.dart';
 
 import '../../constants/routes.dart';
 import '../../utils/get_provider.dart';
 
 class GroupCard extends StatelessWidget {
-  const GroupCard({Key? key, required this.group, required this.index}) : super(key: key);
+  const GroupCard({Key? key, required this.group, required this.index})
+      : super(key: key);
   final Group group;
   final int index;
 
@@ -20,8 +20,7 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final groupService = getProvider<GroupService>(context);
+    final groupProvider = getProvider<GroupProvider>(context);
 
     return SizedBox(
       width: 200,
@@ -35,7 +34,6 @@ class GroupCard extends StatelessWidget {
             size: 30.0,
           ),
         ),
-
         direction: DismissDirection.up,
         onDismissed: (direction) async {
           // await Provider.of<Person>(context, listen: false)
@@ -48,7 +46,7 @@ class GroupCard extends StatelessWidget {
               return AlertDialog(
                 title: const Text("Confirm"),
                 content:
-                const Text("Are you sure you wish to delete this group?"),
+                    const Text("Are you sure you wish to delete this group?"),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
@@ -71,8 +69,8 @@ class GroupCard extends StatelessWidget {
           ),
           child: InkWell(
             borderRadius: BorderRadius.circular(15.0),
-            onTap: ()  {
-              groupService.setCurrentGroup(index);
+            onTap: () {
+              groupProvider.setCurrentGroup(index);
               Navigator.pushNamed(context, Routes.grpDash);
             },
             child: Column(
@@ -124,10 +122,13 @@ class GroupCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child:
-                    // Text(group.link.toString(),
-                    //     );
-                    TextButton.icon(     // <-- TextButton
-                      onPressed: () {_copyToClipboard();},
+                        // Text(group.link.toString(),
+                        //     );
+                        TextButton.icon(
+                      // <-- TextButton
+                      onPressed: () {
+                        _copyToClipboard();
+                      },
                       label: Text(group.link.toString()),
                       icon: const Icon(
                         Icons.copy,
@@ -135,10 +136,9 @@ class GroupCard extends StatelessWidget {
                       ),
                       style: ButtonStyle(
                         foregroundColor:
-                        MaterialStateProperty.all(const Color(0xff1870B5)),
+                            MaterialStateProperty.all(const Color(0xff1870B5)),
                       ),
                     ),
-
                   ),
                 ),
               ],
@@ -149,4 +149,3 @@ class GroupCard extends StatelessWidget {
     );
   }
 }
-

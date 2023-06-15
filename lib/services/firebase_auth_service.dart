@@ -70,4 +70,8 @@ class FirebaseAuthService {
   static Future<void> signOut() async {
     await auth.signOut();
   }
+
+  static Stream<User?> authStateChanges(){
+    return auth.authStateChanges();
+  }
 }
