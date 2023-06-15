@@ -3,63 +3,46 @@ import 'package:splitter/constants/firebase_endpoints.dart';
 import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/services/firebase_database_service.dart';
 
-class GroupService extends ChangeNotifier{
-  final List<Group> _groups = [];
-  List<Group> get groups => _groups;
-
-  late int _selectedIndex;
-  Group getCurrentGroup() => _groups[_selectedIndex];
-
-  setCurrentGroup(int index){
-    _selectedIndex = index;
-  }
-
-  Future<void> addGroup(Group group, User user) async {
-    _groups.add(group);
-    user.groups.add(group.gid);
-    debugPrint("Group Created");
+class GroupService {
+  Future<void> addGroupToDatabase(Group group) async {
     await FirebaseDatabaseService.set(
         '$groupsEndpoint${group.gid}', group.toJson());
     debugPrint("Group Added in Database");
-
-    await FirebaseDatabaseService.update(
-        '$usersEndpoint${user.uid}', user.toJson());
-    debugPrint("User Updated");
-    notifyListeners();
   }
 
-  Future<void> fetchGroups(List<String> groupsList) async {
-    for(String groupId in groupsList){
-      final json = await FirebaseDatabaseService.get("$groupsEndpoint$groupId");
-      if(json == null){
-        continue;
-      }
-      final group = Group.fromJson(json);
-      group.members = await fetchMembers(List<String>.from(json['members']));
-      group.transactions = await fetchGroupTransactions(json['transactions'] ?? []);
-      _groups.add(group);
+  Future<Group?> getGroupFromDatabase(String groupId) async {
+    final json = await FirebaseDatabaseService.get<Group>("$groupsEndpoint$groupId");
+    if (json == null) {
+      return null;
     }
-    debugPrint("Retrieved Groups");
-    notifyListeners();
-  }
-
-  Future<List<GroupTransaction>> fetchGroupTransactions(List<String> transactionsList) async {
-    final List<GroupTransaction> transactions = [];
-    for (String transactionId in transactionsList) {
-      final json =
-          await FirebaseDatabaseService.get("$transactionsEndpoint$transactionId");
-      if (json != null) {
-        transactions.add(GroupTransaction.fromJson(json));
-      }
+    if (json['transactions'] != null) {
+      json['transactions'] =
+          await getGroupTransactionsJson((json['transactions'] as List).map((e) => e.toString()).toList());
     }
-    return transactions;
+    if (json['members'] != null) {
+      json['members'] =
+          await getMembersJson((json['members'] as List).map((e) => e.toString()).toList());
+    }
+    return Group.fromJson(json);
   }
 
-  Future<List<User>> fetchMembers(List<String> membersList) async {
-    final List<User> members = [];
-    for(String memberId in membersList){
-      final json = await FirebaseDatabaseService.get("Users/$memberId");
-      if(json != null) members.add(User.basicInfo(json));
+  Future<List<Map<String, dynamic>>> getGroupTransactionsJson(
+      List<String> transactionsId) async {
+    final List<Map<String, dynamic>> transactionsJson = [];
+    for (String transactionId in transactionsId) {
+      final json = await FirebaseDatabaseService.get<GroupTransaction>(
+          "$transactionsEndpoint$transactionId");
+      if (json != null) transactionsJson.add(json);
+    }
+    return transactionsJson;
+  }
+
+  Future<List<Map<String, dynamic>>> getMembersJson(
+      List<String> membersId) async {
+    final List<Map<String, dynamic>> members = [];
+    for (String memberId in membersId) {
+      final json = await FirebaseDatabaseService.get<User>("$usersEndpoint$memberId");
+      if (json != null) members.add(json);
     }
     return members;
   }

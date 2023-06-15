@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/components/custom_text_field.dart';
-import 'package:splitter/services/dynamic_link_service.dart';
-import 'package:splitter/services/group_service.dart';
-import 'package:splitter/services/user_service.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/utils/get_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -17,13 +15,21 @@ class CreateGroupDialog {
   late final TextEditingController _groupLimitController;
   late final TextEditingController _personalLimitController;
   late final BuildContext context;
-  late final GroupService _groupService;
-  late final DynamicLinkService _dynamicLinkService;
+  late final GroupProvider _groupProvider;
+  late final DynamicLinksProvider _dynamicLinksProvider;
   late final User _user;
+  late final String _uuid;
 
   CreateGroupDialog(this.context) {
+    _uuid = const Uuid().v1();
     _initControllers();
     _initProviders();
+  }
+
+  _initProviders() {
+    _groupProvider = getProvider<GroupProvider>(context);
+    _dynamicLinksProvider = getProvider<DynamicLinksProvider>(context);
+    _user = getProvider<UserProvider>(context).user;
   }
 
   _initControllers() {
@@ -33,32 +39,26 @@ class CreateGroupDialog {
     _personalLimitController = TextEditingController();
   }
 
-  _exit(){
+  _exit() {
     Navigator.pop(context);
   }
 
-  _initProviders(){
-    _groupService = getProvider<GroupService>(context);
-    _dynamicLinkService = getProvider<DynamicLinkService>(context);
-    _user = getProvider<UserService>(context).user;
-  }
-
   void createGroup() async {
-    if(!_validate()) return;
+    if (!_validate()) return;
     try {
       AuthUtils.showLoadingDialog(context);
       NavigatorState state = Navigator.of(context);
-      String uuid = const Uuid().v1();
-      Uri link = await _dynamicLinkService.createDynamicLink(uuid);
+      Uri link = await _dynamicLinksProvider.createDynamicLink(_uuid);
       Group group = Group(
-          gid: uuid,
+          gid: _uuid,
           groupName: _groupNameController.text,
           groupDescription: _aboutGroupController.text,
           link: link,
           groupLimit: double.tryParse(_groupLimitController.text),
           totalAmount: 0,
-          members: [_user]);
-      await _groupService.addGroup(group, _user);
+          members: [_user],
+          transactions: []);
+      await _groupProvider.addGroup(group);
       state.pop();
     } catch (e) {
       Fluttertoast.showToast(msg: "Failed to create Group");
@@ -67,27 +67,27 @@ class CreateGroupDialog {
     _exit();
   }
 
-  bool _validate(){
-    if(_groupNameController.text.isEmpty){
+  bool _validate() {
+    if (_groupNameController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Enter Group Name.");
       return false;
     }
-    if(_aboutGroupController.text.isEmpty){
+    if (_aboutGroupController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Enter About Field.");
       return false;
     }
-    if(_groupLimitController.text.isEmpty){
+    if (_groupLimitController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Enter Group Limit.");
       return false;
     }
-    if(_personalLimitController.text.isEmpty){
+    if (_personalLimitController.text.isEmpty) {
       Fluttertoast.showToast(msg: "Enter Personal Limit.");
       return false;
     }
     return true;
   }
 
-  void show(){
+  void show() {
     showDialog(
         context: context,
         builder: (context) {
@@ -136,11 +136,10 @@ class CreateGroupDialog {
                       ),
                     ],
                   ),
-                  // InputTextField(
-                  //   controller: groupLinkController,
-                  //   labelText: 'Generated Link',
-                  //   padding: padding,
-                  // ),
+                  Padding(
+                    padding: padding,
+                    child: Text(_uuid),
+                  ),
                 ],
               ),
             ),
@@ -149,7 +148,7 @@ class CreateGroupDialog {
                 onPressed: _exit,
                 style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all(const Color(0xff1870B5)),
+                      MaterialStateProperty.all(const Color(0xff1870B5)),
                   overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
                 ),
                 child: const Text("Cancel"),
@@ -158,7 +157,7 @@ class CreateGroupDialog {
                 onPressed: createGroup,
                 style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all(const Color(0xff1870B5)),
+                      MaterialStateProperty.all(const Color(0xff1870B5)),
                   overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
                 ),
                 child: const Text("Done"),
@@ -168,4 +167,3 @@ class CreateGroupDialog {
         });
   }
 }
-

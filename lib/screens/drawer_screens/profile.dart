@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:splitter/providers/providers.dart';
 import '../../components/custom_text_field.dart';
 import '../../dataclass/user.dart';
-import '../../services/user_service.dart';
 import '../../utils/get_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,7 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    person = getProvider<UserService>(context).user;
+    person = getProvider<UserProvider>(context).user;
     super.initState();
     nameEditingController = TextEditingController(text: person.name);
   }

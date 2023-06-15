@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 import 'package:splitter/components/custom_text_field.dart';
 import 'package:splitter/components/dialogs/date_picker.dart';
-import 'package:splitter/services/datetime_service.dart';
-import 'package:splitter/services/personal_transaction_service.dart';
-import 'package:splitter/services/user_service.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../dataclass/personalTransactions.dart';
-import '../../dataclass/user.dart';
+import '../../dataclass/dataclass.dart';
 import '../../utils/get_provider.dart';
 
 class AddPersonalTransactionDialog {
   late final TextEditingController _addMoneyController;
   late final TextEditingController _addRemarksController;
   late final TextEditingController _addTitleController;
-  late final PersonalTransactionService _personalTransactionService;
-  late final DateTimeService _dateTimeService;
+  late final PersonalTransactionProvider _personalTransactionProvider;
+  late final DateTimeProvider _dateTimeService;
   late final User _user;
   late final BuildContext context;
 
@@ -28,10 +24,10 @@ class AddPersonalTransactionDialog {
   }
 
   void _initProviders() {
-    _personalTransactionService =
-        getProvider<PersonalTransactionService>(context);
-    _dateTimeService = getProvider<DateTimeService>(context);
-    _user = getProvider<UserService>(context).user;
+    _personalTransactionProvider =
+        getProvider<PersonalTransactionProvider>(context);
+    _dateTimeService = getProvider<DateTimeProvider>(context);
+    _user = getProvider<UserProvider>(context).user;
   }
 
   void _initControllers() {
@@ -72,7 +68,7 @@ class AddPersonalTransactionDialog {
         userId: _user.uid,
       );
 
-      await _personalTransactionService.addTransaction(newTransaction, _user);
+      await _personalTransactionProvider.addTransaction(newTransaction);
       _dateTimeService.setDateTime(DateTime.now());
       state.pop();
     } catch (e) {

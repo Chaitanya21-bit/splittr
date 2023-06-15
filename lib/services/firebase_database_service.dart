@@ -11,8 +11,9 @@ class FirebaseDatabaseService{
     await database.ref(path).update(data);
   }
 
-  static Future<Map<String, dynamic>?> get(String path) async{
+  static Future<Map<String, dynamic>?> get<T>(String path) async{
     final snapshot = await database.ref(path).get();
+    debugPrint("\n\n---------Firebase Get $T---------\n${snapshot.value}\n\n");
     return !snapshot.exists ? null : Map<String, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
   }
 

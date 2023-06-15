@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splitter/components/dialogs/dialogs.dart';
 import 'package:splitter/dataclass/user.dart' as model;
-import 'package:splitter/services/services.dart';
+import 'package:splitter/providers/providers.dart';
+
 import '../utils/get_provider.dart';
 
 class AuthWidgetBuilder extends StatelessWidget {
@@ -11,9 +13,9 @@ class AuthWidgetBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userService = getProvider<UserService>(context);
+    final userProvider = getProvider<UserProvider>(context);
     return StreamBuilder<User?>(
-      stream: FirebaseAuthService.auth.authStateChanges(),
+      stream: userProvider.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> authUserSnapshot) {
         if (authUserSnapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -23,33 +25,36 @@ class AuthWidgetBuilder extends StatelessWidget {
         }
         if (authUserSnapshot.data == null) return builder();
 
-        Future<model.User?> future =
-            userService.retrieveUserInfo(authUserSnapshot.data!.uid);
+        Future<model.User?> future = userProvider.retrieveUserInfo();
 
         return FutureBuilder<model.User?>(
-            future: future,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox(
-                    child: DecoratedBox(
-                        decoration: const BoxDecoration(color: Colors.white),
-                        child: Image.asset("assets/SplittrLogo.png")));
-              }
-              if (snapshot.data == null) return builder();
-
-              model.User user = snapshot.data!;
-
-              return MultiProvider(
-                providers: [
-                  ChangeNotifierProvider<PersonalTransactionService>(
-                    create: (_) => PersonalTransactionService()..fetchTransactions(user.personalTransactions),
-                  ),
-                  ChangeNotifierProvider<GroupService>(create: (_) => GroupService()..fetchGroups(user.groups)),
-                  Provider<DynamicLinkService>(create: (_) => DynamicLinkService())
-                ],
-                child: builder(),
-              );
-            },);
+          future: future,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SizedBox(
+                  child: DecoratedBox(
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Image.asset("assets/SplittrLogo.png")));
+            }
+            if (snapshot.data == null) return builder();
+            debugPrint("User Retrieved");
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<PersonalTransactionProvider>(
+                  create: (_) => PersonalTransactionProvider(userProvider)
+                    ..fetchTransactions(),
+                ),
+                ChangeNotifierProvider<GroupProvider>(
+                  create: (_) => GroupProvider(userProvider)..fetchGroups(),
+                ),
+                ChangeNotifierProvider<JoinGroupProvider>(
+                  create: (context) => JoinGroupProvider(context),
+                ),
+              ],
+              child: builder(),
+            );
+          },
+        );
       },
     );
   }
