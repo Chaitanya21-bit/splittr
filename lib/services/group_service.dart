@@ -4,10 +4,22 @@ import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/services/firebase_database_service.dart';
 
 class GroupService {
-  Future<void> addGroupToDatabase(Group group) async {
+  Future<void> createGroupInDatabase(Group group) async {
     await FirebaseDatabaseService.set(
         '$groupsEndpoint${group.gid}', group.toJson());
     debugPrint("Group Added in Database");
+  }
+
+  Future<void> updateGroup(Group group) async {
+    await FirebaseDatabaseService.update(
+        '$groupsEndpoint${group.gid}', group.toJson());
+    debugPrint("Group Updated in Database");
+  }
+
+  Future<void> addGroupTransaction(Group group, GroupTransaction groupTransaction) async {
+    await updateGroup(group);
+    await FirebaseDatabaseService.set("$transactionsEndpoint${groupTransaction.tid}", groupTransaction.toJson());
+    debugPrint("Added Group Transaction");
   }
 
   Future<Group?> getGroupFromDatabase(String groupId) async {

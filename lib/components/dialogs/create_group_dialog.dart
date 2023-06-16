@@ -58,7 +58,7 @@ class CreateGroupDialog {
           totalAmount: 0,
           members: [_user],
           transactions: []);
-      await _groupProvider.addGroup(group);
+      await _groupProvider.createGroup(group);
       state.pop();
     } catch (e) {
       Fluttertoast.showToast(msg: "Failed to create Group");

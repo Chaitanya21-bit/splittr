@@ -18,7 +18,7 @@ class GroupsWidget extends StatelessWidget {
     }
     return groupProvider.groups.isEmpty
         ? const EmptyGroups()
-        : GroupsListView(groupsList: groupProvider.groups.reversed.toList());
+        : GroupsListView(groupsList: groupProvider.groups);
   }
 }
 
@@ -32,14 +32,15 @@ class GroupsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final itemCount = groupsList.length;
     return ListView.builder(
-        itemCount: groupsList.length,
+        itemCount: itemCount,
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return GroupCard(
-            group: groupsList[index],
-            index: index,
+            group: groupsList[itemCount-index-1],
+            index: itemCount-index-1,
           );
         });
   }

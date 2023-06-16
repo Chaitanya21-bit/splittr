@@ -25,7 +25,7 @@ class GroupTransaction {
           tid: json["tid"],
           creatorId: json["creatorId"],
           title: json["title"],
-          amount: double.parse(json["amount"]),
+          amount: double.parse(json["amount"].toString()),
           date: DateTime.parse(json['date']),
           remarks: json["remarks"],
           category: json["category"],
