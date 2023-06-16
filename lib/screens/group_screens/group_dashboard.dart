@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:splitter/components/dialogs/add_group_transaction_dialog.dart';
 import 'package:splitter/providers/providers.dart';
 
 import '../../components/dialogs/dialogs.dart';
@@ -18,13 +19,13 @@ class GroupDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupService = getProvider<GroupProvider>(context);
+    final groupService = getProvider<GroupProvider>(context,listen: true);
     final group = groupService.getCurrentGroup();
     final user = getProvider<UserProvider>(context).user;
     return Scaffold(
         floatingActionButton: ElevatedButton.icon(
           onPressed: () async {
-            await openDialogue(context, group, user);
+            AddGroupTransactionDialog(context).show();
           },
           style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
@@ -167,11 +168,8 @@ class GroupDashboard extends StatelessWidget {
                 itemCount: group.transactions.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  if (index == group.transactions.length) {
-                    return const SizedBox(height: 75.0);
-                  }
                   // return TransactionItem(transItem: group.transactions[index]);
-                  return const SizedBox();
+                  return Text(group.transactions[index].title);
                 }),
           ],
         )));

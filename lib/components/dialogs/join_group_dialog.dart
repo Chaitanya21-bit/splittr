@@ -44,9 +44,9 @@ class JoinGroupProvider extends ChangeNotifier {
     }
   }
 
-  addGroup(BuildContext context) async {
+  joinGroup(BuildContext context) async {
     AuthUtils.showLoadingDialog(context);
-    await _groupProvider.addGroup(_group!);
+    await _groupProvider.joinGroup(_group!);
     if(context.mounted){
       Navigator.pop(context);
       Navigator.pop(context);
@@ -121,7 +121,7 @@ class JoinGroupWidget extends StatelessWidget {
           child: const Text("Cancel"),
         ),
         ElevatedButton(
-          onPressed: () => joinGroupProvider.isGroupPresent ? joinGroupProvider.addGroup(context): joinGroupProvider.searchGroup(context),
+          onPressed: () => joinGroupProvider.isGroupPresent ? joinGroupProvider.joinGroup(context): joinGroupProvider.searchGroup(context),
           style: ButtonStyle(
             // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
             backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
