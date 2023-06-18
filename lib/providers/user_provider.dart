@@ -8,10 +8,8 @@ class UserProvider extends ChangeNotifier {
 
   User get user => _user;
   final UserService _userService = UserService();
-  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
 
-  Future<User?> retrieveUserInfo() async {
-    String uid = _firebaseAuthService.auth.currentUser!.uid;
+  Future<User?> retrieveUserInfo(String uid) async {
     final prefsUser = await _userService.getUserFromPrefs(uid);
     if (prefsUser != null) {
       _user = prefsUser;
@@ -25,14 +23,6 @@ class UserProvider extends ChangeNotifier {
     }
     return _user;
   }
-
-  // void signOut() async {
-  //   await _firebaseAuthService.signOut();
-  // }
-  //
-  // Stream<auth.User?> authStateChanges() {
-  //   return _firebaseAuthService.authStateChanges();
-  // }
 
   Future<void> addTransaction(String transactionId) async {
     _user.personalTransactions.add(transactionId);

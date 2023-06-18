@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/route_generator.dart';
 import 'package:splitter/screens/auth_widget_builder.dart';
