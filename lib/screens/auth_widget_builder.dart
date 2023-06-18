@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/components/dialogs/dialogs.dart';
 import 'package:splitter/dataclass/user.dart' as model;
-import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/providers/providers.dart';
 
 import '../utils/get_provider.dart';
@@ -27,7 +26,8 @@ class AuthWidgetBuilder extends StatelessWidget {
         }
         if (authUserSnapshot.data == null) return builder();
 
-        Future<model.User?> future = userProvider.retrieveUserInfo();
+        Future<model.User?> future =
+            userProvider.retrieveUserInfo(authUserSnapshot.data!.uid);
 
         return FutureBuilder<model.User?>(
           future: future,
