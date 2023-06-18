@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
 import 'package:splitter/dataclass/user.dart';
 
@@ -9,9 +8,10 @@ class UserProvider extends ChangeNotifier {
 
   User get user => _user;
   final UserService _userService = UserService();
+  final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
 
   Future<User?> retrieveUserInfo() async {
-    String uid = FirebaseAuthService.auth.currentUser!.uid;
+    String uid = _firebaseAuthService.auth.currentUser!.uid;
     final prefsUser = await _userService.getUserFromPrefs(uid);
     if (prefsUser != null) {
       _user = prefsUser;
@@ -26,13 +26,13 @@ class UserProvider extends ChangeNotifier {
     return _user;
   }
 
-  void signOut() async {
-    await _userService.signOut();
-  }
-
-  Stream<auth.User?> authStateChanges() {
-    return _userService.authStateChanges();
-  }
+  // void signOut() async {
+  //   await _firebaseAuthService.signOut();
+  // }
+  //
+  // Stream<auth.User?> authStateChanges() {
+  //   return _firebaseAuthService.authStateChanges();
+  // }
 
   Future<void> addTransaction(String transactionId) async {
     _user.personalTransactions.add(transactionId);
@@ -43,6 +43,7 @@ class UserProvider extends ChangeNotifier {
     _user.personalTransactions.remove(transactionId);
     await updateUser();
   }
+
   Future<void> addGroup(String groupId) async {
     _user.groups.add(groupId);
     await updateUser();
@@ -52,8 +53,6 @@ class UserProvider extends ChangeNotifier {
     _user.groups.remove(groupId);
     await updateUser();
   }
-
-
 
   Future<void> updateUser() async {
     await _userService.updateUserToDatabase(user);

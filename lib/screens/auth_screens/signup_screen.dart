@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitter/components/custom_text_field.dart';
+import 'package:splitter/dataclass/dataclass.dart';
+import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/utils/auth_utils.dart';
-import '../../services/firebase_auth_service.dart';
+import 'package:splitter/utils/get_provider.dart';
+
 import '../../size_config.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -70,11 +70,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: TextStyle(color: Colors.black, fontSize: 40),
           ),
         ),
-        InputTextField(controller: emailController, labelText: 'Email', padding: padding,),
-        InputTextField(controller: nameController, labelText: 'Name', padding: padding,),
-        InputTextField(controller: aliasController, labelText: 'Alias', padding: padding,),
-        InputTextField(controller: passwordController, labelText: 'Password', padding: padding,),
-        InputTextField(controller: cnfPasswordController, labelText: 'Confirm Password', padding: padding,),
+        InputTextField(
+          controller: emailController,
+          labelText: 'Email',
+          padding: padding,
+        ),
+        InputTextField(
+          controller: nameController,
+          labelText: 'Name',
+          padding: padding,
+        ),
+        InputTextField(
+          controller: aliasController,
+          labelText: 'Alias',
+          padding: padding,
+        ),
+        InputTextField(
+          controller: passwordController,
+          labelText: 'Password',
+          padding: padding,
+        ),
+        InputTextField(
+          controller: cnfPasswordController,
+          labelText: 'Confirm Password',
+          padding: padding,
+        ),
         Padding(
           padding: EdgeInsets.only(
             top: SizeConfig.screenHeight * 0.035,
@@ -110,16 +130,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> registerUser(BuildContext context) async {
     AuthUtils.showLoadingDialog(context);
-    final userMap = {
-      'name': nameController.text,
-      'alias': aliasController.text,
-      'email': emailController.text,
-      'phoneNo': "883467",
-      'groups': [],
-      'personalTransactions': []
-    };
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('userMap', jsonEncode(userMap));
-    await FirebaseAuthService.signUp(emailController.text, passwordController.text);
+    final user = User(
+        uid: "",
+        name: nameController.text,
+        alias: aliasController.text,
+        email: emailController.text,
+        phoneNo: "28274",
+        groups: [],
+        personalTransactions: [],
+        limit: -1);
+    await getProvider<FirebaseAuthProvider>(context)
+        .signUpWithEmail(emailController.text, passwordController.text, user);
   }
 }

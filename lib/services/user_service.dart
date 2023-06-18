@@ -32,14 +32,6 @@ class UserService {
     return User.fromJson(json);
   }
 
-  Future<void> signOut() async {
-    return FirebaseAuthService.signOut();
-  }
-
-  Stream<auth.User?> authStateChanges() {
-    return FirebaseAuthService.auth.authStateChanges();
-  }
-
   updateUserToDatabase(User user) async {
     await FirebaseDatabaseService.update(usersEndpoint+user.uid, user.toJson());
   }

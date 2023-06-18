@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splitter/components/dialogs/dialogs.dart';
 import 'package:splitter/dataclass/user.dart' as model;
+import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/providers/providers.dart';
 
 import '../utils/get_provider.dart';
@@ -14,8 +15,9 @@ class AuthWidgetBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = getProvider<UserProvider>(context);
+    final authProvider = getProvider<FirebaseAuthProvider>(context);
     return StreamBuilder<User?>(
-      stream: userProvider.authStateChanges(),
+      stream: authProvider.authStateChanges(),
       builder: (BuildContext context, AsyncSnapshot<User?> authUserSnapshot) {
         if (authUserSnapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(

@@ -10,12 +10,21 @@ import 'package:splitter/screens/group_screens/group_dashboard.dart';
 import 'package:splitter/screens/main_dashboard/main_dashboard.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-
+  static Route<dynamic> signedOutRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
+      case Routes.singUp:
+        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      default:
+        return _errorRoute();
+    }
+  }
+
+  static Route<dynamic> signedInRoute(RouteSettings settings) {
+    final args = settings.arguments;
+
+    switch (settings.name) {
       case Routes.home:
         return MaterialPageRoute(
           builder: (_) => Provider<DynamicLinksProvider>(
@@ -33,10 +42,6 @@ class RouteGenerator {
                 ));
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
-
-      case Routes.singUp:
-        return MaterialPageRoute(builder: (_) => const SignUpScreen());
-
       default:
         return _errorRoute();
     }
