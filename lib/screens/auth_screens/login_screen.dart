@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/services/firebase_auth_service.dart';
+import 'package:splitter/utils/get_provider.dart';
 import '../../components/custom_text_field.dart';
 import '../../constants/routes.dart';
 import '../../size_config.dart';
@@ -114,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   login(BuildContext context) async {
     AuthUtils.showLoadingDialog(context);
-    await FirebaseAuthService.signInWithEmail(
+    await getProvider<FirebaseAuthProvider>(context).signInWithEmail(
         email: emailController.text, password: passwordController.text);
   }
 }

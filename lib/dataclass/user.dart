@@ -6,7 +6,7 @@ class User {
   String phoneNo;
   List<String> groups;
   List<String> personalTransactions;
-  double? limit;
+  double limit;
 
   User(
       {required this.uid,

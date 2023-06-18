@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/screens/main_dashboard/components/buttons/add_transaction_button.dart';
 import 'package:splitter/screens/main_dashboard/components/buttons/create_group_button.dart';
 import 'package:splitter/screens/main_dashboard/components/buttons/join_group_button.dart';
 import 'package:splitter/screens/main_dashboard/components/widgets/groups_widget.dart';
 import 'package:splitter/screens/main_dashboard/components/widgets/personal_transactions_widget.dart';
-import 'package:splitter/services/services.dart';
-
 import '../../size_config.dart';
 import '../../utils/get_provider.dart';
 import '../drawer_screens/profile.dart';
@@ -17,6 +16,7 @@ class MainDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = getProvider<UserProvider>(context).user;
+    final authProvider = getProvider<FirebaseAuthProvider>(context);
     SizeConfig().init(context);
     // final dynamic appBar = AppBar(
     //   title: const Text('Dashboard'),
@@ -55,7 +55,7 @@ class MainDashboard extends StatelessWidget {
                     width: SizeConfig.screenHeight * 0.2,
                   )),
               IconButton(
-                  onPressed: () => FirebaseAuthService.signOut(),
+                  onPressed: () => authProvider.signOut(),
                   icon: const Icon(Icons.logout)),
               IconButton(
                   onPressed: () {
