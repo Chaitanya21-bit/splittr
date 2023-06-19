@@ -15,8 +15,15 @@ class GroupProvider extends ChangeNotifier{
   bool get isLoading => _isLoading;
 
   late int _selectedIndex;
-  Group getCurrentGroup() => _groups[_selectedIndex];
+  Group getCurrentGroup() {
+    // calcTotal();
+    return _groups[_selectedIndex];
+  }
 
+  // void calcTotal() {
+  //   var sum = _groups[_selectedIndex].transactions.add()
+  //   _groups[_selectedIndex].totalAmount = sum;
+  // }
   GroupProvider(this._userProvider);
 
   void setCurrentGroup(int index){
@@ -59,6 +66,9 @@ class GroupProvider extends ChangeNotifier{
       return;
     }
     group.members.add(User.basicInfo(_userProvider.user.toJson()));
+
+    //Code here to add in Matrix
+
     _groups.add(group);
     await _userProvider.addGroup(group.gid);
     await updateGroup(group);
@@ -71,4 +81,5 @@ class GroupProvider extends ChangeNotifier{
     await _groupService.addGroupTransaction(group, groupTransaction);
     notifyListeners();
   }
+
 }

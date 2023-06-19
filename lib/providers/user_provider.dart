@@ -8,6 +8,7 @@ class UserProvider extends ChangeNotifier {
 
   User get user => _user;
   final UserService _userService = UserService();
+  final FirebaseAuthService _authService = FirebaseAuthService();
 
   Future<User?> retrieveUserInfo(String uid) async {
     final prefsUser = await _userService.getUserFromPrefs(uid);
@@ -18,6 +19,7 @@ class UserProvider extends ChangeNotifier {
       if (dbUser != null) {
         _user = dbUser;
       } else {
+        await _authService.signOut();
         return null;
       }
     }
@@ -49,4 +51,5 @@ class UserProvider extends ChangeNotifier {
     debugPrint("User Updated");
     notifyListeners();
   }
+
 }

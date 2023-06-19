@@ -70,15 +70,42 @@ class AddGroupTransactionDialog {
           category: "category",
           splitBetween: List<String>.generate(
               _group.members.length,
-              (index) => _group.members[index].uid));
+              (index) => _group.members[index].uid)
+      );
       await _groupProvider.addGroupTransaction(groupTransaction);
 
       _dateTimeProvider.setDateTime(DateTime.now());
+
+      addSettelment();
+
       state.pop();
     } catch (e) {
       debugPrint(e.toString());
     }
     _exit();
+  }
+
+  Future<void> addSettelment() async {
+
+    _group.totalAmount = _group.totalAmount + double.parse(_addMoneyController.text);
+    //Subtract when delete the transaction
+
+    //Make Group Object and Update in DB
+    Group group = Group(
+        groupName: _group.groupName,
+        gid: _group.gid,
+        groupDescription: _group.groupDescription,
+        groupLimit: _group.groupLimit,
+        link: _group.link,
+        totalAmount: _group.totalAmount,
+        members: _group.members,
+        transactions: _group.transactions,
+    );
+
+    //Group
+    await _groupProvider.updateGroup(group);
+
+    //Make Matrix in Group
   }
 
   show() {
@@ -152,7 +179,6 @@ class AddGroupTransactionDialog {
                   ElevatedButton(
                     onPressed: () => {},
                     style: ButtonStyle(
-                      // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                       backgroundColor:
                       MaterialStateProperty.all(const Color(0xff1870B5)),
                       overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
@@ -165,7 +191,6 @@ class AddGroupTransactionDialog {
             ElevatedButton(
               onPressed: _exit,
               style: ButtonStyle(
-                // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor:
                 MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
@@ -175,7 +200,6 @@ class AddGroupTransactionDialog {
             ElevatedButton(
               onPressed: _createTransaction,
               style: ButtonStyle(
-                // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
                 backgroundColor:
                 MaterialStateProperty.all(const Color(0xff1870B5)),
                 overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
@@ -187,4 +211,5 @@ class AddGroupTransactionDialog {
       },
     );
   }
+
 }

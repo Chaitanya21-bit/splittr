@@ -49,6 +49,7 @@ class CreateGroupDialog {
       AuthUtils.showLoadingDialog(context);
       NavigatorState state = Navigator.of(context);
       Uri link = await _dynamicLinksProvider.createDynamicLink(_uuid);
+
       Group group = Group(
           gid: _uuid,
           groupName: _groupNameController.text,
@@ -57,7 +58,8 @@ class CreateGroupDialog {
           groupLimit: double.tryParse(_groupLimitController.text),
           totalAmount: 0,
           members: [_user],
-          transactions: []);
+          transactions: [],
+      );
       await _groupProvider.createGroup(group);
       state.pop();
     } catch (e) {

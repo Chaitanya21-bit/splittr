@@ -25,7 +25,9 @@ class UserService {
   }
 
   Future<User?> getUserFromDatabase(String uid) async {
+    print("Hello");
     final json = await FirebaseDatabaseService.get<User>("$usersEndpoint$uid");
+    print(json);
     if (json == null) return null;
 
     debugPrint("Retrieving User Info from database");

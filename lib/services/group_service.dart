@@ -35,6 +35,7 @@ class GroupService {
       json['members'] =
           await getMembersJson((json['members'] as List).map((e) => e.toString()).toList());
     }
+
     return Group.fromJson(json);
   }
 
@@ -49,8 +50,7 @@ class GroupService {
     return transactionsJson;
   }
 
-  Future<List<Map<String, dynamic>>> getMembersJson(
-      List<String> membersId) async {
+  Future<List<Map<String, dynamic>>> getMembersJson(List<String> membersId) async {
     final List<Map<String, dynamic>> members = [];
     for (String memberId in membersId) {
       final json = await FirebaseDatabaseService.get<User>("$usersEndpoint$memberId");
