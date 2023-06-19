@@ -11,15 +11,19 @@ class Group {
   late Uri link;
   late double totalAmount;
 
+
+
   Group(
-      {required this.groupName,
-      required this.gid,
-      required this.groupDescription,
-      required this.groupLimit,
-      required this.link,
-      required this.totalAmount,
-      required this.members,
-      required this.transactions});
+      {
+        required this.groupName,
+        required this.gid,
+        required this.groupDescription,
+        required this.groupLimit,
+        required this.link,
+        required this.totalAmount,
+        required this.members,
+        required this.transactions,
+      });
 
   static Group fromJson(Map<String, dynamic> json) => Group(
         groupName: json['groupName'],
@@ -36,7 +40,8 @@ class Group {
         transactions: json['transactions'] == null ? [] :(json['transactions'] as List)
             .map((e) => GroupTransaction.fromJson(e))
             .toList(),
-      );
+
+  );
 
   Map<String, dynamic> toJson() => {
         'groupName': groupName,

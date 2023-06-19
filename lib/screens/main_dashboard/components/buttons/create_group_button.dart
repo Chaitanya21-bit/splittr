@@ -23,7 +23,6 @@ class CreateGroupButton extends StatelessWidget {
           elevation: 5,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
-
             //minimumSize: Size(100, 40),
           )),
       icon: const Text("Create"),

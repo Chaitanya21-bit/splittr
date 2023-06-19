@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:splitter/colors.dart';
 import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/providers/providers.dart';
 
@@ -61,14 +62,12 @@ class GroupCard extends StatelessWidget {
           );
         },
         child: Card(
-          color: Colors.teal[400],
-          margin: const EdgeInsets.all(6),
+          color: AppColors().white,
           elevation: 8,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(5),
           ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(15.0),
             onTap: () {
               groupProvider.setCurrentGroup(index);
               Navigator.pushNamed(context, Routes.grpDash);
@@ -77,26 +76,12 @@ class GroupCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.deepPurple[800],
-                      border: Border.all(
-                        // color: Theme.of(context).primaryColor,
-                        color: Colors.limeAccent,
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
+                  child: Padding(padding: EdgeInsets.only(top: 10),
+                   child:Text(
                       group.groupName,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+                      style: TextStyle(
+                        color: AppColors().black,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -104,41 +89,44 @@ class GroupCard extends StatelessWidget {
                       maxLines: 2,
                     ),
                   ),
-                ),
+          ),
                 Expanded(
                   flex: 1,
-                  child: Text(
-                    'Members : ${group.members.length}',
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 20,
+                    ),
+                    child: Text(
+                    '${group.members.length} Members',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple[800],
+                      color: AppColors().black,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
+                ),
                 Expanded(
-                  flex: 2,
+                  flex: 0,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(2),
                     child:
-                        // Text(group.link.toString(),
-                        //     );
+                        // group.link.toString(),
                         TextButton.icon(
-                      // <-- TextButton
-                      onPressed: () {
-                        _copyToClipboard();
-                      },
-                      label: Text(group.link.toString()),
-                      icon: const Icon(
-                        Icons.copy,
-                        size: 24.0,
-                      ),
-                      style: ButtonStyle(
-                        foregroundColor:
-                            MaterialStateProperty.all(const Color(0xff1870B5)),
-                      ),
-                    ),
+                          onPressed: () {
+                            _copyToClipboard();
+                          },
+                          label: Text("Copy Link"),
+                          icon: const Icon(
+                            Icons.copy,
+                            size: 24.0,
+                          ),
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(AppColors().purple),
+                            ),
+                        ),
                   ),
                 ),
               ],

@@ -38,7 +38,10 @@ class AuthWidgetBuilder extends StatelessWidget {
                       decoration: const BoxDecoration(color: Colors.white),
                       child: Image.asset("assets/SplittrLogo.png")));
             }
-            if (snapshot.data == null) return builder();
+
+            if (snapshot.data == null) {
+              print("Build");
+              return builder();}
             debugPrint("User Retrieved");
             return MultiProvider(
               providers: [

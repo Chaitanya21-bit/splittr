@@ -123,16 +123,17 @@ class GroupDashboard extends StatelessWidget {
                 ),
               ),
             ),
-            Text('Group Total : ${group.totalAmount.toString()}'),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: group.members.length,
-                //user data toh empty hai bc // nahi h khali ab mc
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Text(group.members[index].name.toString()),
-                  );
-                }),
+              Text('Group Total : ${group.totalAmount.toString()}'),
+              Text('Your Share : ${calcShare()}'),
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: group.members.length,
+                  //user data toh empty hai bc // nahi h khali ab mc
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: Text(group.members[index].name.toString()),
+                    );
+                  }),
 
             // Row(
             //     children: [
@@ -143,35 +144,35 @@ class GroupDashboard extends StatelessWidget {
             //     )
             //   ]
             // ),
-
-            Text(group.gid),
-            Text(group.members.toString()),
-            Text(group.groupName),
-            Text("You are ${user.name}"),
-            OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Color(0xff223146),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+              Text("You are ${user.name}"),
+              OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Color(0xff223146),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
+                child: const Text('See Settelment'),
               ),
-              child: const Text('See Settelment'),
-            ),
-            const Divider(
-              color: Colors.black,
-              indent: 50,
-              endIndent: 50,
-              thickness: 2,
-            ),
-            ListView.builder(
-                itemCount: group.transactions.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  // return TransactionItem(transItem: group.transactions[index]);
-                  return Text(group.transactions[index].title);
-                }),
+              const Divider(
+                color: Colors.black,
+                indent: 50,
+                endIndent: 50,
+                thickness: 2,
+              ),
+              ListView.builder(
+                  itemCount: group.transactions.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    // return TransactionItem(transItem: group.transactions[index]);
+                    return Text('        ${group.transactions[index].amount.toString()}');
+                  }),
           ],
         )));
+  }
+
+  calcShare() {
+    return 'Hello';
   }
 }

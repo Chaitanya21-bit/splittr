@@ -8,6 +8,7 @@ class User {
   List<String> personalTransactions;
   double limit;
 
+
   User(
       {required this.uid,
       required this.name,
@@ -29,7 +30,7 @@ class User {
       personalTransactions: json['personalTransactions'] == null
           ? []
           : List<String>.from(json['personalTransactions']),
-      limit: double.parse(json['limit'].toString()),
+      limit: json['limit']==null?-1:double.parse(json['limit'].toString()),
     );
   }
 

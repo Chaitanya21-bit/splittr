@@ -6,6 +6,9 @@ import 'package:splitter/screens/main_dashboard/components/buttons/create_group_
 import 'package:splitter/screens/main_dashboard/components/buttons/join_group_button.dart';
 import 'package:splitter/screens/main_dashboard/components/widgets/groups_widget.dart';
 import 'package:splitter/screens/main_dashboard/components/widgets/personal_transactions_widget.dart';
+import 'package:splitter/services/services.dart';
+
+import '../../components/background.dart';
 import '../../size_config.dart';
 import '../../utils/get_provider.dart';
 import '../drawer_screens/profile.dart';
@@ -40,53 +43,60 @@ class MainDashboard extends StatelessWidget {
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       floatingActionButton: const AddPersonalTransactionButton(),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body:
+          BackgroundStack(builder:  Column(
             children: [
-              Padding(
-                  padding: EdgeInsets.only(
-                    top: SizeConfig.screenHeight * 0.05,
-                    // bottom: SizeConfig.screenHeight * 0.05,
-                  ),
-                  child: Image.asset(
-                    "assets/SplittrLogo.png",
-                    width: SizeConfig.screenHeight * 0.2,
-                  )),
-              IconButton(
-                  onPressed: () => authProvider.signOut(),
-                  icon: const Icon(Icons.logout)),
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()),
-                    );
-                  },
-                  icon: const Icon(Icons.account_circle_sharp)),
-              // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
-            ],
-          ),
-          //Name
-          Padding(
-            padding: EdgeInsets.only(
-                top: SizeConfig.screenHeight * 0.015, right: 0, left: 0),
-            child: Text(
-              user.name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                        top: SizeConfig.screenHeight * 0.05,
+                        // bottom: SizeConfig.screenHeight * 0.05,
+                      ),
+                      child: Image.asset(
+                        "assets/SplittrLogo.png",
+                        width: SizeConfig.screenHeight * 0.2,
+                      )),
+                  IconButton(
+                      onPressed: () => {Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()),
+                        )
+                      },
+                      icon: const Icon(Icons.logout)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()),
+                        );
+                      },
+                      icon: const Icon(Icons.account_circle_sharp)),
+                  // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
+                ],
               ),
-            ),
-          ),
+              //Name
+              Padding(
+                padding: EdgeInsets.only(
+                    top: SizeConfig.screenHeight * 0.015, right: 0, left: 0),
+                child: Text(
+                  user.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
 
-          buildGroupButtons(),
-          buildGroups(),
-          buildTransactions(),
-        ],
-      ),
+              buildGroupButtons(),
+              buildGroups(),
+              buildTransactions(),
+            ],
+          ),)
+
     );
   }
 
@@ -96,7 +106,7 @@ class MainDashboard extends StatelessWidget {
         top: SizeConfig.screenHeight * 0.01,
         bottom: SizeConfig.screenHeight * 0.01,
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CreateGroupButton(),
@@ -108,14 +118,15 @@ class MainDashboard extends StatelessWidget {
 
   Widget buildGroups() {
     return const Expanded(
-      flex: 4,
+      flex: 2,
       child: GroupsWidget(),
     );
+    // return GroupsWidget();
   }
 
   Widget buildTransactions() {
     return const Expanded(
-      flex: 8,
+      flex: 4,
       child: PersonalTransactionsWidget(),
     );
   }

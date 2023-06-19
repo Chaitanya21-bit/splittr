@@ -114,7 +114,6 @@ class JoinGroupWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: () => joinGroupProvider.exit(context),
           style: ButtonStyle(
-            // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
             backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
             overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
           ),
@@ -123,7 +122,6 @@ class JoinGroupWidget extends StatelessWidget {
         ElevatedButton(
           onPressed: () => joinGroupProvider.isGroupPresent ? joinGroupProvider.joinGroup(context): joinGroupProvider.searchGroup(context),
           style: ButtonStyle(
-            // backgroundColor: MaterialStateProperty.all<Color>(Color(0xff42a5f5)),
             backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
             overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
           ),

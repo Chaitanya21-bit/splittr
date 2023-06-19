@@ -10,15 +10,20 @@ class GroupTransaction {
   late String category;
   late List<String> splitBetween;
 
+
+  late String share;
+
   GroupTransaction(
-      {required this.tid,
-      required this.creatorId,
-      required this.title,
-      required this.amount,
-      required this.date,
-      required this.remarks,
-      required this.category,
-      required this.splitBetween});
+      {
+        required this.tid,
+        required this.creatorId,
+        required this.title,
+        required this.amount,
+        required this.date,
+        required this.remarks,
+        required this.category,
+        required this.splitBetween
+      });
 
   factory GroupTransaction.fromJson(Map<String, dynamic> json) =>
       GroupTransaction(
@@ -29,7 +34,8 @@ class GroupTransaction {
           date: DateTime.parse(json['date']),
           remarks: json["remarks"],
           category: json["category"],
-          splitBetween: List<String>.from(json['splitBetween']));
+          splitBetween: List<String>.from(json['splitBetween'])
+      );
 
 
   Map<String, dynamic> toJson() => {

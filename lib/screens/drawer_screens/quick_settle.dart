@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../size_config.dart';
-// import 'package:splitter/main.dart';
-// import '../../auth/firebase_manager.dart';
-// import '../auth_screens/login_screen.dart';
+
 
 class QuickSettle extends StatefulWidget {
   const QuickSettle({Key? key}) : super(key: key);
@@ -27,20 +24,6 @@ class _QuickSettleState extends State<QuickSettle> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Quick Settle'),
-      //   centerTitle: true,
-      //   backgroundColor: const Color(0xff1870B5),
-      //   actions: [
-      //     IconButton(
-      //         onPressed: () {
-      //           FirebaseManager.auth.signOut();
-      //           Navigator.of(context).pushReplacement(
-      //               MaterialPageRoute(builder: (context) => LoginScreen()));
-      //         },
-      //         icon: const Icon(Icons.logout))
-      //   ],
-      // ),
       body: SingleChildScrollView(
           padding: EdgeInsets.only(
             top: SizeConfig.screenHeight * 0.1,
@@ -133,14 +116,6 @@ Widget userController(
       const SizedBox(
         height: 11,
       ),
-      // Container(
-      //       width: 40,
-      //       height: 40,
-      //       decoration: new BoxDecoration(
-      //       color: Colors.orange,
-      //       shape: BoxShape.circle,
-      //     ),
-      //   ),
       const SizedBox(
         height: 7,
       ),
@@ -178,7 +153,6 @@ Widget userController(
               ),
             ],
           ),
-
     ],
 
   );
