@@ -8,7 +8,7 @@ class GroupTransaction {
   late DateTime date;
   late String remarks;
   late String category;
-  late List<String> splitBetween;
+  late Map<String,double> splitBetween;
 
 
   late String share;
@@ -34,7 +34,7 @@ class GroupTransaction {
           date: DateTime.parse(json['date']),
           remarks: json["remarks"],
           category: json["category"],
-          splitBetween: List<String>.from(json['splitBetween'])
+          splitBetween: Map<String,double>.from(json['splitBetween'])
       );
 
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../dataclass/group.dart';
 import '../../dataclass/user.dart';
+import '../../providers/group_provider.dart';
+import '../../utils/get_provider.dart';
 import 'group_details_dropdown.dart';
 
 Future groupDetails(BuildContext context, Group group) {
@@ -11,6 +13,11 @@ Future groupDetails(BuildContext context, Group group) {
   P.forEach((element) {
     items.add(element.name.toString());
   });
+
+  late final GroupProvider _groupProvider;
+  late final Group _group;
+  _groupProvider = getProvider<GroupProvider>(context);
+  _group = _groupProvider.getCurrentGroup();
 
   return showDialog(
       context: context,
@@ -31,13 +38,13 @@ Future groupDetails(BuildContext context, Group group) {
                         height: 200,
                         width: 200,
                         child: ListView.builder(
-                            itemCount: items.length,
+                            itemCount: _group.members.length,
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
 
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
-                                  title: Text("${items[index]}"));
+                                  title: Text(_group.members[index].name.toString()));
                             }
                         ),
                       ),
