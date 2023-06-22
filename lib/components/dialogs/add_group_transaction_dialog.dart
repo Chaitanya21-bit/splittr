@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/components/custom_text_field.dart';
 import 'package:splitter/components/dialogs/date_picker.dart';
+import 'package:splitter/components/dialogs/split_between_popup.dart';
+import 'package:splitter/components/dialogs/split_between_stful.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
@@ -40,11 +42,11 @@ class AddGroupTransactionDialog {
 
   bool _validate() {
     if (_addTitleController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill title");
+      Fluttertoast.showToast(msg: "Please fill Title");
       return false;
     }
     if (_addMoneyController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill email");
+      Fluttertoast.showToast(msg: "Please fill Amount");
       return false;
     }
     return true;
@@ -68,9 +70,10 @@ class AddGroupTransactionDialog {
           date: _dateTimeProvider.selectedDateTime,
           remarks: _addRemarksController.text,
           category: "category",
-          splitBetween: List<String>.generate(
-              _group.members.length,
-              (index) => _group.members[index].uid)
+          // splitBetween: List<String>.generate(
+          //     _group.members.length,
+          //     (index) => _group.members[index].uid)
+          splitBetween: splitMap(),
       );
       await _groupProvider.addGroupTransaction(groupTransaction);
 
@@ -85,8 +88,24 @@ class AddGroupTransactionDialog {
     _exit();
   }
 
+  splitMap() {
+    List Members = List<String>.generate(
+            _group.members.length,
+            (index) => _group.members[index].uid
+    );
+    double evenAmount = double.parse(_addMoneyController.text)/_group.members.length;
+    final evenSplit = { for (var item in Members) item.toString() : evenAmount };
+    print(evenSplit);
+
+    //CustomSplit TO DO
+    return evenSplit;
+  }
+
+
+
   Future<void> addSettelment() async {
 
+    //Update Total Amount
     _group.totalAmount = _group.totalAmount + double.parse(_addMoneyController.text);
     //Subtract when delete the transaction
 
@@ -177,7 +196,14 @@ class AddGroupTransactionDialog {
                     height: 20,
                   ),
                   ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      if (_addMoneyController.text.isEmpty) {
+                        Fluttertoast.showToast(msg: "Please fill Amount")
+                      }
+                      else{
+                        SplitBetweenDialog(context,amount: double.parse(_addMoneyController.text)).show()
+                      }
+                      },
                     style: ButtonStyle(
                       backgroundColor:
                       MaterialStateProperty.all(const Color(0xff1870B5)),
@@ -211,5 +237,6 @@ class AddGroupTransactionDialog {
       },
     );
   }
+
 
 }

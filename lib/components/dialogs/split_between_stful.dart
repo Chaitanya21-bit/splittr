@@ -1,3 +1,6 @@
+//Stateful for Radio Button
+
+
 import 'package:flutter/material.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/size_config.dart';
@@ -7,42 +10,51 @@ import '../../dataclass/dataclass.dart';
 import '../../utils/get_provider.dart';
 import '../cards/set_split_card.dart';
 
-class SplitBetweenDialog {
-
-  //Radio btn not working
+class SplitBetweenDialogSTFUL extends StatefulWidget{
 
   late final BuildContext context;
   late double amount;
 
   late final GroupProvider _groupProvider;
   late final Group _group;
-  late final User _user;
-  int customEditValue = 1;
 
 
-  SplitBetweenDialog(this.context,{required double this.amount}) {
+  SplitBetweenDialogSTFUL(this.context,{super.key, required this.amount}) {
     _initProviders();
+    print("Constructor");
   }
-
 
   void _initProviders() {
     _groupProvider = getProvider<GroupProvider>(context);
     _group = _groupProvider.getCurrentGroup();
-    _user = getProvider<UserProvider>(context).user;
+  }
+  @override
+  State<SplitBetweenDialogSTFUL> createState() => _SplitBetweenDialogSTFULState();
+}
+
+class _SplitBetweenDialogSTFULState extends State<SplitBetweenDialogSTFUL> {
+  int customEditValue = 1;
+
+  //NOT GOING IN BUILD FUNCTION
+  @override
+  Widget build(BuildContext context) {
+    print("Build");
+    return show();
   }
 
   _exit() {
-    Navigator.pop(context);
+    Navigator.pop(widget.context);
   }
+
   void _RadioChanged(int? value) {
-    // setState(() {
-    customEditValue = 1;
-    // });
+    setState(() {
+      customEditValue = value!;
+    });
   }
-  // _createTransaction() async {
+
   show() {
-    showDialog(
-      context: context,
+    return showDialog(
+      context: widget.context,
       builder: (context) {
         return AlertDialog(
           scrollable: true,
@@ -66,16 +78,16 @@ class SplitBetweenDialog {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Center(
-                      child: Text(_group.groupName),
+                      child: Text(widget._group.groupName),
                     ),
-                    Text('${amount.toString()}'),
+                    Text(widget.amount.toString()),
                     RadioListTile(
                       title: Text('Split Evenly'),
                       value: 0,
                       groupValue: customEditValue,
                       onChanged: _RadioChanged,
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.black,
                       height: 1,
                     ),
@@ -85,19 +97,22 @@ class SplitBetweenDialog {
                       groupValue: customEditValue,
                       onChanged: _RadioChanged,
                     ),
+
+
                     //Make this whole as new File stful & pass members, amount to calc split and then call card
+                    //Uss file mai calc karne se constraint daalna easy hoga & card mai calc nai karna padega
 
                     SizedBox(
                       height: 300,
                       width: 300,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _group.members.length,
+                          itemCount: widget._group.members.length,
                           itemBuilder: (context, index) {
                             return SetSplitCard(
-                              memberName: _group.members[index].name.toString(),
-                              amount : amount,
-                              length : _group.members.length,
+                              memberName: widget._group.members[index].name.toString(),
+                              amount : widget.amount,
+                              length : widget._group.members.length,
                             );
                           }),
                     ),
@@ -130,4 +145,5 @@ class SplitBetweenDialog {
       },
     );
   }
+
 }
