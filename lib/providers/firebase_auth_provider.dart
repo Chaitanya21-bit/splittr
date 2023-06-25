@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splitter/dataclass/user.dart' as model;
 import 'package:splitter/services/firebase_auth_service.dart';
+
+import '../utils/toasts.dart';
 
 class FirebaseAuthProvider {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,12 +15,43 @@ class FirebaseAuthProvider {
 
   bool get isUserSignedIn => _auth.currentUser != null;
 
-  Future<void> signUpWithEmail(String email, password, model.User user) async {
+  Future<void> signUpWithEmail(
+      {required String email,
+      required String password,
+      required String cnfPassword,
+      required String name,
+      required String alias}) async {
+    if(email.isEmpty){
+      return showToast("Enter email");
+    }
+    if(name.isEmpty){
+      return showToast("Enter name");
+    }
+    if(alias.isEmpty){
+      return showToast("Enter alias");
+    }
+    if(password.isEmpty){
+      return showToast("Enter password");
+    }
+    if(cnfPassword != password){
+      return showToast("Confirm password should be same as password");
+    }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final user = model.User(
+          uid: "",
+          name: name,
+          alias: alias,
+          email: email,
+          phoneNo: "28274",
+          groups: [],
+          personalTransactions: [],
+          limit: -1);
+
       await prefs.setString('userMap', jsonEncode(user.toJson()));
       await _firebaseAuthService.signUpWithEmail(email, password);
     } on FirebaseAuthException catch (e) {
+      await prefs.remove('userMap');
       String errorMsg = "";
       switch (e.code) {
         case 'email-already-in-use':
@@ -37,25 +69,32 @@ class FirebaseAuthProvider {
         default:
           errorMsg = "Failed to Sign Up.";
       }
-      Fluttertoast.showToast(msg: errorMsg);
+      showToast(errorMsg);
     } catch (e) {
-      Fluttertoast.showToast(msg: "An Error Occurred.");
+      await prefs.remove('userMap');
+      showToast("An Error Occurred.");
     }
   }
 
   Future<void> signInWithEmail(
       {required String email, required String password}) async {
+    if (email.isEmpty) {
+      return showToast("Enter email");
+    }
+    if (password.isEmpty) {
+      return showToast("Enter password");
+    }
     try {
       await _firebaseAuthService.signInWithEmail(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       String errorMsg = "";
       switch (e.code) {
-        case 'user-not-found':
-          errorMsg = "No user found for this email.";
-          break;
         case 'invalid-email':
           errorMsg = "Invalid email.";
+          break;
+        case 'user-not-found':
+          errorMsg = "No user found for this email.";
           break;
         case 'user-disabled':
           errorMsg = "User is disabled.";
@@ -66,9 +105,9 @@ class FirebaseAuthProvider {
         default:
           errorMsg = "Failed to Login.";
       }
-      Fluttertoast.showToast(msg: errorMsg);
+      showToast(errorMsg);
     } catch (e) {
-      Fluttertoast.showToast(msg: "An Error Occurred.");
+      showToast("An Error Occurred.");
     }
   }
 

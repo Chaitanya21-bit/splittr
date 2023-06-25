@@ -4,6 +4,8 @@ import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/services/group_service.dart';
 
+import '../utils/toasts.dart';
+
 class GroupProvider extends ChangeNotifier{
   final List<Group> _groups = [];
   final UserProvider _userProvider;
@@ -62,7 +64,7 @@ class GroupProvider extends ChangeNotifier{
 
   Future<void> joinGroup(Group group) async {
     if(_groups.where((e) => e.gid == group.gid).isNotEmpty){
-      Fluttertoast.showToast(msg: "Already Joined");
+      showToast("Already Joined");
       return;
     }
     group.members.add(User.basicInfo(_userProvider.user.toJson()));

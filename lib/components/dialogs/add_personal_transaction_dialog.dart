@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../dataclass/dataclass.dart';
 import '../../utils/get_provider.dart';
+import '../../utils/toasts.dart';
 
 class AddPersonalTransactionDialog {
   late final TextEditingController _addMoneyController;
@@ -38,11 +39,11 @@ class AddPersonalTransactionDialog {
 
   bool _validate() {
     if (_addTitleController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill title");
+      showToast("Please fill title");
       return false;
     }
     if (_addMoneyController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Please fill email");
+      showToast("Please fill email");
       return false;
     }
     return true;
@@ -56,7 +57,7 @@ class AddPersonalTransactionDialog {
     if (!_validate()) return;
     NavigatorState state = Navigator.of(context);
     try {
-      AuthUtils.showLoadingDialog(context);
+      showLoadingDialog(context);
       const tUuid = Uuid();
       PersonalTransaction newTransaction = PersonalTransaction(
         date: _dateTimeService.selectedDateTime,

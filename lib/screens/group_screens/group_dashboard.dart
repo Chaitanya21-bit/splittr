@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/components/dialogs/add_group_transaction_dialog.dart';
 import 'package:splitter/providers/providers.dart';
 
-import '../../components/dialogs/dialogs.dart';
 import '../../size_config.dart';
 import '../../utils/get_provider.dart';
+import '../../utils/toasts.dart';
 import 'group_details_popup.dart';
 
 class GroupDashboard extends StatelessWidget {
@@ -14,7 +13,7 @@ class GroupDashboard extends StatelessWidget {
 
   Future<void> _copyToClipboard(String data) async {
     await Clipboard.setData(ClipboardData(text: data));
-    Fluttertoast.showToast(msg: "Copied to clipboard");
+    showToast("Copied to clipboard");
   }
 
   @override

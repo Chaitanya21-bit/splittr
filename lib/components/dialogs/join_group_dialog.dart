@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/providers/group_provider.dart';
 import 'package:splitter/services/group_service.dart';
 import 'package:splitter/utils/auth_utils.dart';
@@ -7,6 +6,7 @@ import 'package:splitter/utils/get_provider.dart';
 
 import '../../dataclass/group.dart';
 import '../../dataclass/user.dart';
+import '../../utils/toasts.dart';
 import '../custom_text_field.dart';
 
 class JoinGroupProvider extends ChangeNotifier {
@@ -33,10 +33,10 @@ class JoinGroupProvider extends ChangeNotifier {
 
   Future<void> searchGroup(BuildContext context) async {
     if (!_validate()) {
-      Fluttertoast.showToast(msg: "Enter a code");
+      showToast("Enter a code");
       return;
     }
-    AuthUtils.showLoadingDialog(context);
+    showLoadingDialog(context);
     _group = await _groupService.getGroupFromDatabase(_groupCodeController.text);
     notifyListeners();
     if(context.mounted){
@@ -45,7 +45,7 @@ class JoinGroupProvider extends ChangeNotifier {
   }
 
   joinGroup(BuildContext context) async {
-    AuthUtils.showLoadingDialog(context);
+    showLoadingDialog(context);
     await _groupProvider.joinGroup(_group!);
     if(context.mounted){
       Navigator.pop(context);
@@ -161,7 +161,7 @@ Future<void> joinGroup(BuildContext context, User person) async {
 Future<void> wantToJoin(BuildContext context, User person, Group group) async {
   joinInGroup(BuildContext context) async {
     try {
-      AuthUtils.showLoadingDialog(context);
+      showLoadingDialog(context);
       // if (person.groups.indexWhere((element) => element.gid == group.gid) ==
       //     -1) {
       //   print("Not Exists");
@@ -169,12 +169,12 @@ Future<void> wantToJoin(BuildContext context, User person, Group group) async {
       //   Navigator.pop(context);
       // } else {
       //   print("Exits");
-      //   Fluttertoast.showToast(msg: "Already Joined");
+      //   showToast(msg: "Already Joined");
       // }
       Navigator.pop(context);
       // state.pushReplacementNamed('/grpDash', arguments: group);
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

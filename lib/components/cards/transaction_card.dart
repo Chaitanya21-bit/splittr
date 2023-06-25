@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/dataclass/personalTransactions.dart';
 import 'package:splitter/providers/personal_transaction_provider.dart';
+
 import '../../size_config.dart';
 import '../../utils/get_provider.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({super.key, required this.transaction});
+
   final PersonalTransaction transaction;
 
   @override
@@ -15,8 +17,7 @@ class TransactionCard extends StatelessWidget {
       direction: DismissDirection.endToStart,
       onDismissed: (direction) async {
         await getProvider<PersonalTransactionProvider>(context)
-            .deleteTransaction(
-                transaction);
+            .deleteTransaction(transaction);
       },
       confirmDismiss: (DismissDirection direction) async {
         return await showDialog(
@@ -26,7 +27,7 @@ class TransactionCard extends StatelessWidget {
               title: const Text("Confirm"),
               content: const Text(
                   "Are you sure you wish to delete this transaction?"),
-              actions: <Widget>[
+              actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: const Text("CANCEL"),
@@ -63,12 +64,9 @@ class TransactionCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(
-                      right: 0,
-                      left: 0
-                    ),
+                    padding: EdgeInsets.only(right: 0, left: 0),
                     child: Text(
-                       "Group Name",
+                      "Group Name",
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w100,
@@ -76,10 +74,7 @@ class TransactionCard extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      right: 0,
-                      left: 15
-                    ),
+                    padding: const EdgeInsets.only(right: 0, left: 15),
                     child: Text(
                       'Rs, ${transaction.amount}',
                       style: const TextStyle(

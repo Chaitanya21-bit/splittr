@@ -10,8 +10,6 @@ class DatePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateTimeService = getProvider<DateTimeProvider>(context,listen: true);
-    // final dateTimeService = getProvider<DateTimeService>(context,listen: true);
-    print(dateTimeService);
     return ListTile(
       contentPadding: const EdgeInsets.all(0.0),
       horizontalTitleGap: 0.0,

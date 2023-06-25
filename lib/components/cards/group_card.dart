@@ -7,6 +7,7 @@ import 'package:splitter/providers/providers.dart';
 
 import '../../constants/routes.dart';
 import '../../utils/get_provider.dart';
+import '../../utils/toasts.dart';
 
 class GroupCard extends StatelessWidget {
   const GroupCard({Key? key, required this.group, required this.index})
@@ -16,7 +17,7 @@ class GroupCard extends StatelessWidget {
 
   Future<void> _copyToClipboard() async {
     await Clipboard.setData(ClipboardData(text: group.link.toString()));
-    Fluttertoast.showToast(msg: "Copied to clipboard");
+    showToast("Copied to clipboard");
   }
 
   @override

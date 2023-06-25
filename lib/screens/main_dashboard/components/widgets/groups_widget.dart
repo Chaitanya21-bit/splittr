@@ -34,15 +34,16 @@ class GroupsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemCount = groupsList.length;
     return ListView.builder(
-        itemCount: itemCount,
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return GroupCard(
-            group: groupsList[itemCount-index-1],
-            index: itemCount-index-1,
-          );
-        });
+      itemCount: itemCount,
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return GroupCard(
+          group: groupsList[itemCount - index - 1],
+          index: itemCount - index - 1,
+        );
+      },
+    );
   }
 }
 
@@ -53,34 +54,36 @@ class EmptyGroups extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Text(
-            "Welcome to Splittr",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 30.0,
-              color: Colors.grey[700],
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              "Welcome to Splittr",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.grey[700],
+              ),
             ),
           ),
         ),
-      ),
-      Expanded(
-        flex: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            "Since you are not in any group, you can select either to join or create a group.",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.grey[500],
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "Since you are not in any group, you can select either to join or create a group.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20.0,
+                color: Colors.grey[500],
+              ),
             ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
