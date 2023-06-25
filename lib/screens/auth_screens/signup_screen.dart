@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/components/custom_text_field.dart';
-import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/utils/get_provider.dart';
@@ -33,6 +32,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     aliasController.dispose();
     passwordController.dispose();
     cnfPasswordController.dispose();
+  }
+
+  Future<void> registerUser(BuildContext context) async {
+    showLoadingDialog(context);
+    await getProvider<FirebaseAuthProvider>(context).signUpWithEmail(
+        email: emailController.text,
+        password: passwordController.text,
+        cnfPassword: cnfPasswordController.text,
+        name: nameController.text,
+        alias: aliasController.text);
+    if (context.mounted) Navigator.pop(context);
   }
 
   @override
@@ -126,20 +136,5 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ],
     );
-  }
-
-  Future<void> registerUser(BuildContext context) async {
-    AuthUtils.showLoadingDialog(context);
-    final user = User(
-        uid: "",
-        name: nameController.text,
-        alias: aliasController.text,
-        email: emailController.text,
-        phoneNo: "28274",
-        groups: [],
-        personalTransactions: [],
-        limit: -1);
-    await getProvider<FirebaseAuthProvider>(context)
-        .signUpWithEmail(emailController.text, passwordController.text, user);
   }
 }

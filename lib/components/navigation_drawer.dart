@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/providers/firebase_auth_provider.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/screens/drawer_screens/profile.dart';
 import 'package:splitter/screens/drawer_screens/quick_settle.dart';
@@ -10,42 +9,41 @@ class NavigationDrawerWidget extends StatelessWidget {
   final padding = const EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      width: 250,
-      child: Material(
-        child: ListView(
-          padding: padding,
-          children: <Widget>[
-            const SizedBox(
-              height: 40,
-            ),
-            buildMenuItem(
-              drawerText: 'Profile',
-              drawerIcon: Icons.person,
-              onClicked: () => Navigator.pushNamed(context, '/profile',
-                  arguments: getProvider<UserProvider>(context).user),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            buildMenuItem(
-              drawerText: 'Quick Settle',
-              drawerIcon: Icons.handshake_outlined,
-              onClicked: () => selectedItem(context, 2),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Divider(color: Colors.black),
-            const SizedBox(
-              height: 20,
-            ),
-            buildMenuItem(
-              drawerText: 'LogOut',
-              drawerIcon: Icons.logout,
-              onClicked: () => selectedItem(context, 1),
-            ),
-          ],
+    return SafeArea(
+      child: Drawer(
+        width: 250,
+        child: Material(
+          child: ListView(
+            padding: padding,
+            children:[
+              buildMenuItem(
+                drawerText: 'Profile',
+                drawerIcon: Icons.person,
+                onClicked: () => Navigator.pushNamed(context, '/profile',
+                    arguments: getProvider<UserProvider>(context).user),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              buildMenuItem(
+                drawerText: 'Quick Settle',
+                drawerIcon: Icons.handshake_outlined,
+                onClicked: () => selectedItem(context, 2),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Divider(color: Colors.black),
+              const SizedBox(
+                height: 20,
+              ),
+              buildMenuItem(
+                drawerText: 'LogOut',
+                drawerIcon: Icons.logout,
+                onClicked: () => selectedItem(context, 1),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/components/custom_text_field.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
@@ -8,6 +7,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../dataclass/group.dart';
 import '../../dataclass/user.dart';
+import '../../utils/toasts.dart';
 
 class CreateGroupDialog {
   late final TextEditingController _groupNameController;
@@ -46,7 +46,7 @@ class CreateGroupDialog {
   void createGroup() async {
     if (!_validate()) return;
     try {
-      AuthUtils.showLoadingDialog(context);
+      showLoadingDialog(context);
       NavigatorState state = Navigator.of(context);
       Uri link = await _dynamicLinksProvider.createDynamicLink(_uuid);
 
@@ -63,7 +63,7 @@ class CreateGroupDialog {
       await _groupProvider.createGroup(group);
       state.pop();
     } catch (e) {
-      Fluttertoast.showToast(msg: "Failed to create Group");
+      showToast("Failed to create Group");
       debugPrint(e.toString());
     }
     _exit();
@@ -71,19 +71,19 @@ class CreateGroupDialog {
 
   bool _validate() {
     if (_groupNameController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Enter Group Name.");
+      showToast("Enter Group Name.");
       return false;
     }
     if (_aboutGroupController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Enter About Field.");
+      showToast("Enter About Field.");
       return false;
     }
     if (_groupLimitController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Enter Group Limit.");
+      showToast("Enter Group Limit.");
       return false;
     }
     if (_personalLimitController.text.isEmpty) {
-      Fluttertoast.showToast(msg: "Enter Personal Limit.");
+      showToast("Enter Personal Limit.");
       return false;
     }
     return true;

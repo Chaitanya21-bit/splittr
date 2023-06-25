@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splitter/components/category_dropdown.dart';
+import 'package:splitter/providers/category_provider.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/route_generator.dart';
 import 'package:splitter/screens/auth_widget_builder.dart';
@@ -22,13 +24,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<DateTimeProvider>(
-            create: (_) => DateTimeProvider()),
-        ChangeNotifierProvider<UserProvider>(
-          create: (_) => UserProvider(),
+          create: (_) => DateTimeProvider(),
         ),
-        Provider<FirebaseAuthProvider>(
-          create: (_) => FirebaseAuthProvider(),
+        ChangeNotifierProvider<CategoryProvider>(
+          create: (_) => CategoryProvider(),
         ),
+        ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+        Provider<FirebaseAuthProvider>(create: (_) => FirebaseAuthProvider()),
       ],
       builder: (context, _) => AuthWidgetBuilder(
         builder: () {

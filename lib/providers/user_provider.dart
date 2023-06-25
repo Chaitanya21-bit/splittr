@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:splitter/dataclass/user.dart';
+import 'package:splitter/utils/toasts.dart';
 
 import '../services/services.dart';
 
@@ -20,6 +21,7 @@ class UserProvider extends ChangeNotifier {
         _user = dbUser;
       } else {
         await _authService.signOut();
+        showToast("You Got Deleted ^_^");
         return null;
       }
     }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/providers/firebase_auth_provider.dart';
-import 'package:splitter/services/firebase_auth_service.dart';
 import 'package:splitter/utils/get_provider.dart';
+
 import '../../components/custom_text_field.dart';
 import '../../constants/routes.dart';
 import '../../size_config.dart';
@@ -32,6 +32,14 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void login(BuildContext context) async {
+    showLoadingDialog(context);
+    await getProvider<FirebaseAuthProvider>(context).signInWithEmail(
+        email: emailController.text, password: passwordController.text);
+
+    if (context.mounted) Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -46,10 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Align(
                 alignment: Alignment.center,
-                child: Image.asset("assets/SplittrLogo.png",
+                child: Image.asset(
+                  "assets/SplittrLogo.png",
                   width: 150,
-                )
-            ),
+                )),
             buildBody(context),
             Align(
               alignment: Alignment.centerRight,
@@ -69,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: EdgeInsets.only(
             top: SizeConfig.screenHeight * 0.04,
           ),
-          child: const Text("Login",
+          child: const Text(
+            "Login",
             style: TextStyle(
               color: Colors.black,
               fontSize: 40,
@@ -86,9 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: () => login(context),
             style: ButtonStyle(
               backgroundColor:
-              MaterialStateProperty.all(const Color(0xff1870B5)),
-              overlayColor:
-              MaterialStateProperty.all<Color>(Colors.pink),
+                  MaterialStateProperty.all(const Color(0xff1870B5)),
+              overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
             ),
             child: const Text("Login"),
           ),
@@ -104,21 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 "Don't have an Account ? ",
               ),
               TextButton(
-                  onPressed: () =>Navigator.of(context).pushNamed(Routes.singUp),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.singUp),
                   child: const Text("Sign Up"))
             ],
           ),
         ),
-
       ],
     );
   }
-
-  login(BuildContext context) async {
-    AuthUtils.showLoadingDialog(context);
-    await getProvider<FirebaseAuthProvider>(context).signInWithEmail(
-        email: emailController.text, password: passwordController.text);
-  }
 }
-
-
