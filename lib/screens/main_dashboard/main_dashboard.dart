@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/colors.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/screens/main_dashboard/components/buttons/add_transaction_button.dart';
 import 'package:splitter/screens/main_dashboard/components/buttons/create_group_button.dart';
@@ -21,12 +22,21 @@ class MainDashboard extends StatelessWidget {
     final authProvider = getProvider<FirebaseAuthProvider>(context);
     SizeConfig().init(context);
     final dynamic appBar = AppBar(
-      title: const Text('Dashboard'),
+      backgroundColor: AppColors().creamBG,
+      foregroundColor: Colors.black,
+      title: Align(
+        alignment: Alignment.center,
+        child: Text('Dashboard',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w300
+          ),),
+      ),
       actions: [
-        IconButton(
-          onPressed: () => {authProvider.signOut()},
-          icon: const Icon(Icons.logout),
-        ),
+        // IconButton(
+        //   onPressed: () => {authProvider.signOut()},
+        //   icon: const Icon(Icons.logout),
+        // ),
         IconButton(
             onPressed: () {
               Navigator.push(
@@ -38,51 +48,56 @@ class MainDashboard extends StatelessWidget {
             },
             icon: const Icon(Icons.account_circle_sharp)),
       ],
-      elevation: 7,
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-        )),
-      ),
+      elevation: 0,
+      // flexibleSpace: Container(
+      //   // decoration: const BoxDecoration(
+      //   //     gradient: LinearGradient(
+      //   //   colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
+      //   //   begin: Alignment.bottomRight,
+      //   //   end: Alignment.topLeft,
+      //   // )),
+      // ),
     );
 
     return Scaffold(
       appBar: appBar,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors().creamBG,
       resizeToAvoidBottomInset: false,
       floatingActionButton: const AddPersonalTransactionButton(),
       drawer: const NavigationDrawerWidget(),
       body: BackgroundStack(
         builder: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: SizeConfig.screenHeight * 0.05,
-                    // bottom: SizeConfig.screenHeight * 0.05,
-                  ),
-                  child: Image.asset(
-                    "assets/SplittrLogo.png",
-                    width: SizeConfig.screenHeight * 0.2,
-                  ),
-                ),
-                // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Padding(
+            //       padding: EdgeInsets.only(
+            //         top: SizeConfig.screenHeight * 0.0,
+            //         // bottom: SizeConfig.screenHeight * 0.05,
+            //       ),
+            //       child: Image.asset(
+            //         "assets/SplittrLogo.png",
+            //         width: SizeConfig.screenHeight * 0.2,
+            //       ),
+            //     ),
+            //     // ElevatedButton(onPressed: () {ProfileScreen();}, child: Text("P"))
+            //   ],
+            // ),
             //Name
-            Padding(
-              padding: EdgeInsets.only(
-                  top: SizeConfig.screenHeight * 0.015, right: 0, left: 0),
-              child: Text(
-                user.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: SizeConfig.screenHeight * 0.015,
+                    left: SizeConfig.screenWidth * 0.06,
+                ),
+                child: Text(
+                  user.name,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),
@@ -102,7 +117,7 @@ class MainDashboard extends StatelessWidget {
         top: SizeConfig.screenHeight * 0.01,
         bottom: SizeConfig.screenHeight * 0.01,
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           CreateGroupButton(),

@@ -74,11 +74,11 @@ class EmptyGroups extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-              "Since you are not in any group, you can select either to join or create a group.",
+              "No Groups",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.grey[500],
+                fontSize: 15,
+                color: Colors.black,
               ),
             ),
           ),

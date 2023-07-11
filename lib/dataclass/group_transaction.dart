@@ -8,7 +8,7 @@ class GroupTransaction {
   late DateTime date;
   late String remarks;
   late String category;
-  late Map<String,double> splitBetween;
+  late Map<String,double>? splitBetween;
 
 
   late String share;

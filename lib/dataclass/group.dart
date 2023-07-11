@@ -36,13 +36,13 @@ class Group {
 
         // json['members'] == null ? [] : (json['members'] as List)
         //     .map((userJson) => User.basicInfo(userJson))
-        //     .toList(),
-        transactions: json['transactions'] == null
-            ? []
-            : (json['transactions'] as List)
-                .map((e) => GroupTransaction.fromJson(e))
-                .toList(),
-      );
+        //    .toList(),
+        transactions: json['transactions'] == null ? [] :(json['transactions'] as List)
+            .map((e) => GroupTransaction.fromJson(e))
+            .toList(),
+    //Transacction ko DB se lane mai error aara Shyd DB ami int mai save hora Split
+
+  );
 
   Map<String, dynamic> toJson() => {
         'groupName': groupName,

@@ -32,6 +32,7 @@ class _SetSplitCardState extends State<SetSplitCard> {
       _percentageController.text = ((double.parse(_individualamountController.text))/(widget.amount)*100).toString()+'%';
     });
   }
+
   void _updateAmountValue(String t) {
     setState(() {
       _individualamountController.text = (double.parse(_percentageController.text.substring(0,_percentageController.text.length -1))*(widget.amount)/100).toString();
@@ -43,6 +44,7 @@ class _SetSplitCardState extends State<SetSplitCard> {
   Widget build(BuildContext context) {
     return Card(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Checkbox(
             value: this.check,
@@ -71,7 +73,7 @@ class _SetSplitCardState extends State<SetSplitCard> {
             ),
           ),
           SizedBox(
-            width: 50,
+            width: 55,
             child: TextFormField(
               keyboardType: TextInputType.number,
               controller: _percentageController,
