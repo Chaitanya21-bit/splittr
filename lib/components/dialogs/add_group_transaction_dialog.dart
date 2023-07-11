@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splitter/components/dialogs/split_between_bottom_dialog.dart';
 import 'package:splitter/components/dialogs/split_between_popup.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
@@ -192,8 +193,8 @@ class AddGroupTransactionDialog {
                   decoration: const InputDecoration(
                     labelText: 'Remarks',
                     border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+                    // contentPadding:
+                    //     EdgeInsets.symmetric(vertical: 50, horizontal: 10),
                   ),
                 ),
                 const SizedBox(
@@ -204,10 +205,17 @@ class AddGroupTransactionDialog {
                     if (_payersMap[_user.uid]!.text.isEmpty) {
                       return showToast("Please fill Amount");
                     }
+                    if (_addTitleController.text.isEmpty) {
+                      return showToast("Please fill Title");
+                    }
 
-                    SplitBetweenDialog(context,
-                            amount: double.parse(_payersMap[_user.uid]!.text))
-                        .show();
+
+                    // SplitBetweenDialog(context,
+                    //         amount: double.parse(_payersMap[_user.uid]!.text))
+                    //     .show();
+
+                    splitBottomSheetDialog(context,
+                        amount: double.parse(_payersMap[_user.uid]!.text), title: _addTitleController.text);
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -243,6 +251,8 @@ class AddGroupTransactionDialog {
       },
     );
   }
+
+
 }
 
 class TextEd extends StatefulWidget {
