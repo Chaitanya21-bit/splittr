@@ -1,5 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:splitter/components/custom_text_field.dart';
+import '../../colors.dart';
+import '../../components/background.dart';
 import '../../size_config.dart';
+import '../../utils/toasts.dart';
 
 
 class QuickSettle extends StatefulWidget {
@@ -17,81 +24,102 @@ class _QuickSettleState extends State<QuickSettle> {
   @override
   void initState() {
     nameController.add(TextEditingController());
-    amountController.add(TextEditingController());
+    amountController.add(TextEditingController(text: "0"));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            top: SizeConfig.screenHeight * 0.1,
-            right: 20,
-            left: 20,
-            bottom: 5,
+      appBar: AppBar(
+        backgroundColor: AppColors().creamBG,
+        foregroundColor: Colors.black,
+        title: Align(
+          alignment: Alignment.center,
+          child: Text('Quick Split',
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w300
+            ),),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => {},
+            icon: const Icon(Icons.login),
           ),
-        child:Stack(
-          children: [
-            Positioned(
-                  top: SizeConfig.screenHeight * 0.001,
-                  left: SizeConfig.screenWidth * 0.25,
-                  width: SizeConfig.screenHeight * 0.2,
-                  child: Image.asset("assets/SplittrLogo.png")
-            ),
-            Positioned(
-              top: SizeConfig.screenHeight * 0.12,
-              left: SizeConfig.screenWidth * 0,
-              child: const Text("Settle Now",
-                style: TextStyle(color: Colors.black, fontSize: 25),
+        ],
+        elevation: 0,
+      ),
+      body: BackgroundStack(
+        builder: SingleChildScrollView(
+          child:Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: SizeConfig.screenHeight * 0.0001,
+                  horizontal: SizeConfig.screenWidth * 0.1
+                ),
+                  child: Image.asset("assets/SplittrLogo.png",height: SizeConfig.screenHeight * 0.06,)
               ),
-            ),
-            Column(
-              children: [
-                const SizedBox(
-                  height: 100,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: SizeConfig.screenHeight * 0.0001,
+                      horizontal: SizeConfig.screenWidth * 0.1
+                  ),
+                  child: const Text("Add Name & Amount",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
                 ),
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  itemCount: totalItem,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top : 15),
+                      child: userController(
+                          index, nameController[index], amountController[index]),
+                    );
+                  }
+                  ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
 
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    itemCount: totalItem,
-                    itemBuilder: (context, index) {
-                      return userController(
-                          index, nameController[index], amountController[index]);
-                    }),
-                const SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
                   onPressed: () => {
                     setState(() {
                       nameController.add(TextEditingController());
-                      amountController.add(TextEditingController());
+                      amountController.add(TextEditingController(text: "0"));
                       totalItem = totalItem + 1;
                     }),
                   },
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all(const Color(0xff1870B5)),
-                    overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-                  ),
-                  child: const Text("Add"),
+                  icon: Icon(Icons.add_circle_outline),
+                  iconSize: SizeConfig.screenWidth * 0.08,
                 ),
-
-              ],
-            )
-
-          ],
-        )
+              )
+            ],
+          )
+        ),
       ),
 
 
 
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterFloat,
+      floatingActionButton:
+      // Row(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children : [
+          FloatingActionButton.extended(
+            onPressed: () {
               List<Map> people = [];
 
+              if (nameController.length < 2){
+                return showToast("Add More to Split");
+              }
               for (int i = 0; i < nameController.length; i++) {
                 people.add({
                   'name': nameController[i].text.toString(),
@@ -99,61 +127,57 @@ class _QuickSettleState extends State<QuickSettle> {
                 });
               }
               Navigator.pushNamed(context, '/quickSplit', arguments: people);
-        },
-        label: const Text('Split'),
-        // icon: const Icon(Icons.thumb_up),
-        backgroundColor: Colors.pink,
-      ),
+            },
+            label: const Text('Split'),
+            foregroundColor: AppColors().black,
+            backgroundColor: AppColors().yellow,
+          ),
+          // FloatingActionButton.extended(
+          //   onPressed: () {
+          //     setState(() {
+          //       nameController.add(TextEditingController());
+          //       amountController.add(TextEditingController(text: "0"));
+          //       totalItem = totalItem + 1;
+          //     });},
+          //   label: const Text('Add'),
+          //   foregroundColor: AppColors().black,
+          //   backgroundColor: AppColors().yellow,
+          // ),
+        // ]
+      // ),
     );
   }
 }
 
-Widget userController(
-    int index, TextEditingController name, TextEditingController amount) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const SizedBox(
-        height: 11,
-      ),
-      const SizedBox(
-        height: 7,
-      ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.center,
+Widget userController(int index, TextEditingController name, TextEditingController amount) {
+  return ClipRRect(
+    child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX:10,sigmaY: 10),
+        child: Container(
+          color: AppColors().black.withOpacity(0.25),
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 170,
-                height: 50,
-                child: TextField(
-                  controller: name,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide(width: 3,color: Colors.teal),
-                    ),
-                    labelText: "Name",
-                  ),
-                ),
+              Expanded(
+                  child: InputTextField(
+                      controller: name,
+                      labelText: "Name",
+                      padding : EdgeInsets.symmetric(vertical: 10,horizontal: 10)
+                  )
               ),
-              SizedBox(width: 10,),
-              SizedBox(
-                width: 170,
-                height: 50,
-                child: TextField(
-                  controller: amount,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide(width: 3,color: Colors.teal),
-                    ),
+
+              Expanded(
+                child: InputTextField(
+                    controller: amount,
                     labelText: "Amount",
-                  ),
-                ),
-              ),
+                    textInputAction : TextInputType.number,
+                    padding : EdgeInsets.symmetric(vertical: 10,horizontal: 10)
+                )
+            ),
             ],
           ),
-    ],
-
+        ),
+    ),
   );
 }

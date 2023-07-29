@@ -33,16 +33,19 @@ class GroupsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemCount = groupsList.length;
-    return ListView.builder(
-      itemCount: itemCount,
-      physics: const BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return GroupCard(
-          group: groupsList[itemCount - index - 1],
-          index: itemCount - index - 1,
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.only(left: 10,bottom: 10),
+      child: ListView.builder(
+        itemCount: itemCount,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return GroupCard(
+            group: groupsList[itemCount - index - 1],
+            index: itemCount - index - 1,
+          );
+        },
+      ),
     );
   }
 }
