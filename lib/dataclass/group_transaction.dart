@@ -34,7 +34,7 @@ class GroupTransaction {
           date: DateTime.parse(json['date']),
           remarks: json["remarks"],
           category: json["category"],
-          splitBetween: Map<String,double>.from(json['splitBetween'])
+          splitBetween: Map<String,double>.from(json['splitBetween']??{})
       );
 
 

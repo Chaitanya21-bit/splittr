@@ -49,14 +49,6 @@ class MainDashboard extends StatelessWidget {
             icon: const Icon(Icons.account_circle_sharp)),
       ],
       elevation: 0,
-      // flexibleSpace: Container(
-      //   // decoration: const BoxDecoration(
-      //   //     gradient: LinearGradient(
-      //   //   colors: [Colors.yellow, Colors.orange, Colors.lightBlue],
-      //   //   begin: Alignment.bottomRight,
-      //   //   end: Alignment.topLeft,
-      //   // )),
-      // ),
     );
 
     return Scaffold(

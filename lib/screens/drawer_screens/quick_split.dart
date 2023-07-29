@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:splitter/dataclass/final_transaction.dart';
 import 'dart:convert';
 
+import '../../colors.dart';
+import '../../components/background.dart';
 import '../../components/final_transaction_card.dart';
 
 class QuickSplit extends StatefulWidget {
@@ -30,12 +32,10 @@ class _QuickSplitState extends State<QuickSplit> {
 
   @override
   void initState() {
-
     // FinalTransaction finaltransaction = FinalTransaction('bezkoder', 'adfaafadf', 34);
     // String jsonUser = jsonEncode(finaltransaction);
     // print('here is the json object');
     // print(jsonUser);
-
 
     // String jsonTags = jsonEncode(tags);
     // print(jsonTags);
@@ -62,7 +62,8 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
+        tags.add(SplitTransaction(
+            people[i]['name'], people[j]['name'], individualShareList[i]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
@@ -76,7 +77,8 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], -individualShareList[j]));
+        tags.add(SplitTransaction(
+            people[i]['name'], people[j]['name'], -individualShareList[j]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
@@ -89,7 +91,8 @@ class _QuickSplitState extends State<QuickSplit> {
         });
 
         // sending the sender, receiver and amount to final_transaction dataclass to form jason object using jsonEncode()
-        tags.add(SplitTransaction(people[i]['name'], people[j]['name'], individualShareList[i]));
+        tags.add(SplitTransaction(
+            people[i]['name'], people[j]['name'], individualShareList[i]));
         jsonTags = jsonEncode(tags);
         print(jsonTags);
 
@@ -104,51 +107,69 @@ class _QuickSplitState extends State<QuickSplit> {
     super.initState();
   }
 
-  // parseJsonFunction(){
-  //
-  //   print("sender = ${parsedJson['sender']}");
-  //   print("${parsedJson['sender']} has to pay ${parsedJson['amount']} to ${parsedJson['receiver']}");
-  //   return(Text('${parsedJson['sender']} has to pay ${parsedJson['amount']} to ${parsedJson['receiver']}'));
-  // }
-
   @override
   Widget build(BuildContext context) {
-
-
     final jsonData = jsonTags;
     // final parsedJson = jsonDecode(jsonData);
 
     // converting json object back to class object so that the data can be individually accessed and the traversing can be performed in the list
     var tagObjsJson = jsonDecode(jsonData) as List;
 
-    // List<FinalTransaction> tagObjs = tagObjsJson.map((tagJson) => FinalTransaction.fromJson(tagJson)).toList();
-    // print(tagObjs);
-    // return(Text('${parsedJson['sender']} has to pay ${parsedJson['amount']} to ${parsedJson['receiver']}'));
-
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('Quick Split'),
-          centerTitle: true,
-          backgroundColor: const Color(0xff1870B5)),
-      body: ListView.builder(
-          itemCount: finalTransaction.length,
-          itemBuilder: (context, index) {
-            return FinalTransactionCard(
-              // color: Colors.yellow,
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(15),
-              // ),
-              child: Padding(
-                padding: EdgeInsets.all(12),
-                   // child: Text(finalTransaction[index].toString()),
-                // child: Text('${parsedJson[index].sender} has to pay ${parsedJson[index].amount} to ${parsedJson[index].receiver}')
-                //   child: Text(parsedJson.toString())
-                  child: (tagObjsJson[index]['amount']>0)?
-                  Text('${tagObjsJson[index]['receiver']} has to pay Rs. ${tagObjsJson[index]['amount']} to ${tagObjsJson[index]['sender']}'):
-                  Text('${tagObjsJson[index]['sender']} has to pay Rs. ${-tagObjsJson[index]['amount']} to ${tagObjsJson[index]['receiver']}')
-              )
-            );
-          }),
-    );
+        appBar: AppBar(
+          backgroundColor: AppColors().creamBG,
+          foregroundColor: Colors.black,
+          title: Align(
+            alignment: Alignment.center,
+            child: Text(
+              'Quick Split',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+            ),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () => {},
+              icon: const Icon(Icons.login),
+            ),
+          ],
+          elevation: 0,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          splashColor: AppColors().yellow,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Icon(Icons.share),
+
+        ),
+        body: BackgroundStack(
+          builder: Padding(
+            padding: const EdgeInsets.only(top : 10),
+            child: ListView.builder(
+                itemCount: finalTransaction.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10
+                    ),
+                    child: FinalTransactionCard(
+                        child: Padding(
+                            padding: EdgeInsets.all(12),
+                            // child: Text(finalTransaction[index].toString()),
+                            // child: Text('${parsedJson[index].sender} has to pay ${parsedJson[index].amount} to ${parsedJson[index].receiver}')
+                            //   child: Text(parsedJson.toString())
+                            child: (tagObjsJson[index]['amount'] > 0)
+                                ? Text(
+                                    '${tagObjsJson[index]['receiver']} has to pay Rs. ${tagObjsJson[index]['amount']} to ${tagObjsJson[index]['sender']}')
+                                : Text(
+                                    '${tagObjsJson[index]['sender']} has to pay Rs. ${-tagObjsJson[index]['amount']} to ${tagObjsJson[index]['receiver']}'))),
+                  );
+                }),
+          ),
+        ));
   }
 }

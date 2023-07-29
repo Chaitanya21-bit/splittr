@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+
+import '../colors.dart';
 
 class FinalTransactionCard extends StatefulWidget {
   final Widget child;
@@ -15,25 +19,20 @@ class _FinalTransactionCardState extends State<FinalTransactionCard> {
   //   return const Placeholder();
   // }
 
-    @override
-Widget build(BuildContext context){
-  return Card(
-    margin: const EdgeInsets.all(20.0),
-    color: Colors.white,
-    child: Container(
-      padding: const EdgeInsets.all(20.0), 
-      child: widget.child,
-      decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(color: Colors.black, width: 2),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black,
-          offset: Offset(10.0, 10.0)
-        )
-      ]
-    )
-  ));
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+        child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+                color: AppColors().black.withOpacity(0.25),
+
+                child: Card(
+                    margin: const EdgeInsets.all(5),
+                    child: widget.child,
+                    )
+                )
+            )
+    );
   }
 }
-

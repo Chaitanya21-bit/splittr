@@ -21,6 +21,7 @@ class InputTextField extends StatelessWidget {
       padding: padding ?? const EdgeInsets.symmetric(horizontal: 30, vertical: 10,),
       child: TextFormField(
         controller: controller,
+        textCapitalization: TextCapitalization.sentences,
         keyboardType: textInputAction,
         obscureText: labelText.contains("Password"),
         decoration: InputDecoration(

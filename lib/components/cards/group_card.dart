@@ -62,18 +62,18 @@ class GroupCard extends StatelessWidget {
             },
           );
         },
-        child: Card(
-          color: AppColors().white,
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: InkWell(
-            onTap: () {
-              groupProvider.setCurrentGroup(index);
-              Navigator.pushNamed(context, Routes.grpDash);
-            },
-            child: Column(
+          child: Card(
+            color: AppColors().white,
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: InkWell(
+              onTap: () {
+                groupProvider.setCurrentGroup(index);
+                Navigator.pushNamed(context, Routes.grpDash);
+              },
+              child: Column(
               children: [
                 Expanded(
                   flex: 0,
