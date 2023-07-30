@@ -4,7 +4,7 @@ import 'package:splitter/components/dialogs/add_group_transaction_dialog.dart';
 import 'package:splitter/providers/providers.dart';
 
 import '../../components/dialogs/split_between_bottom_dialog.dart';
-import '../../size_config.dart';
+import '../../utils/size_config.dart';
 import '../../utils/get_provider.dart';
 import '../../utils/toasts.dart';
 import 'group_details_popup.dart';

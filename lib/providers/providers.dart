@@ -4,3 +4,4 @@ export 'personal_transaction_provider.dart';
 export 'group_provider.dart';
 export 'dynamic_links_provider.dart';
 export 'firebase_auth_provider.dart';
+export 'category_provider.dart';

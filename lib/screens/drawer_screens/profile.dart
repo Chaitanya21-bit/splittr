@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/providers/providers.dart';
-import 'package:splitter/colors.dart';
-import 'package:splitter/size_config.dart';
+import 'package:splitter/constants/colors.dart';
+import 'package:splitter/utils/size_config.dart';
 import '../../components/custom_text_field.dart';
-import '../../dataclass/user.dart';
+import '../../dataclass/dataclass.dart';
 import '../../utils/get_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -36,22 +36,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: AppColors().creamBG,
+       backgroundColor: AppColors.creamBG,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Card(
               child: SizedBox(width: SizeConfig.screenWidth,height: 20),
-              color: AppColors().yellow,
+              color: AppColors.yellow,
             ),
             Card(
               child: SizedBox(width: SizeConfig.screenWidth,height: 20),
-              color: AppColors().maroon,
+              color: AppColors.maroon,
             ),
             Card(
               child: SizedBox(width: SizeConfig.screenWidth,height: 20),
-              color: AppColors().purple,
+              color: AppColors.purple,
             ),
             IconButton(
                 onPressed: () {

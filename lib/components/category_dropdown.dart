@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/providers/category_provider.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/get_provider.dart';
 
 class CategoryDropDown extends StatelessWidget {

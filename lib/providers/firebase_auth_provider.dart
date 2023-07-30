@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splitter/dataclass/user.dart' as model;
-import 'package:splitter/services/firebase_auth_service.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:splitter/dataclass/dataclass.dart' as model;
+import 'package:splitter/services/services.dart';
 
+import '../constants/routes.dart';
 import '../utils/toasts.dart';
 
 class FirebaseAuthProvider {
@@ -12,71 +11,63 @@ class FirebaseAuthProvider {
 
   FirebaseAuth get auth => _auth;
   final _firebaseAuthService = FirebaseAuthService();
+  final _userService = UserService();
 
   bool get isUserSignedIn => _auth.currentUser != null;
 
+  User? get currentUser => _auth.currentUser;
+
   Future<void> signUpWithEmail(
-      {required String email,
-      required String password,
-      required String cnfPassword,
-      required String name,
-      required String alias}) async {
-    if(email.isEmpty){
+    BuildContext context, {
+    required String email,
+    required String password,
+    required String cnfPassword,
+    required String name,
+    required String alias,
+  }) async {
+    if (email.isEmpty) {
       return showToast("Enter email");
     }
-    if(name.isEmpty){
+    if (name.isEmpty) {
       return showToast("Enter name");
     }
-    if(alias.isEmpty){
+    if (alias.isEmpty) {
       return showToast("Enter alias");
     }
-    if(password.isEmpty){
+    if (password.isEmpty) {
       return showToast("Enter password");
     }
-    if(cnfPassword != password){
+    if (cnfPassword != password) {
       return showToast("Confirm password should be same as password");
     }
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
+      final createdUser =
+          await _firebaseAuthService.signUpWithEmail(email, password);
       final user = model.User(
-          uid: "",
-          name: name,
-          alias: alias,
-          email: email,
-          phoneNo: "28274",
-          groups: [],
-          personalTransactions: [],
-          limit: -1);
-
-      await prefs.setString('userMap', jsonEncode(user.toJson()));
-      await _firebaseAuthService.signUpWithEmail(email, password);
-    } on FirebaseAuthException catch (e) {
-      await prefs.remove('userMap');
-      String errorMsg = "";
-      switch (e.code) {
-        case 'email-already-in-use':
-          errorMsg = "Account already created.";
-          break;
-        case 'invalid-email':
-          errorMsg = "Invalid email.";
-          break;
-        case 'operation-not-allowed':
-          errorMsg = "Sign Up Not enabled.";
-          break;
-        case 'weak-password':
-          errorMsg = "Weak Password.";
-          break;
-        default:
-          errorMsg = "Failed to Sign Up.";
+        uid: createdUser!.uid,
+        name: name,
+        alias: alias,
+        email: email,
+        phoneNo: "28274",
+        groups: [],
+        personalTransactions: [],
+        limit: -1,
+      );
+      await _userService.saveUserToDatabase(user);
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.home, (route) => false);
       }
-      showToast(errorMsg);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showToast(_handleAuthError(e.code));
     } catch (e) {
-      await prefs.remove('userMap');
-      showToast("An Error Occurred.");
+      Navigator.pop(context);
+      showToast("An Error Occurred. ${e.toString()}");
     }
   }
 
-  Future<void> signInWithEmail(
+  Future<void> signInWithEmail(BuildContext context,
       {required String email, required String password}) async {
     if (email.isEmpty) {
       return showToast("Enter email");
@@ -85,37 +76,47 @@ class FirebaseAuthProvider {
       return showToast("Enter password");
     }
     try {
-      await _firebaseAuthService.signInWithEmail(
+      final user = await _firebaseAuthService.signInWithEmail(
           email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      String errorMsg = "";
-      switch (e.code) {
-        case 'invalid-email':
-          errorMsg = "Invalid email.";
-          break;
-        case 'user-not-found':
-          errorMsg = "No user found for this email.";
-          break;
-        case 'user-disabled':
-          errorMsg = "User is disabled.";
-          break;
-        case 'wrong-password':
-          errorMsg = "Wrong Password.";
-          break;
-        default:
-          errorMsg = "Failed to Login.";
+      if (context.mounted && user != null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, Routes.home, (route) => false);
       }
-      showToast(errorMsg);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showToast(_handleAuthError(e.code));
     } catch (e) {
+      Navigator.pop(context);
       showToast("An Error Occurred.");
     }
   }
 
-  Future<void> signOut() async {
-    return _firebaseAuthService.signOut();
+  Future<void> signOut(BuildContext context) async {
+    await _firebaseAuthService.signOut();
+    if (context.mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, Routes.login, (route) => false);
+    }
   }
 
-  Stream<User?> authStateChanges() {
-    return _firebaseAuthService.auth.authStateChanges();
+  String _handleAuthError(String code) {
+    switch (code) {
+      case 'email-already-in-use':
+        return "Account already created.";
+      case 'invalid-email':
+        return "Invalid email.";
+      case 'operation-not-allowed':
+        return "Sign Up Not enabled.";
+      case 'weak-password':
+        return "Weak Password.";
+      case 'user-not-found':
+        return "No user found for this email.";
+      case 'user-disabled':
+        return "User is disabled.";
+      case 'wrong-password':
+        return "Wrong Password.";
+      default:
+        return "Failed to Sign Up.";
+    }
   }
 }

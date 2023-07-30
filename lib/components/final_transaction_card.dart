@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../colors.dart';
+import '../constants/colors.dart';
 
 class FinalTransactionCard extends StatefulWidget {
   final Widget child;
@@ -14,10 +14,6 @@ class FinalTransactionCard extends StatefulWidget {
 }
 
 class _FinalTransactionCardState extends State<FinalTransactionCard> {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return const Placeholder();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class _FinalTransactionCardState extends State<FinalTransactionCard> {
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-                color: AppColors().black.withOpacity(0.25),
+                color: AppColors.black.withOpacity(0.25),
 
                 child: Card(
                     margin: const EdgeInsets.all(5),

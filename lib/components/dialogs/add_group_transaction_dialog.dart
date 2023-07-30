@@ -6,7 +6,6 @@ import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../dataclass/dataclass.dart';
-import '../../providers/category_provider.dart';
 import '../../utils/get_provider.dart';
 import '../../utils/toasts.dart';
 import '../category_dropdown.dart';

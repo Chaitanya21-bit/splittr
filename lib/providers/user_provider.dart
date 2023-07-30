@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:splitter/dataclass/user.dart';
+import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/utils/toasts.dart';
 
 import '../services/services.dart';
@@ -12,18 +12,13 @@ class UserProvider extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
 
   Future<User?> retrieveUserInfo(String uid) async {
-    final prefsUser = await _userService.getUserFromPrefs(uid);
-    if (prefsUser != null) {
-      _user = prefsUser;
+    final dbUser = await _userService.getUserFromDatabase(uid);
+    if (dbUser != null) {
+      _user = dbUser;
     } else {
-      final dbUser = await _userService.getUserFromDatabase(uid);
-      if (dbUser != null) {
-        _user = dbUser;
-      } else {
-        await _authService.signOut();
-        showToast("You Got Deleted ^_^");
-        return null;
-      }
+      await _authService.signOut();
+      showToast("You Got Deleted ^_^");
+      return null;
     }
     return _user;
   }
@@ -53,5 +48,4 @@ class UserProvider extends ChangeNotifier {
     debugPrint("User Updated");
     notifyListeners();
   }
-
 }

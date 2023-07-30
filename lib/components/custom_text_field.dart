@@ -15,10 +15,12 @@ class InputTextField extends StatelessWidget {
   final TextInputType? textInputAction;
   final EdgeInsetsGeometry? padding;
   final bool? enable;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 30, vertical: 10,),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextFormField(
         controller: controller,
         textCapitalization: TextCapitalization.sentences,

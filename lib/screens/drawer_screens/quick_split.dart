@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/dataclass/final_transaction.dart';
+import 'package:splitter/dataclass/dataclass.dart';
 import 'dart:convert';
 
-import '../../colors.dart';
+import '../../constants/colors.dart';
 import '../../components/background.dart';
 import '../../components/final_transaction_card.dart';
 
@@ -13,6 +13,7 @@ class QuickSplit extends StatefulWidget {
   @override
   State<QuickSplit> createState() => _QuickSplitState();
 }
+
 
 class _QuickSplitState extends State<QuickSplit> {
   // @override
@@ -51,7 +52,8 @@ class _QuickSplitState extends State<QuickSplit> {
         people.length, (index) => people[index]['amount'] - individualShare);
     print(individualShare);
     print(individualShareList);
-    int i = 0, j = people.length - 1;
+    int i = 0,
+        j = people.length - 1;
 
     while (i < j) {
       double sum = individualShareList[i] + individualShareList[j];
@@ -117,7 +119,7 @@ class _QuickSplitState extends State<QuickSplit> {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppColors().creamBG,
+          backgroundColor: AppColors.creamBG,
           foregroundColor: Colors.black,
           title: Align(
             alignment: Alignment.center,
@@ -138,7 +140,7 @@ class _QuickSplitState extends State<QuickSplit> {
           onPressed: () {},
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          splashColor: AppColors().yellow,
+          splashColor: AppColors.yellow,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
@@ -146,7 +148,7 @@ class _QuickSplitState extends State<QuickSplit> {
 
         ),
         body: BackgroundStack(
-          builder: Padding(
+          child: Padding(
             padding: const EdgeInsets.only(top : 10),
             child: ListView.builder(
                 itemCount: finalTransaction.length,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../dataclass/group.dart';
-import '../../dataclass/user.dart';
-import '../../providers/group_provider.dart';
+import '../../dataclass/dataclass.dart';
+import '../../dataclass/dataclass.dart';
+import '../../providers/providers.dart';
 import '../../utils/get_provider.dart';
 import 'group_details_dropdown.dart';
 

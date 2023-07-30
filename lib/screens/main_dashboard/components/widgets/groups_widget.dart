@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/providers/group_provider.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/get_provider.dart';
 
 import '../../../../components/cards/group_card.dart';
@@ -72,10 +72,10 @@ class EmptyGroups extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
+        const Expanded(
           flex: 2,
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: Text(
               "No Groups",
               textAlign: TextAlign.center,

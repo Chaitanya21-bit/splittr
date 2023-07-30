@@ -1,5 +1,5 @@
-import 'package:splitter/dataclass/group_transaction.dart';
-import 'package:splitter/dataclass/user.dart';
+import 'package:splitter/dataclass/dataclass.dart';
+import 'package:splitter/dataclass/dataclass.dart';
 
 class Group {
   late String groupName;

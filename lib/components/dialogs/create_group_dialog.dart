@@ -5,8 +5,7 @@ import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/utils/get_provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../dataclass/group.dart';
-import '../../dataclass/user.dart';
+import '../../dataclass/dataclass.dart';
 import '../../utils/toasts.dart';
 
 class CreateGroupDialog {

@@ -1,15 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/services/group_service.dart';
 
+import '../utils/get_provider.dart';
 import '../utils/toasts.dart';
 
-class GroupProvider extends ChangeNotifier{
+class GroupProvider extends ChangeNotifier {
   final List<Group> _groups = [];
-  final UserProvider _userProvider;
+  late final UserProvider _userProvider;
   final GroupService _groupService = GroupService();
+
   List<Group> get groups => _groups;
 
   bool _isLoading = true;
@@ -17,6 +19,7 @@ class GroupProvider extends ChangeNotifier{
   bool get isLoading => _isLoading;
 
   late int _selectedIndex;
+
   Group getCurrentGroup() {
     // calcTotal();
     return _groups[_selectedIndex];
@@ -26,9 +29,12 @@ class GroupProvider extends ChangeNotifier{
   //   var sum = _groups[_selectedIndex].transactions.add()
   //   _groups[_selectedIndex].totalAmount = sum;
   // }
-  GroupProvider(this._userProvider);
+  void init(BuildContext context) {
+    _userProvider = getProvider<UserProvider>(context,listen: false);
+    fetchGroups();
+  }
 
-  void setCurrentGroup(int index){
+  void setCurrentGroup(int index) {
     _selectedIndex = index;
   }
 
@@ -47,8 +53,7 @@ class GroupProvider extends ChangeNotifier{
   Future<void> fetchGroups() async {
     _setLoading(true);
     for (String groupId in _userProvider.user.groups) {
-      final group = await _groupService
-          .getGroupFromDatabase(groupId);
+      final group = await _groupService.getGroupFromDatabase(groupId);
       if (group != null) {
         _groups.add(group);
       }
@@ -63,7 +68,7 @@ class GroupProvider extends ChangeNotifier{
   }
 
   Future<void> joinGroup(Group group) async {
-    if(_groups.where((e) => e.gid == group.gid).isNotEmpty){
+    if (_groups.where((e) => e.gid == group.gid).isNotEmpty) {
       showToast("Already Joined");
       return;
     }
@@ -76,12 +81,10 @@ class GroupProvider extends ChangeNotifier{
     await updateGroup(group);
   }
 
-
   Future<void> addGroupTransaction(GroupTransaction groupTransaction) async {
     final group = getCurrentGroup();
     group.transactions.add(groupTransaction);
     await _groupService.addGroupTransaction(group, groupTransaction);
     notifyListeners();
   }
-
 }
