@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:splitter/components/dialogs/add_group_transaction_dialog.dart';
 import 'package:splitter/providers/providers.dart';
 
-import '../../components/dialogs/split_between_bottom_dialog.dart';
-import '../../utils/size_config.dart';
 import '../../utils/get_provider.dart';
+import '../../utils/size_config.dart';
 import '../../utils/toasts.dart';
 import 'group_details_popup.dart';
 
@@ -19,7 +18,7 @@ class GroupDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final groupService = getProvider<GroupProvider>(context,listen: true);
+    final groupService = getProvider<GroupProvider>(context, listen: true);
     final group = groupService.getCurrentGroup();
     final user = getProvider<UserProvider>(context).user;
     return Scaffold(
@@ -41,7 +40,7 @@ class GroupDashboard extends StatelessWidget {
               )),
           icon: const Text("Add"),
           label: const Icon(
-            Icons.add_circle,
+            Icons.add_circle
           ),
         ),
         body: SingleChildScrollView(
@@ -123,17 +122,17 @@ class GroupDashboard extends StatelessWidget {
                 ),
               ),
             ),
-              Text('Group Total : ${group.totalAmount.toString()}'),
-              Text('Your Share : ${calcShare()}'),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: group.members.length,
-                  //user data toh empty hai bc // nahi h khali ab mc
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: Text(group.members[index].name.toString()),
-                    );
-                  }),
+            Text('Group Total : ${group.totalAmount.toString()}'),
+            Text('Your Share : ${calcShare()}'),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: group.members.length,
+                //user data toh empty hai bc // nahi h khali ab mc
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Text(group.members[index].name.toString()),
+                  );
+                }),
 
             // Row(
             //     children: [
@@ -144,32 +143,32 @@ class GroupDashboard extends StatelessWidget {
             //     )
             //   ]
             // ),
-              Text("You are ${user.name}"),
-              OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Color(0xff223146),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+            Text("You are ${user.name}"),
+            OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Color(0xff223146),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                child: const Text('See Settelment'),
               ),
-              const Divider(
-                color: Colors.black,
-                indent: 50,
-                endIndent: 50,
-                thickness: 2,
-              ),
-              ListView.builder(
-                  itemCount: group.transactions.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    // return TransactionItem(transItem: group.transactions[index]);
-                    return Card(
-                      child: Text('        ${group.transactions[index].amount.toString()}')
-                    );
-                  }),
+              child: const Text('See Settelment'),
+            ),
+            const Divider(
+              color: Colors.black,
+              indent: 50,
+              endIndent: 50,
+              thickness: 2,
+            ),
+            ListView.builder(
+                itemCount: group.transactions.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  // return TransactionItem(transItem: group.transactions[index]);
+                  return Card(
+                      child: Text(
+                          '        ${group.transactions[index].amount.toString()}'));
+                }),
           ],
         )));
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/components/dialogs/split_between_bottom_dialog.dart';
-import 'package:splitter/components/dialogs/split_between_popup.dart';
+import 'package:splitter/dataclass/even_split_users_model.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:uuid/uuid.dart';
@@ -11,7 +11,9 @@ import '../../utils/toasts.dart';
 import '../category_dropdown.dart';
 
 class AddGroupTransactionDialog {
-  final Map<String, TextEditingController> _payersMap = {};
+  final Map<String, TextEditingController> _payerUsersMap = {};
+  final Map<String, dynamic> _evenSplitMap = {};
+  final Map<String, dynamic> _oddSplitMap = {};
   late final TextEditingController _addRemarksController;
   late final TextEditingController _addTitleController;
   late final GroupProvider _groupProvider;
@@ -25,6 +27,7 @@ class AddGroupTransactionDialog {
   AddGroupTransactionDialog(this.context) {
     _initProviders();
     _initControllers();
+    _payerUsersMap[_user.uid] = TextEditingController();
     _groupTransaction = GroupTransaction(
         tid: const Uuid().v1(),
         creatorId: _user.uid,
@@ -45,7 +48,6 @@ class AddGroupTransactionDialog {
   }
 
   void _initControllers() {
-    _payersMap[_user.uid] = TextEditingController();
     _addRemarksController = TextEditingController();
     _addTitleController = TextEditingController();
   }
@@ -55,7 +57,7 @@ class AddGroupTransactionDialog {
       showToast("Please fill title");
       return false;
     }
-    for (final controller in _payersMap.values) {
+    for (final controller in _payerUsersMap.values) {
       if (controller.text.isEmpty) {
         showToast("Please fill amount");
         return false;
@@ -65,12 +67,12 @@ class AddGroupTransactionDialog {
   }
 
   void _exit() {
-    _disposeControllers();
+    // _disposeControllers();
     Navigator.pop(context);
   }
 
   void _disposeControllers() {
-    for (final controller in _payersMap.values) {
+    for (final controller in _payerUsersMap.values) {
       controller.dispose();
     }
     _addRemarksController.dispose();
@@ -112,7 +114,7 @@ class AddGroupTransactionDialog {
     List Members = List<String>.generate(
         _group.members.length, (index) => _group.members[index].uid);
     double evenAmount =
-        double.parse(_payersMap[_user.uid]!.text) / _group.members.length;
+        double.parse(_payerUsersMap[_user.uid]!.text) / _group.members.length;
     final evenSplit = {for (var item in Members) item.toString(): evenAmount};
     print(evenSplit);
 
@@ -123,7 +125,7 @@ class AddGroupTransactionDialog {
   Future<void> addSettelment() async {
     //Update Total Amount
     _group.totalAmount =
-        _group.totalAmount + double.parse(_payersMap[_user.uid]!.text);
+        _group.totalAmount + double.parse(_payerUsersMap[_user.uid]!.text);
     //Subtract when delete the transaction
 
     //Make Group Object and Update in DB
@@ -147,7 +149,7 @@ class AddGroupTransactionDialog {
   void show() async {
     await showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
           scrollable: true,
           shape: const RoundedRectangleBorder(
@@ -181,7 +183,7 @@ class AddGroupTransactionDialog {
                 ),
                 const SizedBox(height: 10),
                 TextEd(
-                  controllers: _payersMap,
+                  controllers: _payerUsersMap,
                   addMore: () {
                     // _payersMap.add(TextEditingController());
                   },
@@ -201,20 +203,32 @@ class AddGroupTransactionDialog {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_payersMap[_user.uid]!.text.isEmpty) {
+                    if (_payerUsersMap[_user.uid]!.text.isEmpty) {
                       return showToast("Please fill Amount");
                     }
                     if (_addTitleController.text.isEmpty) {
                       return showToast("Please fill Title");
                     }
 
-
                     // SplitBetweenDialog(context,
                     //         amount: double.parse(_payersMap[_user.uid]!.text))
                     //     .show();
 
-                    splitBottomSheetDialog(context,
-                        amount: double.parse(_payersMap[_user.uid]!.text), title: _addTitleController.text);
+                    final amount = double.parse(_payerUsersMap[_user.uid]!.text);
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return SplitBetweenBottomDialogScreen(
+                          amount: amount,
+                          title: _addTitleController.text,
+                          evenSplit: EvenSplitUsersModel(amount: amount, users: {}),
+                          oddMap: _oddSplitMap,
+                        );
+                      },
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -226,7 +240,7 @@ class AddGroupTransactionDialog {
               ],
             ),
           ),
-          actions: <Widget>[
+          actions: [
             ElevatedButton(
               onPressed: _exit,
               style: ButtonStyle(
@@ -250,8 +264,6 @@ class AddGroupTransactionDialog {
       },
     );
   }
-
-
 }
 
 class TextEd extends StatefulWidget {
@@ -278,12 +290,11 @@ class _TextEdState extends State<TextEd> {
               ),
             )),
         TextButton(
-            onPressed: () {
-              setState(() {
-                widget.addMore();
-              });
-            },
-            child: Text("Add")),
+          onPressed: () => setState(() {
+            widget.addMore();
+          }),
+          child: const Text("Add"),
+        ),
       ],
     );
   }
