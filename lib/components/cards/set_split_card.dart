@@ -7,7 +7,7 @@ class SetSplitCard extends StatefulWidget {
   late double amount;
   late int length;
 
-  SetSplitCard({super.key, required this.memberName, required double this.amount, required int this.length});
+  SetSplitCard({super.key, required this.memberName, required this.amount, required this.length});
   //Length ko Provider se bhi le sakta
 
   @override
