@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:splitter/components/custom_text_field.dart';
-import 'package:splitter/providers/firebase_auth_provider.dart';
+import 'package:splitter/providers/providers.dart';
+import 'package:splitter/screens/auth_screens/widgets/auth_button.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/utils/get_provider.dart';
 
-import '../../size_config.dart';
+import '../../constants/assets.dart';
+import '../../utils/size_config.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -37,12 +39,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> registerUser(BuildContext context) async {
     showLoadingDialog(context);
     await getProvider<FirebaseAuthProvider>(context).signUpWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        cnfPassword: cnfPasswordController.text,
-        name: nameController.text,
-        alias: aliasController.text);
-    if (context.mounted) Navigator.pop(context);
+      context,
+      email: emailController.text,
+      password: passwordController.text,
+      cnfPassword: cnfPasswordController.text,
+      name: nameController.text,
+      alias: aliasController.text,
+    );
   }
 
   @override
@@ -50,26 +53,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-                alignment: Alignment.topCenter,
-                child: Image.asset("assets/SignupTop BlobImg.png")),
-            buildBody(context),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Image.asset("assets/SignupBottom BlobImg.png"),
-            ),
-          ],
+        child: SizedBox(
+          height: SizeConfig.screenHeight,
+          width: SizeConfig.screenWidth,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Image.asset(Assets.singUpTop),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Image.asset(Assets.singUpBottom),
+              ),
+              _buildBody(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Column buildBody(BuildContext context) {
-    const padding = EdgeInsets.symmetric(horizontal: 30, vertical: 10);
+  Column _buildBody() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: EdgeInsets.only(
@@ -80,45 +90,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: TextStyle(color: Colors.black, fontSize: 40),
           ),
         ),
+        InputTextField(controller: emailController, labelText: 'Email'),
+        InputTextField(controller: nameController, labelText: 'Name'),
+        InputTextField(controller: aliasController, labelText: 'Alias'),
+        InputTextField(controller: passwordController, labelText: 'Password'),
         InputTextField(
-          controller: emailController,
-          labelText: 'Email',
-          padding: padding,
-        ),
-        InputTextField(
-          controller: nameController,
-          labelText: 'Name',
-          padding: padding,
-        ),
-        InputTextField(
-          controller: aliasController,
-          labelText: 'Alias',
-          padding: padding,
-        ),
-        InputTextField(
-          controller: passwordController,
-          labelText: 'Password',
-          padding: padding,
-        ),
-        InputTextField(
-          controller: cnfPasswordController,
-          labelText: 'Confirm Password',
-          padding: padding,
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: SizeConfig.screenHeight * 0.035,
-          ),
-          child: ElevatedButton(
-            onPressed: () => registerUser(context),
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xff1870B5)),
-              overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-            ),
-            child: const Text("Sign Up"),
-          ),
-        ),
+            controller: cnfPasswordController, labelText: 'Confirm Password'),
+        AuthButton(onPressed: () => registerUser(context), text: "Sign Up"),
         Padding(
           padding: const EdgeInsets.only(
             top: 0,

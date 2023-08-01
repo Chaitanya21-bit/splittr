@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/dataclass/personalTransactions.dart';
-import 'package:splitter/providers/personal_transaction_provider.dart';
+import 'package:splitter/dataclass/dataclass.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/services/personal_transaction_service.dart';
 import '../providers/providers.dart';
 import '../utils/get_provider.dart';

@@ -3,34 +3,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:splitter/colors.dart';
-import 'package:splitter/size_config.dart';
+import 'package:splitter/constants/colors.dart';
+import 'package:splitter/utils/size_config.dart';
 
 class Background extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors().creamBG,
+      backgroundColor: AppColors.creamBG,
       body: Column(
         children: [
           Transform.rotate(angle: 40,
             child: Container(
               child: CustomPaint(
-                painter: OpenPainter(color: AppColors().yellow, offset: 0),
+                painter: OpenPainter(color: AppColors.yellow, offset: 0),
               ),
             ),
           ),
           Transform.rotate(angle: 40,
             child: Container(
               child: CustomPaint(
-                painter: OpenPainter(color: AppColors().maroon, offset: 100),
+                painter: OpenPainter(color: AppColors.maroon, offset: 100),
               ),
             ),
           ),
           Transform.rotate(angle: 40,
             child: Container(
               child: CustomPaint(
-                painter: OpenPainter(color: AppColors().purple, offset: 200),
+                painter: OpenPainter(color: AppColors.purple, offset: 200),
               ),
             ),
           ),
@@ -59,15 +59,15 @@ class OpenPainter extends CustomPainter {
 
 
 class BackgroundStack extends StatelessWidget {
-  const BackgroundStack({Key? key, required this.builder}) : super(key: key);
-  final Widget builder;
+  const BackgroundStack({Key? key, required this.child}) : super(key: key);
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Background(),
-        builder,
+        child,
       ],
     );
   }

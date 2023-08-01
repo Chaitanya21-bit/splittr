@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../dataclass/group.dart';
-import '../../dataclass/user.dart';
+import '../../dataclass/dataclass.dart';
+import '../../dataclass/dataclass.dart';
 
 class GroupDetailsDropdown extends StatefulWidget {
 

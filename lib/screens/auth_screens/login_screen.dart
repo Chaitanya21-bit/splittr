@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/providers/firebase_auth_provider.dart';
+import 'package:splitter/providers/providers.dart';
+import 'package:splitter/screens/auth_screens/widgets/auth_button.dart';
 import 'package:splitter/utils/get_provider.dart';
 
 import '../../components/custom_text_field.dart';
+import '../../constants/assets.dart';
 import '../../constants/routes.dart';
-import '../../size_config.dart';
 import '../../utils/auth_utils.dart';
+import '../../utils/size_config.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -35,88 +37,64 @@ class _LoginScreenState extends State<LoginScreen> {
   void login(BuildContext context) async {
     showLoadingDialog(context);
     await getProvider<FirebaseAuthProvider>(context).signInWithEmail(
-        email: emailController.text, password: passwordController.text);
+      context,
+      email: emailController.text,
+      password: passwordController.text,
+    );
 
-    if (context.mounted) Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Image.asset("assets/LoginTop BlobImg.png"), // Logo,
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  "assets/SplittrLogo.png",
-                  width: 150,
-                )),
-            buildBody(context),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Image.asset("assets/LoginBottom BlobImg.png"), // Logo,
-            ),
-          ],
+        child: SizedBox(
+          height: SizeConfig.screenHeight,
+          width: SizeConfig.screenWidth,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Image.asset(Assets.loginTop),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Image.asset(Assets.loginBottom),
+              ),
+              _buildBody(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget buildBody(BuildContext context) {
+  Widget _buildBody() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-            top: SizeConfig.screenHeight * 0.04,
-          ),
-          child: const Text(
-            "Login",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 40,
-            ),
+        const Text(
+          "Login",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 40,
           ),
         ),
         InputTextField(controller: emailController, labelText: 'Email'),
         InputTextField(controller: passwordController, labelText: 'Password'),
-        Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.05,
-          ),
-          child: ElevatedButton(
-            onPressed: () => login(context),
-            style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xff1870B5)),
-              overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
-            ),
-            child: const Text("Login"),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.02,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Don't have an Account ? ",
-              ),
-              TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.singUp),
-                  child: const Text("Sign Up"))
-            ],
-          ),
+        AuthButton(onPressed: () => login(context), text: "Login"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Don't have an Account ? "),
+            TextButton(
+              onPressed: () => Navigator.of(context).pushNamed(Routes.signUp),
+              child: const Text("Sign Up"),
+            )
+          ],
         ),
       ],
     );

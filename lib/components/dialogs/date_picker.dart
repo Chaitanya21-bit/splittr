@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:splitter/providers/datetime_provider.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/utils/get_provider.dart';
 
 class DatePicker extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:splitter/colors.dart';
+import 'package:splitter/constants/colors.dart';
 import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/providers/providers.dart';
 
@@ -63,7 +63,7 @@ class GroupCard extends StatelessWidget {
           );
         },
           child: Card(
-            color: AppColors().white,
+            color: AppColors.white,
             elevation: 8,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
@@ -81,7 +81,7 @@ class GroupCard extends StatelessWidget {
                    child:Text(
                       group.groupName,
                       style: TextStyle(
-                        color: AppColors().black,
+                        color: AppColors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.ellipsis,
@@ -102,7 +102,7 @@ class GroupCard extends StatelessWidget {
                     '${group.members.length} Members',
                     style: TextStyle(
                       fontSize: 18,
-                      color: AppColors().black,
+                      color: AppColors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -125,7 +125,7 @@ class GroupCard extends StatelessWidget {
                           ),
                           style: ButtonStyle(
                             foregroundColor:
-                                MaterialStateProperty.all(AppColors().purple),
+                                MaterialStateProperty.all(AppColors.purple),
                             ),
                         ),
                   ),

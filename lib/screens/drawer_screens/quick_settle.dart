@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:splitter/components/custom_text_field.dart';
-import '../../colors.dart';
+import '../../constants/colors.dart';
 import '../../components/background.dart';
-import '../../size_config.dart';
+import '../../utils/size_config.dart';
 import '../../utils/toasts.dart';
-
 
 class QuickSettle extends StatefulWidget {
   const QuickSettle({Key? key}) : super(key: key);
@@ -32,7 +31,7 @@ class _QuickSettleState extends State<QuickSettle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors().creamBG,
+        backgroundColor: AppColors.creamBG,
         foregroundColor: Colors.black,
         title: Align(
           alignment: Alignment.center,
@@ -51,7 +50,7 @@ class _QuickSettleState extends State<QuickSettle> {
         elevation: 0,
       ),
       body: BackgroundStack(
-        builder: SingleChildScrollView(
+        child: SingleChildScrollView(
           child:Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -129,8 +128,8 @@ class _QuickSettleState extends State<QuickSettle> {
               Navigator.pushNamed(context, '/quickSplit', arguments: people);
             },
             label: const Text('Split'),
-            foregroundColor: AppColors().black,
-            backgroundColor: AppColors().yellow,
+            foregroundColor: AppColors.black,
+            backgroundColor: AppColors.yellow,
           ),
           // FloatingActionButton.extended(
           //   onPressed: () {
@@ -140,8 +139,8 @@ class _QuickSettleState extends State<QuickSettle> {
           //       totalItem = totalItem + 1;
           //     });},
           //   label: const Text('Add'),
-          //   foregroundColor: AppColors().black,
-          //   backgroundColor: AppColors().yellow,
+          //   foregroundColor: AppColors.black,
+          //   backgroundColor: AppColors.yellow,
           // ),
         // ]
       // ),
@@ -154,7 +153,7 @@ Widget userController(int index, TextEditingController name, TextEditingControll
     child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX:10,sigmaY: 10),
         child: Container(
-          color: AppColors().black.withOpacity(0.25),
+          color: AppColors.black.withOpacity(0.25),
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

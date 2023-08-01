@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/providers/group_provider.dart';
+import 'package:splitter/providers/providers.dart';
 import 'package:splitter/services/group_service.dart';
 import 'package:splitter/utils/auth_utils.dart';
 import 'package:splitter/utils/get_provider.dart';
 
-import '../../dataclass/group.dart';
-import '../../dataclass/user.dart';
+import '../../dataclass/dataclass.dart';
 import '../../utils/toasts.dart';
 import '../custom_text_field.dart';
 

@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:splitter/providers/providers.dart';
-import 'package:splitter/size_config.dart';
+import 'package:splitter/utils/size_config.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../dataclass/dataclass.dart';

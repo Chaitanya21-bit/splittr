@@ -1,14 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splitter/components/category_dropdown.dart';
-import 'package:splitter/providers/category_provider.dart';
 import 'package:splitter/providers/providers.dart';
 import 'package:splitter/route_generator.dart';
-import 'package:splitter/screens/auth_widget_builder.dart';
-import 'package:splitter/utils/get_provider.dart';
 
 import 'auth/firebase_options.dart';
+import 'components/dialogs/join_group_dialog.dart';
+import 'constants/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,31 +21,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DateTimeProvider>(
-          create: (_) => DateTimeProvider(),
-        ),
-        ChangeNotifierProvider<CategoryProvider>(
-          create: (_) => CategoryProvider(),
-        ),
-        ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
-        Provider<FirebaseAuthProvider>(create: (_) => FirebaseAuthProvider()),
+        ChangeNotifierProvider(create: (_) => DateTimeProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        Provider(create: (_) => FirebaseAuthProvider()),
+        Provider(create: (context) => DynamicLinksProvider(context)),
+        ChangeNotifierProvider(create: (_) => PersonalTransactionProvider()),
+        ChangeNotifierProvider(create: (_) => GroupProvider()),
+        ChangeNotifierProvider(create: (context) => JoinGroupProvider(context)),
       ],
-      builder: (context, _) => AuthWidgetBuilder(
-        builder: () {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              fontFamily: 'Poppins',
-              // useMaterial3: true
-            ),
-            initialRoute: '/',
-            onGenerateRoute:
-                getProvider<FirebaseAuthProvider>(context).isUserSignedIn
-                    ? RouteGenerator.signedInRoute
-                    : RouteGenerator.signedOutRoute,
-          );
-        },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: 'Poppins',
+          // useMaterial3: true
+        ),
+        initialRoute: Routes.splash,
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }

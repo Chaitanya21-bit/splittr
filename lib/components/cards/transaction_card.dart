@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:splitter/dataclass/personalTransactions.dart';
-import 'package:splitter/providers/personal_transaction_provider.dart';
+import 'package:splitter/dataclass/dataclass.dart';
+import 'package:splitter/providers/providers.dart';
 
-import '../../size_config.dart';
+import '../../utils/size_config.dart';
 import '../../utils/get_provider.dart';
 
 class TransactionCard extends StatelessWidget {
   const TransactionCard({super.key, required this.transaction});
-
   final PersonalTransaction transaction;
 
   @override
   Widget build(BuildContext context) {
+    final personalTransactionProvider = getProvider<PersonalTransactionProvider>(context);
     return Dismissible(
       key: Key(transaction.tid),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) async {
-        await getProvider<PersonalTransactionProvider>(context)
-            .deleteTransaction(transaction);
-      },
+      onDismissed: (direction) => personalTransactionProvider.deleteTransaction(transaction),
       confirmDismiss: (DismissDirection direction) async {
         return await showDialog(
           context: context,

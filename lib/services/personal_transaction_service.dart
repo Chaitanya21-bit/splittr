@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:splitter/constants/firebase_endpoints.dart';
-import 'package:splitter/dataclass/personalTransactions.dart';
+import 'package:splitter/dataclass/dataclass.dart';
 import 'package:splitter/services/firebase_database_service.dart';
 
 class PersonalTransactionService {
