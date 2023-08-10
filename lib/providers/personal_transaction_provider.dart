@@ -6,8 +6,7 @@ import 'package:splitter/utils/get_provider.dart';
 
 class PersonalTransactionProvider extends ChangeNotifier {
   final List<PersonalTransaction> _personalTransactions = [];
-  final PersonalTransactionService _personalTransactionService =
-      PersonalTransactionService();
+  final PersonalTransactionService _personalTransactionService = PersonalTransactionService();
   late final UserProvider _userProvider;
 
   List<PersonalTransaction> get personalTransactions => _personalTransactions;
@@ -16,31 +15,25 @@ class PersonalTransactionProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  void init(BuildContext context){
-    _userProvider = getProvider<UserProvider>(context,listen: false);
+  void init(BuildContext context) {
+    _userProvider = getProvider<UserProvider>(context, listen: false);
     fetchTransactions();
   }
 
-
-  _setLoading(bool value) {
+  void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
 
-  fetchTransactions() async {
+  void fetchTransactions() async {
     _setLoading(true);
-    for (String transactionId in _userProvider.user.personalTransactions) {
-      final personalTransaction = await _personalTransactionService
-          .getTransactionFromDatabase(transactionId);
-      if (personalTransaction != null) {
-        _personalTransactions.add(personalTransaction);
-      }
-    }
+    personalTransactions.addAll(await _personalTransactionService
+        .getTransactionFromIds(_userProvider.user.personalTransactions));
     debugPrint("Retrieved Transactions");
     _setLoading(false);
   }
 
-  addTransaction(PersonalTransaction transaction) async {
+  Future<void> addTransaction(PersonalTransaction transaction) async {
     _personalTransactions.add(transaction);
     debugPrint("Personal Transaction Created");
     await _personalTransactionService.addTransactionToDatabase(transaction);
@@ -51,8 +44,7 @@ class PersonalTransactionProvider extends ChangeNotifier {
   Future<void> deleteTransaction(PersonalTransaction transaction) async {
     _personalTransactions.remove(transaction);
     debugPrint("Personal Transaction Deleted");
-    await _personalTransactionService
-        .deleteTransactionFromDatabase(transaction);
+    await _personalTransactionService.deleteTransactionFromDatabase(transaction);
     await _userProvider.deleteTransaction(transaction.tid);
     notifyListeners();
   }

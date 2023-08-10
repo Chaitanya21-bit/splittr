@@ -31,7 +31,6 @@ class DynamicLinksProvider {
       _dynamicLinks.onLink.listen((dynamicLinkData) async {
         if (dynamicLinkData.link.queryParameters.containsKey("id")) {
           gid = dynamicLinkData.link.queryParameters['id'];
-          print("Got Here");
           _joinGroupProvider.show(context, gid);
         }
       }).onError((error) {

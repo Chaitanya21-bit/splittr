@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         Provider(create: (_) => FirebaseAuthProvider()),
-        Provider(create: (context) => DynamicLinksProvider(context)),
         ChangeNotifierProvider(create: (_) => PersonalTransactionProvider()),
         ChangeNotifierProvider(create: (_) => GroupProvider()),
         ChangeNotifierProvider(create: (context) => JoinGroupProvider(context)),
+        Provider(create: (context) => DynamicLinksProvider(context)),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -22,21 +22,27 @@ class SplashScreenController extends ChangeNotifier {
     Future.delayed(
       const Duration(seconds: 2),
       () async {
+        final state = Navigator.of(context);
+        final groupProvider =
+            getProvider<GroupProvider>(context, listen: false);
+        final personalTransactionProvider =
+            getProvider<PersonalTransactionProvider>(context, listen: false);
         if (authProvider.isUserSignedIn) {
           final uid = authProvider.currentUser!.uid;
           final user = await userProvider.retrieveUserInfo(uid);
-          if (context.mounted) {
-            getProvider<GroupProvider>(context, listen: false).init(context);
-            getProvider<PersonalTransactionProvider>(context, listen: false)
-                .init(context);
-            Navigator.pushReplacementNamed(
-              context,
-              user == null ? Routes.login : Routes.home,
-            );
+
+          if (user == null) {
+            state.pushReplacementNamed(Routes.login);
+            return;
           }
-          return;
+          if (context.mounted) {
+            groupProvider.init(context);
+            personalTransactionProvider.init(context);
+          }
+          state.pushReplacementNamed(Routes.home);
+        } else {
+          state.pushReplacementNamed(Routes.login);
         }
-        Navigator.pushReplacementNamed(context, Routes.login);
       },
     );
   }

@@ -30,7 +30,7 @@ class GroupProvider extends ChangeNotifier {
   //   _groups[_selectedIndex].totalAmount = sum;
   // }
   void init(BuildContext context) {
-    _userProvider = getProvider<UserProvider>(context,listen: false);
+    _userProvider = getProvider<UserProvider>(context);
     fetchGroups();
   }
 
@@ -52,12 +52,7 @@ class GroupProvider extends ChangeNotifier {
 
   Future<void> fetchGroups() async {
     _setLoading(true);
-    for (String groupId in _userProvider.user.groups) {
-      final group = await _groupService.getGroupFromDatabase(groupId);
-      if (group != null) {
-        _groups.add(group);
-      }
-    }
+    _groups.addAll(await _groupService.getGroupFromIds(_userProvider.user.groups));
     debugPrint("Retrieved Groups");
     _setLoading(false);
   }

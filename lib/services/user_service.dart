@@ -1,28 +1,29 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:splitter/constants/firebase_endpoints.dart';
+import 'package:splitter/constants/typedefs.dart';
 import 'package:splitter/dataclass/dataclass.dart';
-
-import 'firebase_database_service.dart';
+import 'package:splitter/dataclass/failure.dart';
 
 class UserService {
-  Future<User?> saveUserToDatabase(User user) async {
-    await FirebaseDatabaseService.set("$usersEndpoint${user.uid}", user.toJson());
-    return user;
+  final _database = FirebaseFirestore.instance;
+
+  FutureEither<bool> saveUserToDatabase(User user) async {
+    try {
+      await _database.collection(usersCollection).doc(user.uid).set(user.toJson());
+      return right(true);
+
+    } on Exception catch (e) {
+      return left(Failure(msg: e.toString()));
+    }
   }
 
   Future<User?> getUserFromDatabase(String uid) async {
-    final json = await FirebaseDatabaseService.get<User>("$usersEndpoint$uid");
-    if (json == null) return null;
-
-    debugPrint("Retrieving User Info from database");
-    return User.fromJson(json);
+    final snapshot = await _database.collection(usersCollection).doc(uid).get();
+    return snapshot.exists ? User.fromJson(snapshot.data()!) : null;
   }
 
   updateUserToDatabase(User user) async {
-    await FirebaseDatabaseService.update(
-        usersEndpoint + user.uid, user.toJson());
+    await _database.collection(usersCollection).doc(user.uid).update(user.toJson());
   }
 }

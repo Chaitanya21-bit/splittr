@@ -15,12 +15,13 @@ class UserProvider extends ChangeNotifier {
     final dbUser = await _userService.getUserFromDatabase(uid);
     if (dbUser != null) {
       _user = dbUser;
+      notifyListeners();
+      return _user;
     } else {
       await _authService.signOut();
       showToast("You Got Deleted ^_^");
       return null;
     }
-    return _user;
   }
 
   Future<void> addTransaction(String transactionId) async {

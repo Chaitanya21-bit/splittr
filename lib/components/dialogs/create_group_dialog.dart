@@ -50,14 +50,14 @@ class CreateGroupDialog {
       Uri link = await _dynamicLinksProvider.createDynamicLink(_uuid);
 
       Group group = Group(
-          gid: _uuid,
-          groupName: _groupNameController.text,
-          groupDescription: _aboutGroupController.text,
-          link: link,
-          groupLimit: double.tryParse(_groupLimitController.text),
-          totalAmount: 0,
-          members: [_user],
-          transactions: [],
+        gid: _uuid,
+        groupName: _groupNameController.text,
+        groupDescription: _aboutGroupController.text,
+        link: link,
+        groupLimit: double.tryParse(_groupLimitController.text),
+        totalAmount: 0,
+        members: [_user],
+        transactions: [],
       );
       await _groupProvider.createGroup(group);
       state.pop();
@@ -90,81 +90,80 @@ class CreateGroupDialog {
 
   void show() {
     showDialog(
-        context: context,
-        builder: (context) {
-          const padding = EdgeInsets.symmetric(vertical: 10);
-          return AlertDialog(
-            scrollable: true,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            title: const Center(
-              child: Text('New Group'),
-            ),
-            content: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  InputTextField(
-                    controller: _groupNameController,
-                    labelText: 'Group Name',
-                    padding: padding,
-                  ),
-                  InputTextField(
-                    controller: _aboutGroupController,
-                    labelText: 'About',
-                    padding: padding,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: InputTextField(
-                          controller: _groupLimitController,
-                          labelText: 'Limit',
-                          padding: padding,
-                          textInputAction: TextInputType.number,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: InputTextField(
-                          controller: _personalLimitController,
-                          labelText: 'Personal Limit',
-                          padding: padding,
-                          textInputAction: TextInputType.number,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: padding,
-                    child: Text(_uuid),
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: _exit,
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+      context: context,
+      builder: (context) {
+        const padding = EdgeInsets.symmetric(vertical: 10);
+        return AlertDialog(
+          scrollable: true,
+          shape:
+              const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          title: const Center(
+            child: Text('New Group'),
+          ),
+          content: Form(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InputTextField(
+                  controller: _groupNameController,
+                  labelText: 'Group Name',
+                  padding: padding,
                 ),
-                child: const Text("Cancel"),
-              ),
-              ElevatedButton(
-                onPressed: createGroup,
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xff1870B5)),
-                  overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+                InputTextField(
+                  controller: _aboutGroupController,
+                  labelText: 'About',
+                  padding: padding,
                 ),
-                child: const Text("Done"),
+                Row(
+                  children: [
+                    Expanded(
+                      child: InputTextField(
+                        controller: _groupLimitController,
+                        labelText: 'Limit',
+                        padding: padding,
+                        textInputAction: TextInputType.number,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: InputTextField(
+                        controller: _personalLimitController,
+                        labelText: 'Personal Limit',
+                        padding: padding,
+                        textInputAction: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: padding,
+                  child: Text(_uuid),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: _exit,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
+                overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
               ),
-            ],
-          );
-        });
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: createGroup,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(const Color(0xff1870B5)),
+                overlayColor: MaterialStateProperty.all<Color>(Colors.pink),
+              ),
+              child: const Text("Done"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
