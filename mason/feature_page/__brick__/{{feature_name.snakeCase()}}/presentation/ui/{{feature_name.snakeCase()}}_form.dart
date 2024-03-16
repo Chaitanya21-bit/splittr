@@ -5,6 +5,10 @@ class _{{feature_name.pascalCase()}}Form extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(
+      child: Text(
+        '{{feature_name.pascalCase()}} Page',
+      ),
+    );
   }
 }
