@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:splittr/constants/env.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/core/route_handler/route_observer.dart';
 import 'package:splittr/di/injection.dart';
 
-void main() {
-  configureDependencies();
+void mainCommon(Env env) {
+  configureDependencies(env);
   runApp(const MyApp());
 }
 

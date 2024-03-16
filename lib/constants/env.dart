@@ -1,0 +1,4 @@
+enum Env{
+  dev,
+  prod;
+}
