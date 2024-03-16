@@ -48,3 +48,5 @@ app.*.map.json
 
 mason/.mason
 mason/mason-lock.json
+
+firebase_options*.dart
