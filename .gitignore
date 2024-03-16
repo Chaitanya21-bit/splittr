@@ -45,3 +45,6 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 *.config.dart
+
+mason/.mason
+mason/mason-lock.json

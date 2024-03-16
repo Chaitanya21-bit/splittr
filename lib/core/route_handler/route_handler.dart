@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splittr/core/route_handler/route_id.dart';
-import 'package:splittr/features/dashboard/presentation/ui/dashboard_screen.dart';
-import 'package:splittr/features/splash/presentation/ui/splash_screen.dart';
+import 'package:splittr/features/splash/presentation/ui/splash_page.dart';
 import 'package:splittr/utils/extensions/enum_extensions.dart';
 
 export 'route_id.dart';
@@ -27,14 +26,15 @@ class RouteHandler {
     return MaterialPageRoute(
       settings: settings,
       builder: (_) => switch (routeId) {
-        RouteId.splash => SplashScreen(args: args),
-        RouteId.dashboard => DashboardScreen(args: args),
-        RouteId.login => DashboardScreen(args: args),
-        RouteId.signup => DashboardScreen(args: args),
-        RouteId.profile => DashboardScreen(args: args),
-        RouteId.groupDashboard => DashboardScreen(args: args),
-        RouteId.quickSettle => DashboardScreen(args: args),
-        RouteId.quickSplit => DashboardScreen(args: args),
+        RouteId.splash => SplashPage(args: args),
+        _ => SplashPage(args: args),
+        // RouteId.dashboard => DashboardScreen(args: args),
+        // RouteId.login => DashboardScreen(args: args),
+        // RouteId.signup => DashboardScreen(args: args),
+        // RouteId.profile => DashboardScreen(args: args),
+        // RouteId.groupDashboard => DashboardScreen(args: args),
+        // RouteId.quickSettle => DashboardScreen(args: args),
+        // RouteId.quickSplit => DashboardScreen(args: args),
       },
     );
   }

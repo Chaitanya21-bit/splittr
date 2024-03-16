@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
@@ -17,16 +18,10 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
 
   @override
   void handleEvents() {
-    on<SplashEvent>((event, emit) {
-      switch (event) {
-        case Started():
-          changeLoaderState(emit: emit, loading: true);
-          emit(
-            SplashState.initial(store: state.store.copyWith(loading: false)),
-          );
-      }
-    });
+    on<_Started>(_onStarted);
   }
+
+  void _onStarted(_Started event, Emitter<SplashState> emit) {}
 
   @override
   void started({
