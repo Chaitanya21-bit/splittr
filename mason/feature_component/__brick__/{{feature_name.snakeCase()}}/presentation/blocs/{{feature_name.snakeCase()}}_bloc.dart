@@ -11,7 +11,7 @@ part '{{feature_name.snakeCase()}}_state.dart';
 
 @injectable
 final class {{feature_name.pascalCase()}}Bloc extends BaseBloc<{{feature_name.pascalCase()}}Event, {{feature_name.pascalCase()}}State> {
-{{feature_name.pascalCase()}}Bloc()
+  {{feature_name.pascalCase()}}Bloc()
       : super(
           const {{feature_name.pascalCase()}}State.initial(
             store: {{feature_name.pascalCase()}}StateStore(),

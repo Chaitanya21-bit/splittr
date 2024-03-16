@@ -3,18 +3,18 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
-part 'dashboard_bloc.freezed.dart';
+part 'groups_bloc.freezed.dart';
 
-part 'dashboard_event.dart';
+part 'groups_event.dart';
 
-part 'dashboard_state.dart';
+part 'groups_state.dart';
 
 @injectable
-final class DashboardBloc extends BaseBloc<DashboardEvent, DashboardState> {
-  DashboardBloc()
+final class GroupsBloc extends BaseBloc<GroupsEvent, GroupsState> {
+  GroupsBloc()
       : super(
-          const DashboardState.initial(
-            store: DashboardStateStore(),
+          const GroupsState.initial(
+            store: GroupsStateStore(),
           ),
         );
 
@@ -23,12 +23,12 @@ final class DashboardBloc extends BaseBloc<DashboardEvent, DashboardState> {
     on<_Started>(_onStarted);
   }
 
-  void _onStarted(_Started event, Emitter<DashboardState> emit) {}
+  void _onStarted(_Started event, Emitter<GroupsState> emit) {}
 
   @override
   void started({
     Map<String, dynamic>? args,
   }) {
-    add(const DashboardEvent.started());
+    add(const GroupsEvent.started());
   }
 }
