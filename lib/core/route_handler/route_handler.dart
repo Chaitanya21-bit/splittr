@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:splittr/core/route_handler/route_id.dart';
+import 'package:splittr/features/dashboard/presentation/ui/dashboard_page.dart';
+import 'package:splittr/features/group_dashboard/presentation/ui/group_dashboard_page.dart';
+import 'package:splittr/features/login/presentation/ui/login_page.dart';
+import 'package:splittr/features/profile/presentation/ui/profile_page.dart';
+import 'package:splittr/features/quick_settle/presentation/ui/quick_settle_page.dart';
+import 'package:splittr/features/quick_split/presentation/ui/quick_split_page.dart';
+import 'package:splittr/features/signup/presentation/ui/signup_page.dart';
 import 'package:splittr/features/splash/presentation/ui/splash_page.dart';
 import 'package:splittr/utils/extensions/enum_extensions.dart';
 
@@ -27,14 +34,13 @@ class RouteHandler {
       settings: settings,
       builder: (_) => switch (routeId) {
         RouteId.splash => SplashPage(args: args),
-        _ => SplashPage(args: args),
-        // RouteId.dashboard => DashboardScreen(args: args),
-        // RouteId.login => DashboardScreen(args: args),
-        // RouteId.signup => DashboardScreen(args: args),
-        // RouteId.profile => DashboardScreen(args: args),
-        // RouteId.groupDashboard => DashboardScreen(args: args),
-        // RouteId.quickSettle => DashboardScreen(args: args),
-        // RouteId.quickSplit => DashboardScreen(args: args),
+        RouteId.dashboard => DashboardPage(args: args),
+        RouteId.login => LoginPage(args: args),
+        RouteId.signup => SignupPage(args: args),
+        RouteId.profile => ProfilePage(args: args),
+        RouteId.groupDashboard => GroupDashboardPage(args: args),
+        RouteId.quickSettle => QuickSettlePage(args: args),
+        RouteId.quickSplit => QuickSplitPage(args: args),
       },
     );
   }
@@ -44,11 +50,16 @@ class RouteHandler {
     RouteId routeId, {
     Map<String, dynamic>? args,
   }) async {
+    if (!context.mounted) {
+      return null;
+    }
+
     final returnedArgs = await Navigator.pushNamed(
       context,
       routeId.name,
       arguments: args,
     );
+
     return returnedArgs as Map<String, dynamic>?;
   }
 
@@ -57,11 +68,16 @@ class RouteHandler {
     RouteId routeId, {
     Map<String, dynamic>? args,
   }) async {
+    if (!context.mounted) {
+      return null;
+    }
+
     final returnedArgs = await Navigator.pushReplacementNamed(
       context,
       routeId.name,
       arguments: args,
     );
+
     return returnedArgs as Map<String, dynamic>?;
   }
 
@@ -71,12 +87,17 @@ class RouteHandler {
     bool Function(Route<dynamic>) predicate, {
     Map<String, dynamic>? args,
   }) async {
+    if (!context.mounted) {
+      return null;
+    }
+
     final returnedArgs = await Navigator.pushNamedAndRemoveUntil(
       context,
       routeId.name,
       predicate,
       arguments: args,
     );
+
     return returnedArgs as Map<String, dynamic>?;
   }
 }

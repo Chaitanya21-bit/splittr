@@ -3,16 +3,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
-part 'quick_split_bloc.freezed.dart';
-part 'quick_split_event.dart';
-part 'quick_split_state.dart';
+part 'profile_bloc.freezed.dart';
+part 'profile_event.dart';
+part 'profile_state.dart';
 
 @injectable
-final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
-  QuickSplitBloc()
+final class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
+  ProfileBloc()
       : super(
-          const QuickSplitState.initial(
-            store: QuickSplitStateStore(),
+          const ProfileState.initial(
+            store: ProfileStateStore(),
           ),
         );
 
@@ -21,12 +21,12 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     on<_Started>(_onStarted);
   }
 
-  void _onStarted(_Started event, Emitter<QuickSplitState> emit) {}
+  void _onStarted(_Started event, Emitter<ProfileState> emit) {}
 
   @override
   void started({
     Map<String, dynamic>? args,
   }) {
-    add(const QuickSplitEvent.started());
+    add(const ProfileEvent.started());
   }
 }

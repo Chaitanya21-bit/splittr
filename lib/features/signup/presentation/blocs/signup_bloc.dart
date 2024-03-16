@@ -3,16 +3,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
-part 'quick_split_bloc.freezed.dart';
-part 'quick_split_event.dart';
-part 'quick_split_state.dart';
+part 'signup_bloc.freezed.dart';
+part 'signup_event.dart';
+part 'signup_state.dart';
 
 @injectable
-final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
-  QuickSplitBloc()
+final class SignupBloc extends BaseBloc<SignupEvent, SignupState> {
+  SignupBloc()
       : super(
-          const QuickSplitState.initial(
-            store: QuickSplitStateStore(),
+          const SignupState.initial(
+            store: SignupStateStore(),
           ),
         );
 
@@ -21,12 +21,12 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     on<_Started>(_onStarted);
   }
 
-  void _onStarted(_Started event, Emitter<QuickSplitState> emit) {}
+  void _onStarted(_Started event, Emitter<SignupState> emit) {}
 
   @override
   void started({
     Map<String, dynamic>? args,
   }) {
-    add(const QuickSplitEvent.started());
+    add(const SignupEvent.started());
   }
 }
