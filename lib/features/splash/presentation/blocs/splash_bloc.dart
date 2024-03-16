@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'splash_bloc.freezed.dart';
+
 part 'splash_event.dart';
+
 part 'splash_state.dart';
 
 @injectable

@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'profile_bloc.freezed.dart';
+
 part 'profile_event.dart';
+
 part 'profile_state.dart';
 
 @injectable
