@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'quick_settle_bloc.freezed.dart';
-
 part 'quick_settle_event.dart';
-
 part 'quick_settle_state.dart';
 
 @injectable

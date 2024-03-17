@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'signup_bloc.freezed.dart';
-
 part 'signup_event.dart';
-
 part 'signup_state.dart';
 
 @injectable

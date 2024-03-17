@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'dashboard_bloc.freezed.dart';
-
 part 'dashboard_event.dart';
-
 part 'dashboard_state.dart';
 
 @injectable

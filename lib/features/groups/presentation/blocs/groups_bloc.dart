@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'groups_bloc.freezed.dart';
-
 part 'groups_event.dart';
-
 part 'groups_state.dart';
 
 @injectable
