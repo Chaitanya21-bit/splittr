@@ -34,7 +34,7 @@ sealed class SignupState extends BaseState with _$SignupState {
   }) =>
       SignupState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -23,25 +25,43 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   void handleEvents() {
     on<_Started>(_onStarted);
     on<_SendOtpClicked>(_onSendOtpClicked);
+    on<_SendOtp>(_onSendOtp);
   }
 
   void _onStarted(_Started event, Emitter<LoginState> emit) {}
 
-  void _onSendOtpClicked(_SendOtpClicked event, Emitter<LoginState> emit) {
+  Future<void> _onSendOtpClicked(
+    _SendOtpClicked event,
+    Emitter<LoginState> emit,
+  ) async {
     if (event.phoneNumber.isEmpty || event.phoneNumber.length != 10) {
       return;
     }
-    _authRepository.sendOtp(
+
+    changeLoaderState(emit: emit, loading: true);
+
+    await _authRepository.sendOtp(
       event.phoneNumber,
       (verificationId, forceResendingToken) {
-        emit(
-          LoginState.otpSent(
-            store: state.store,
+        add(
+          LoginEvent.sendOtp(
             verificationId: verificationId,
             forceResendingToken: forceResendingToken,
           ),
         );
       },
+    );
+  }
+
+  void _onSendOtp(_SendOtp event, Emitter<LoginState> emit) {
+    emit(
+      LoginState.otpSent(
+        store: state.store.copyWith(
+          loading: false,
+        ),
+        verificationId: event.verificationId,
+        forceResendingToken: event.forceResendingToken,
+      ),
     );
   }
 
@@ -57,4 +77,19 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       LoginEvent.sendOtpClicked(phoneNumber: phoneNumber),
     );
   }
+
+  void sendOtp({
+    required String verificationId,
+    int? forceResendingToken,
+  }) {
+    add(
+      LoginEvent.sendOtp(
+        verificationId: verificationId,
+        forceResendingToken: forceResendingToken,
+      ),
+    );
+  }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

@@ -32,4 +32,7 @@ final class QuickSettleBloc
   }) {
     add(const QuickSettleEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

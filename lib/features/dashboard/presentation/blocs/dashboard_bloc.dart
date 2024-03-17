@@ -31,4 +31,7 @@ final class DashboardBloc extends BaseBloc<DashboardEvent, DashboardState> {
   }) {
     add(const DashboardEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

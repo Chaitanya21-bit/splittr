@@ -34,7 +34,7 @@ sealed class GroupsState extends BaseState with _$GroupsState {
   }) =>
       GroupsState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

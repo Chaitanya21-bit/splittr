@@ -33,6 +33,8 @@ dependencies:
 
   json_annotation: 4.8.1
 
+  pin_code_fields: 8.0.1
+
   recase: 4.1.0
 
   uuid: 4.3.3

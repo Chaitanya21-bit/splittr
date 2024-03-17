@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/base_page/base_page.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_split/presentation/blocs/quick_split_bloc.dart';
 
 part 'quick_split_form.dart';
 
-class QuickSplitPage extends BaseScreen<QuickSplitBloc> {
+class QuickSplitPage extends BasePage<QuickSplitBloc> {
   const QuickSplitPage({
     super.key,
     required super.args,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/base_page//base_page.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_settle/presentation/blocs/quick_settle_bloc.dart';
 
 part 'quick_settle_form.dart';
 
-class QuickSettlePage extends BaseScreen<QuickSettleBloc> {
+class QuickSettlePage extends BasePage<QuickSettleBloc> {
   const QuickSettlePage({
     super.key,
     required super.args,

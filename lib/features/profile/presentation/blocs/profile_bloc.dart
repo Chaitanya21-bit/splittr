@@ -31,4 +31,7 @@ final class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
   }) {
     add(const ProfileEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

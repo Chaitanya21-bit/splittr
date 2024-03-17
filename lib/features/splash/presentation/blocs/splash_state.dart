@@ -42,7 +42,7 @@ sealed class SplashState extends BaseState with _$SplashState {
   }) =>
       SplashState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

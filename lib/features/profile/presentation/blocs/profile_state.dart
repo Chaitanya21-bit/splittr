@@ -34,7 +34,7 @@ sealed class ProfileState extends BaseState with _$ProfileState {
   }) =>
       ProfileState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

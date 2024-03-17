@@ -1,7 +1,8 @@
 part of 'otp_verification_bloc.dart';
 
 @freezed
-sealed class OtpVerificationState extends BaseState with _$OtpVerificationState {
+sealed class OtpVerificationState extends BaseState
+    with _$OtpVerificationState {
   const OtpVerificationState._();
 
   const factory OtpVerificationState.initial({
@@ -34,7 +35,7 @@ sealed class OtpVerificationState extends BaseState with _$OtpVerificationState 
   }) =>
       OtpVerificationState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }
@@ -42,6 +43,8 @@ sealed class OtpVerificationState extends BaseState with _$OtpVerificationState 
 @freezed
 class OtpVerificationStateStore with _$OtpVerificationStateStore {
   const factory OtpVerificationStateStore({
+    String? verificationId,
+    int? forceResendingToken,
     @Default(false) bool loading,
   }) = _OtpVerificationStateStore;
 }

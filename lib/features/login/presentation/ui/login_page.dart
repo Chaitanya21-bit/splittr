@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/constants/constants.dart';
+import 'package:splittr/core/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
@@ -9,7 +10,7 @@ import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 part 'login_form.dart';
 
-class LoginPage extends BaseScreen<LoginBloc> {
+class LoginPage extends BasePage<LoginBloc> {
   const LoginPage({
     super.key,
     required super.args,
@@ -27,7 +28,11 @@ class LoginPage extends BaseScreen<LoginBloc> {
 
   void _handleState(BuildContext context, LoginState state) {
     return switch (state) {
-      OtpSent() => _navigateToLoginOtpVerificationPage(context),
+      OtpSent _ => _navigateToLoginOtpVerificationPage(
+          context: context,
+          verificationId: state.verificationId,
+          forceResendingToken: state.forceResendingToken,
+        ),
       _ => () {},
     };
   }
@@ -44,7 +49,18 @@ class LoginPage extends BaseScreen<LoginBloc> {
     return getIt<LoginBloc>()..started();
   }
 
-  void _navigateToLoginOtpVerificationPage(BuildContext context) {
-    RouteHandler.push(context, RouteId.otpVerification);
+  void _navigateToLoginOtpVerificationPage({
+    required BuildContext context,
+    required String verificationId,
+    int? forceResendingToken,
+  }) {
+    RouteHandler.push(
+      context,
+      RouteId.otpVerification,
+      args: {
+        StringConstants.verificationId: verificationId,
+        StringConstants.forceResendingToken: forceResendingToken,
+      },
+    );
   }
 }

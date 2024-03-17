@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/base_page/base_page.dart';
+import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/otp_verification/presentation/blocs/otp_verification_bloc.dart';
 
 part 'otp_verification_form.dart';
 
-class OtpVerificationPage extends BaseScreen<OtpVerificationBloc> {
+class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   const OtpVerificationPage({
     super.key,
     required super.args,
@@ -33,6 +34,6 @@ class OtpVerificationPage extends BaseScreen<OtpVerificationBloc> {
     required BuildContext context,
     Map<String, dynamic>? args,
   }) {
-    return getIt<OtpVerificationBloc>()..started();
+    return getIt<OtpVerificationBloc>()..started(args: args);
   }
 }

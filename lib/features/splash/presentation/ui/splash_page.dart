@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/constants/constants.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
@@ -9,7 +9,7 @@ import 'package:splittr/features/splash/presentation/blocs/splash_bloc.dart';
 
 part 'splash_form.dart';
 
-class SplashPage extends BaseScreen<SplashBloc> {
+class SplashPage extends BasePage<SplashBloc> {
   const SplashPage({
     super.key,
     required super.args,

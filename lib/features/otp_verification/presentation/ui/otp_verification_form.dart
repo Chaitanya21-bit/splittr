@@ -5,10 +5,17 @@ class _OtpVerificationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'OtpVerification Page',
-      ),
+    return Column(
+      children: [
+        const OtpTextField(),
+        const SizedBox(
+          height: 10,
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          child: const Text('Go'),
+        ),
+      ],
     );
   }
 }

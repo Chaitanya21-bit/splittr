@@ -38,4 +38,7 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
   }) {
     add(const SplashEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

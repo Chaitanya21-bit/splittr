@@ -34,7 +34,7 @@ sealed class QuickSettleState extends BaseState with _$QuickSettleState {
   }) =>
       QuickSettleState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/base_page/base_page.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 
 part 'dashboard_form.dart';
 
-class DashboardPage extends BaseScreen<DashboardBloc> {
+class DashboardPage extends BasePage<DashboardBloc> {
   const DashboardPage({
     super.key,
     required super.args,

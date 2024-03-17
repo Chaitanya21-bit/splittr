@@ -40,7 +40,7 @@ sealed class LoginState extends BaseState with _$LoginState {
   }) =>
       LoginState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

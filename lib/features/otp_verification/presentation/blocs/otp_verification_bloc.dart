@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'otp_verification_bloc.freezed.dart';
@@ -24,12 +25,33 @@ final class OtpVerificationBloc
     on<_Started>(_onStarted);
   }
 
-  void _onStarted(_Started event, Emitter<OtpVerificationState> emit) {}
+  void _onStarted(_Started event, Emitter<OtpVerificationState> emit) {
+    emit(
+      OtpVerificationState.initial(
+        store: state.store.copyWith(
+          verificationId: event.verificationId,
+          forceResendingToken: event.forceResendingToken,
+        ),
+      ),
+    );
+  }
 
   @override
   void started({
     Map<String, dynamic>? args,
   }) {
-    add(const OtpVerificationEvent.started());
+    final verificationId = args?[StringConstants.verificationId] as String?;
+    final forceResendingToken =
+        args?[StringConstants.forceResendingToken] as int?;
+
+    add(
+      OtpVerificationEvent.started(
+        verificationId: verificationId,
+        forceResendingToken: forceResendingToken,
+      ),
+    );
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

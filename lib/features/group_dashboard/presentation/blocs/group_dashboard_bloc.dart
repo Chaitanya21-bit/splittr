@@ -32,4 +32,7 @@ final class GroupDashboardBloc
   }) {
     add(const GroupDashboardEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

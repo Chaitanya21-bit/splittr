@@ -34,7 +34,7 @@ sealed class DashboardState extends BaseState with _$DashboardState {
   }) =>
       DashboardState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

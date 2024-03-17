@@ -10,6 +10,8 @@ abstract class BaseBloc<Event extends BaseEvent, State extends BaseState>
     handleEvents();
   }
 
+  bool get isLoading;
+
   void handleEvents();
 
   void started({

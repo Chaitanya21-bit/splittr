@@ -34,7 +34,7 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
   }) =>
       QuickSplitState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

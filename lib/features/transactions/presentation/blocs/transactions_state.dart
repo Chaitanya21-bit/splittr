@@ -34,7 +34,7 @@ sealed class TransactionsState extends BaseState with _$TransactionsState {
   }) =>
       TransactionsState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }

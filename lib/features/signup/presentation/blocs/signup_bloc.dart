@@ -31,4 +31,7 @@ final class SignupBloc extends BaseBloc<SignupEvent, SignupState> {
   }) {
     add(const SignupEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

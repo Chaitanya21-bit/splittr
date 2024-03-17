@@ -32,4 +32,7 @@ final class TransactionsBloc
   }) {
     add(const TransactionsEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

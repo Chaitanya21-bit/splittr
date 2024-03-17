@@ -31,4 +31,7 @@ final class GroupsBloc extends BaseBloc<GroupsEvent, GroupsState> {
   }) {
     add(const GroupsEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

@@ -13,8 +13,8 @@ final class AuthRepository implements IAuthRepository {
   bool get isUserSignedIn => _firebaseAuth.currentUser != null;
 
   @override
-  void sendOtp(String phoneNumber, OtpSentCallback onOtpSent) {
-    _firebaseAuth.verifyPhoneNumber(
+  Future<void> sendOtp(String phoneNumber, OtpSentCallback onOtpSent) async {
+    await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: '+91$phoneNumber',
       verificationCompleted: (_) {},
       verificationFailed: (_) {},

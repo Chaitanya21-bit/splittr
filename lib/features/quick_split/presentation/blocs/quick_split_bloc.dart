@@ -31,4 +31,7 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
   }) {
     add(const QuickSplitEvent.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

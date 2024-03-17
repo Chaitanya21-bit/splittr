@@ -34,7 +34,7 @@ sealed class GroupDashboardState extends BaseState with _$GroupDashboardState {
   }) =>
       GroupDashboardState.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }
