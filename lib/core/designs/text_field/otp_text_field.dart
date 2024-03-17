@@ -6,9 +6,25 @@ class OtpTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const color = Colors.grey;
     return PinCodeTextField(
       appContext: context,
       length: 6,
+      cursorColor: Colors.black,
+      keyboardType: TextInputType.number,
+      animationType: AnimationType.fade,
+      enableActiveFill: true,
+      pinTheme: PinTheme.defaults(
+        borderRadius: BorderRadius.circular(10),
+        shape: PinCodeFieldShape.box,
+        activeColor: color,
+        inactiveColor: color,
+        selectedColor: color,
+        activeFillColor: color.withOpacity(0.1),
+        inactiveFillColor: color.withOpacity(0.1),
+        selectedFillColor: color.withOpacity(0.1),
+        errorBorderColor: color,
+      ),
     );
   }
 }

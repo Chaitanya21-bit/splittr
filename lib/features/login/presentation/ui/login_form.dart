@@ -21,9 +21,8 @@ class _LoginForm extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton(
-          onPressed: () {
-            getBloc<LoginBloc>(context).sendOtpClicked('8401530399');
-          },
+          onPressed: () =>
+              getBloc<LoginBloc>(context).sendOtpClicked('8401530399'),
           child: const Text('Go'),
         ),
       ],
