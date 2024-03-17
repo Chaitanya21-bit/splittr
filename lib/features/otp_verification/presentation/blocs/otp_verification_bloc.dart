@@ -5,7 +5,9 @@ import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'otp_verification_bloc.freezed.dart';
+
 part 'otp_verification_event.dart';
+
 part 'otp_verification_state.dart';
 
 @injectable

@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'quick_split_bloc.freezed.dart';
+
 part 'quick_split_event.dart';
+
 part 'quick_split_state.dart';
 
 @injectable

@@ -7,7 +7,9 @@ import 'package:splittr/core/auth/i_auth_repository.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 
 part 'login_bloc.freezed.dart';
+
 part 'login_event.dart';
+
 part 'login_state.dart';
 
 @injectable
