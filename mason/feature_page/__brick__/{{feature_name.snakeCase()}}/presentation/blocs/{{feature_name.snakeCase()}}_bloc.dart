@@ -31,4 +31,7 @@ final class {{feature_name.pascalCase()}}Bloc extends BaseBloc<{{feature_name.pa
   }) {
     add(const {{feature_name.pascalCase()}}Event.started());
   }
+
+  @override
+  bool get isLoading => state.store.loading;
 }

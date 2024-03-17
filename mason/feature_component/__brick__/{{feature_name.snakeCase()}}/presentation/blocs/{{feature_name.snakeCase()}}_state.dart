@@ -34,7 +34,7 @@ sealed class {{feature_name.pascalCase()}}State extends BaseState with _${{featu
   }) =>
       {{feature_name.pascalCase()}}State.changeLoaderState(
         store: store.copyWith(
-          loading: false,
+          loading: loading,
         ),
       );
 }
