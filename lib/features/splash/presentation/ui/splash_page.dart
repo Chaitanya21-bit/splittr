@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/base_screen/base_screen.dart';
+import 'package:splittr/core/designs/designs.dart';
+import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/splash/presentation/blocs/splash_bloc.dart';
 
@@ -22,7 +25,12 @@ class SplashPage extends BaseScreen<SplashBloc> {
     );
   }
 
-  void _handleState(BuildContext context, SplashState state) {}
+  void _handleState(BuildContext context, SplashState state) {
+    return switch (state) {
+      UserAuthorized _ => _navigateToDashboardPage(context),
+      _ => _navigateToLoginPage(context),
+    };
+  }
 
   Widget _handleWidget(BuildContext context, SplashState state) {
     return const _SplashForm();
@@ -34,5 +42,13 @@ class SplashPage extends BaseScreen<SplashBloc> {
     Map<String, dynamic>? args,
   }) {
     return getIt<SplashBloc>()..started();
+  }
+
+  void _navigateToDashboardPage(BuildContext context) {
+    RouteHandler.pushReplacement(context, RouteId.dashboard);
+  }
+
+  void _navigateToLoginPage(BuildContext context) {
+    RouteHandler.pushReplacement(context, RouteId.login);
   }
 }

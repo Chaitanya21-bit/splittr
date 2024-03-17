@@ -8,6 +8,12 @@ sealed class LoginState extends BaseState with _$LoginState {
     required LoginStateStore store,
   }) = Initial;
 
+  const factory LoginState.otpSent({
+    required LoginStateStore store,
+    required String verificationId,
+    int? forceResendingToken,
+  }) = OtpSent;
+
   const factory LoginState.changeLoaderState({
     required LoginStateStore store,
   }) = ChangeLoaderState;

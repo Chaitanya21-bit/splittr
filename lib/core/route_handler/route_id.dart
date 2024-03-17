@@ -6,5 +6,6 @@ enum RouteId {
   profile,
   groupDashboard,
   quickSettle,
-  quickSplit;
+  quickSplit,
+  otpVerification;
 }

@@ -65,3 +65,5 @@ flutter:
         - asset: assets/fonts/Poppins-SemiBold.ttf
   assets:
     - assets/fonts/
+    - assets/icons/
+    - assets/images/

@@ -1,5 +1,5 @@
-class ImageConstants {
-  const ImageConstants._();
+class ImageAssets {
+  const ImageAssets._();
 
   static const login = 'assets/images/login.png';
   static const loginBottomBlobImage =

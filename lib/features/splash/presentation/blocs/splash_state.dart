@@ -8,6 +8,14 @@ sealed class SplashState extends BaseState with _$SplashState {
     required SplashStateStore store,
   }) = Initial;
 
+  const factory SplashState.userAuthorized({
+    required SplashStateStore store,
+  }) = UserAuthorized;
+
+  const factory SplashState.userUnauthorized({
+    required SplashStateStore store,
+  }) = UserUnauthorized;
+
   const factory SplashState.changeLoaderState({
     required SplashStateStore store,
   }) = ChangeLoaderState;
