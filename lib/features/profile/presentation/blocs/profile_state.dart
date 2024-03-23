@@ -12,20 +12,20 @@ sealed class ProfileState extends BaseState with _$ProfileState {
     required ProfileStateStore store,
   }) = ChangeLoaderState;
 
-  const factory ProfileState.onException({
+  const factory ProfileState.onFailure({
     required ProfileStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      ProfileState.onException(
+      ProfileState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

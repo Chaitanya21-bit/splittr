@@ -12,20 +12,20 @@ sealed class GroupsState extends BaseState with _$GroupsState {
     required GroupsStateStore store,
   }) = ChangeLoaderState;
 
-  const factory GroupsState.onException({
+  const factory GroupsState.onFailure({
     required GroupsStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      GroupsState.onException(
+      GroupsState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

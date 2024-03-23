@@ -8,30 +8,32 @@ sealed class LoginState extends BaseState with _$LoginState {
     required LoginStateStore store,
   }) = Initial;
 
+  const factory LoginState.phoneNumberChange({
+    required LoginStateStore store,
+  }) = _PhoneNumberChange;
+
   const factory LoginState.otpSent({
     required LoginStateStore store,
-    required String verificationId,
-    int? forceResendingToken,
   }) = OtpSent;
 
   const factory LoginState.changeLoaderState({
     required LoginStateStore store,
   }) = ChangeLoaderState;
 
-  const factory LoginState.onException({
+  const factory LoginState.onFailure({
     required LoginStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      LoginState.onException(
+      LoginState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override
@@ -48,6 +50,9 @@ sealed class LoginState extends BaseState with _$LoginState {
 @freezed
 class LoginStateStore with _$LoginStateStore {
   const factory LoginStateStore({
+    String? phoneNumber,
+    String? verificationId,
+    int? forceResendingToken,
     @Default(false) bool loading,
   }) = _LoginStateStore;
 }

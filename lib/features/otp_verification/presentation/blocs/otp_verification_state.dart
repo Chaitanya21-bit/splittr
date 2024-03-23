@@ -9,24 +9,28 @@ sealed class OtpVerificationState extends BaseState
     required OtpVerificationStateStore store,
   }) = Initial;
 
+  const factory OtpVerificationState.otpChange({
+    required OtpVerificationStateStore store,
+  }) = OtpChange;
+
   const factory OtpVerificationState.changeLoaderState({
     required OtpVerificationStateStore store,
   }) = ChangeLoaderState;
 
-  const factory OtpVerificationState.onException({
+  const factory OtpVerificationState.onFailure({
     required OtpVerificationStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      OtpVerificationState.onException(
+      OtpVerificationState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override
@@ -43,8 +47,10 @@ sealed class OtpVerificationState extends BaseState
 @freezed
 class OtpVerificationStateStore with _$OtpVerificationStateStore {
   const factory OtpVerificationStateStore({
+    String? phoneNumber,
     String? verificationId,
     int? forceResendingToken,
+    String? otp,
     @Default(false) bool loading,
   }) = _OtpVerificationStateStore;
 }

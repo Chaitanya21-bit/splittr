@@ -7,7 +7,7 @@ abstract class BaseState {
     required bool loading,
   });
 
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   );
 }

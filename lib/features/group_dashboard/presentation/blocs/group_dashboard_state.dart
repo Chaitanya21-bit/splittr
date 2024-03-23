@@ -12,20 +12,20 @@ sealed class GroupDashboardState extends BaseState with _$GroupDashboardState {
     required GroupDashboardStateStore store,
   }) = ChangeLoaderState;
 
-  const factory GroupDashboardState.onException({
+  const factory GroupDashboardState.onFailure({
     required GroupDashboardStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      GroupDashboardState.onException(
+      GroupDashboardState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

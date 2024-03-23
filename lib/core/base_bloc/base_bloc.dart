@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:splittr/core/failure/failure.dart';
 
 part 'base_event.dart';
 
@@ -29,13 +30,13 @@ abstract class BaseBloc<Event extends BaseEvent, State extends BaseState>
     );
   }
 
-  void handleException({
+  void handleFailure({
     required Emitter<BaseState> emit,
-    required Exception exception,
+    required Failure failure,
   }) {
     emit(
-      state.getExceptionState(
-        exception,
+      state.getFailureState(
+        failure,
       ),
     );
   }

@@ -20,20 +20,20 @@ sealed class SplashState extends BaseState with _$SplashState {
     required SplashStateStore store,
   }) = ChangeLoaderState;
 
-  const factory SplashState.onException({
+  const factory SplashState.onFailure({
     required SplashStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      SplashState.onException(
+      SplashState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

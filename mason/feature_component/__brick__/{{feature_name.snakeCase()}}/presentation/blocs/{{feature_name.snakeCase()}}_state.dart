@@ -14,18 +14,18 @@ sealed class {{feature_name.pascalCase()}}State extends BaseState with _${{featu
 
   const factory {{feature_name.pascalCase()}}State.onException({
     required {{feature_name.pascalCase()}}StateStore store,
-    required Exception exception,
+    required Exception failure,
   }) = OnException;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      {{feature_name.pascalCase()}}State.onException(
+      {{feature_name.pascalCase()}}State.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

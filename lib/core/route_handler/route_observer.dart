@@ -7,7 +7,7 @@ class CustomNavigatorObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (kDebugMode) {
       print(
-        '''========== didPop from ${previousRoute.toJson()} to ${route.toJson()}''',
+        '''========== didPop from ${route.toJson()} to ${previousRoute.toJson()}''',
       );
     }
   }

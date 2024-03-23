@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpTextField extends StatelessWidget {
-  const OtpTextField({super.key});
+  final ValueChanged<String>? onChanged;
+
+  const OtpTextField({
+    super.key,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +19,7 @@ class OtpTextField extends StatelessWidget {
       keyboardType: TextInputType.number,
       animationType: AnimationType.fade,
       enableActiveFill: true,
+      onChanged: onChanged,
       pinTheme: PinTheme.defaults(
         borderRadius: BorderRadius.circular(10),
         shape: PinCodeFieldShape.box,

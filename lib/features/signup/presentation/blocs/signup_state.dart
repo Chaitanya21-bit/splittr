@@ -12,20 +12,20 @@ sealed class SignupState extends BaseState with _$SignupState {
     required SignupStateStore store,
   }) = ChangeLoaderState;
 
-  const factory SignupState.onException({
+  const factory SignupState.onFailure({
     required SignupStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      SignupState.onException(
+      SignupState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

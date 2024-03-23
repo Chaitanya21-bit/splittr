@@ -12,20 +12,20 @@ sealed class QuickSettleState extends BaseState with _$QuickSettleState {
     required QuickSettleStateStore store,
   }) = ChangeLoaderState;
 
-  const factory QuickSettleState.onException({
+  const factory QuickSettleState.onFailure({
     required QuickSettleStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      QuickSettleState.onException(
+      QuickSettleState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

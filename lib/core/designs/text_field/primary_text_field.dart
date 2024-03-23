@@ -4,6 +4,7 @@ class PrimaryTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
   final TextInputType? keyboardType;
   final int? maxLength;
   final bool obscureText;
@@ -13,6 +14,7 @@ class PrimaryTextField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.controller,
+    this.onChanged,
     this.keyboardType,
     this.maxLength,
     this.obscureText = false,
@@ -22,6 +24,7 @@ class PrimaryTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      onChanged: onChanged,
       keyboardType: keyboardType,
       maxLength: maxLength,
       obscureText: obscureText,

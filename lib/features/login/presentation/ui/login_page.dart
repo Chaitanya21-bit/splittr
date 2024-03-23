@@ -7,6 +7,7 @@ import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/login/presentation/blocs/login_bloc.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
+import 'package:splittr/utils/utils.dart';
 
 part 'login_form.dart';
 
@@ -20,6 +21,9 @@ class LoginPage extends BasePage<LoginBloc> {
   Widget buildScreen(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<LoginBloc, LoginState>(
+        buildWhen: (_, __) {
+          return false;
+        },
         listener: _handleState,
         builder: _handleWidget,
       ),
@@ -30,11 +34,28 @@ class LoginPage extends BasePage<LoginBloc> {
     return switch (state) {
       OtpSent _ => _navigateToLoginOtpVerificationPage(
           context: context,
-          verificationId: state.verificationId,
-          forceResendingToken: state.forceResendingToken,
+          state: state,
         ),
       _ => () {},
     };
+  }
+
+  void _navigateToLoginOtpVerificationPage({
+    required BuildContext context,
+    required LoginState state,
+  }) {
+    if (state.store.phoneNumber == null || state.store.verificationId == null) {
+      return;
+    }
+    RouteHandler.push(
+      context,
+      RouteId.otpVerification,
+      args: {
+        StringConstants.phoneNumber: state.store.phoneNumber,
+        StringConstants.verificationId: state.store.verificationId,
+        StringConstants.forceResendingToken: state.store.forceResendingToken,
+      },
+    );
   }
 
   Widget _handleWidget(BuildContext context, LoginState state) {
@@ -47,20 +68,5 @@ class LoginPage extends BasePage<LoginBloc> {
     Map<String, dynamic>? args,
   }) {
     return getIt<LoginBloc>()..started();
-  }
-
-  void _navigateToLoginOtpVerificationPage({
-    required BuildContext context,
-    required String verificationId,
-    int? forceResendingToken,
-  }) {
-    RouteHandler.push(
-      context,
-      RouteId.otpVerification,
-      args: {
-        StringConstants.verificationId: verificationId,
-        StringConstants.forceResendingToken: forceResendingToken,
-      },
-    );
   }
 }

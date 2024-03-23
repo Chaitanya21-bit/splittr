@@ -8,11 +8,12 @@ class _LoginForm extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: PrimaryTextField(
             labelText: 'Phone Number',
             hintText: 'Enter phone number',
+            onChanged: getBloc<LoginBloc>(context).phoneNumberChanged,
             keyboardType: TextInputType.number,
             maxLength: 10,
           ),
@@ -21,8 +22,7 @@ class _LoginForm extends StatelessWidget {
           height: 10,
         ),
         ElevatedButton(
-          onPressed: () =>
-              getBloc<LoginBloc>(context).sendOtpClicked('8401530399'),
+          onPressed: getBloc<LoginBloc>(context).sendOtpClicked,
           child: const Text('Go'),
         ),
       ],

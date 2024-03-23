@@ -10,7 +10,9 @@ class _OtpVerificationForm extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const OtpTextField(),
+          OtpTextField(
+            onChanged: getBloc<OtpVerificationBloc>(context).otpChanged,
+          ),
           const SizedBox(
             height: 10,
           ),

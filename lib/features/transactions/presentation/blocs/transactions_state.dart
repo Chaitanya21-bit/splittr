@@ -12,20 +12,20 @@ sealed class TransactionsState extends BaseState with _$TransactionsState {
     required TransactionsStateStore store,
   }) = ChangeLoaderState;
 
-  const factory TransactionsState.onException({
+  const factory TransactionsState.onFailure({
     required TransactionsStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      TransactionsState.onException(
+      TransactionsState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

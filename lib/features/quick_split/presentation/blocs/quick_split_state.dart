@@ -12,20 +12,20 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
     required QuickSplitStateStore store,
   }) = ChangeLoaderState;
 
-  const factory QuickSplitState.onException({
+  const factory QuickSplitState.onFailure({
     required QuickSplitStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      QuickSplitState.onException(
+      QuickSplitState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override

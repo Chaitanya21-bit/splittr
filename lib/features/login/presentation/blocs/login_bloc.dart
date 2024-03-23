@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/core/auth/i_auth_repository.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
+import 'package:splittr/core/failure/failure.dart';
 
 part 'login_bloc.freezed.dart';
 
@@ -26,43 +27,65 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   @override
   void handleEvents() {
     on<_Started>(_onStarted);
+    on<_PhoneNumberChanged>(_onPhoneNumberChanged);
     on<_SendOtpClicked>(_onSendOtpClicked);
-    on<_SendOtp>(_onSendOtp);
+    on<_VerificationFailed>(_onVerificationFailed);
+    on<_OtpCreated>(_onOtpCreated);
   }
 
   void _onStarted(_Started event, Emitter<LoginState> emit) {}
 
+  void _onPhoneNumberChanged(
+    _PhoneNumberChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(
+      LoginState.phoneNumberChange(
+        store: state.store.copyWith(
+          phoneNumber: event.phoneNumber,
+        ),
+      ),
+    );
+  }
+
   Future<void> _onSendOtpClicked(
-    _SendOtpClicked event,
+    _,
     Emitter<LoginState> emit,
   ) async {
-    if (event.phoneNumber.isEmpty || event.phoneNumber.length != 10) {
+    final phoneNumber = state.store.phoneNumber;
+
+    if (phoneNumber == null || phoneNumber.length != 10) {
       return;
     }
 
     changeLoaderState(emit: emit, loading: true);
 
     await _authRepository.sendOtp(
-      event.phoneNumber,
-      (verificationId, forceResendingToken) {
-        add(
-          LoginEvent.sendOtp(
-            verificationId: verificationId,
-            forceResendingToken: forceResendingToken,
-          ),
-        );
-      },
+      phoneNumber: phoneNumber,
+      onOtpSent: otpCreated,
+      onVerificationFailed: verificationFailed,
+      forceResendingToken: state.store.forceResendingToken,
     );
   }
 
-  void _onSendOtp(_SendOtp event, Emitter<LoginState> emit) {
+  void _onVerificationFailed(
+    _VerificationFailed event,
+    Emitter<LoginState> emit,
+  ) {
+    handleFailure(
+      emit: emit,
+      failure: Failure(message: event.errorMessage),
+    );
+  }
+
+  void _onOtpCreated(_OtpCreated event, Emitter<LoginState> emit) {
     emit(
       LoginState.otpSent(
         store: state.store.copyWith(
           loading: false,
+          verificationId: event.verificationId,
+          forceResendingToken: event.forceResendingToken,
         ),
-        verificationId: event.verificationId,
-        forceResendingToken: event.forceResendingToken,
       ),
     );
   }
@@ -74,21 +97,30 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     add(const LoginEvent.started());
   }
 
-  void sendOtpClicked(String phoneNumber) {
+  void phoneNumberChanged(String phoneNumber) {
     add(
-      LoginEvent.sendOtpClicked(phoneNumber: phoneNumber),
+      LoginEvent.phoneNumberChanged(phoneNumber: phoneNumber),
     );
   }
 
-  void sendOtp({
-    required String verificationId,
-    int? forceResendingToken,
-  }) {
+  void sendOtpClicked() {
     add(
-      LoginEvent.sendOtp(
+      const LoginEvent.sendOtpClicked(),
+    );
+  }
+
+  void otpCreated(String verificationId, int? forceResendingToken) {
+    add(
+      LoginEvent.otpCreated(
         verificationId: verificationId,
         forceResendingToken: forceResendingToken,
       ),
+    );
+  }
+
+  void verificationFailed(String errorMessage) {
+    add(
+      LoginEvent.verificationFailed(errorMessage: errorMessage),
     );
   }
 

@@ -12,20 +12,20 @@ sealed class DashboardState extends BaseState with _$DashboardState {
     required DashboardStateStore store,
   }) = ChangeLoaderState;
 
-  const factory DashboardState.onException({
+  const factory DashboardState.onFailure({
     required DashboardStateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      DashboardState.onException(
+      DashboardState.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override
