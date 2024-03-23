@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:splittr/core/auth/i_auth_repository.dart';
+import 'package:splittr/core/auth/domain/repositories/i_auth_repository.dart';
 import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/utils/typedefs/typedefs.dart';
 

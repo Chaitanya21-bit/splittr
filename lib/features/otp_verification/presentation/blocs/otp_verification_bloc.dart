@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/constants/constants.dart';
-import 'package:splittr/core/auth/i_auth_repository.dart';
+import 'package:splittr/core/auth/domain/repositories/i_auth_repository.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
 
