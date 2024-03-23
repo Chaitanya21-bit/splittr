@@ -6,6 +6,7 @@ import 'package:splittr/core/firebase/firebase_options_prod.dart'
     as firebase_options_prod;
 
 part 'dev_app_config.dart';
+
 part 'prod_app_config.dart';
 
 IAppConfig appConfig = const DevAppConfig();
