@@ -1,4 +1,4 @@
-class ImageAssets {
+final class ImageAssets {
   const ImageAssets._();
 
   static const login = 'assets/images/login.png';
