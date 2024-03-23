@@ -16,6 +16,8 @@ sealed class IAppConfig {
 
   FirebaseOptions get firebaseOptions;
 
+  String get appName;
+
   factory IAppConfig.init(Env env) {
     return switch (env) {
       Env.dev => const DevAppConfig(),

@@ -9,4 +9,7 @@ final class ProdAppConfig implements IAppConfig {
   @override
   FirebaseOptions get firebaseOptions =>
       firebase_options_prod.DefaultFirebaseOptions.currentPlatform;
+
+  @override
+  String get appName => 'Splittr';
 }

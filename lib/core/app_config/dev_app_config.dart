@@ -9,4 +9,7 @@ final class DevAppConfig implements IAppConfig {
   @override
   FirebaseOptions get firebaseOptions =>
       firebase_options_dev.DefaultFirebaseOptions.currentPlatform;
+
+  @override
+  String get appName => 'Splittr Dev';
 }

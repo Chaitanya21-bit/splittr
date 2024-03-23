@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:splittr/constants/app_constants/app_constants.dart';
 import 'package:splittr/constants/env/env.dart';
 import 'package:splittr/core/app_config/i_app_config.dart';
 import 'package:splittr/core/designs/theme/app_theme.dart';
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: AppConstants.appName,
+      title: appConfig.appName,
       debugShowCheckedModeBanner: false,
       initialRoute: RouteId.splash.name,
       onGenerateRoute: RouteHandler.generateRoute,
