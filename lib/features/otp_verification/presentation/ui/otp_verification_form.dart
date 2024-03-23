@@ -17,7 +17,8 @@ class _OtpVerificationForm extends StatelessWidget {
             height: 10,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed:
+                getBloc<OtpVerificationBloc>(context).verifyButtonClicked,
             child: const Text('Go'),
           ),
         ],

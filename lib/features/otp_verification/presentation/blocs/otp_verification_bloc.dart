@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/constants/constants.dart';
+import 'package:splittr/core/auth/i_auth_repository.dart';
 import 'package:splittr/core/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
 
@@ -14,8 +15,11 @@ part 'otp_verification_state.dart';
 @injectable
 final class OtpVerificationBloc
     extends BaseBloc<OtpVerificationEvent, OtpVerificationState> {
-  OtpVerificationBloc()
-      : super(
+  final IAuthRepository _authRepository;
+
+  OtpVerificationBloc(
+    this._authRepository,
+  ) : super(
           const OtpVerificationState.initial(
             store: OtpVerificationStateStore(),
           ),
@@ -56,11 +60,30 @@ final class OtpVerificationBloc
     );
   }
 
-  void _onVerifyButtonClicked(
+  Future<void> _onVerifyButtonClicked(
     _,
     Emitter<OtpVerificationState> emit,
-  ) {
-
+  ) async {
+    final otp = state.store.otp;
+    if (otp?.length != 6) {
+      return;
+    }
+    changeLoaderState(emit: emit, loading: true);
+    final verifyOtpOrFailure = await _authRepository.verifyOtp(
+      otp: otp ?? '',
+      verificationId: state.store.verificationId ?? '',
+    );
+    verifyOtpOrFailure.fold(
+      (failure) => handleFailure(
+        emit: emit,
+        failure: failure,
+      ),
+      (_) => emit(
+        OtpVerificationState.verifiedOtp(
+          store: state.store.copyWith(loading: false),
+        ),
+      ),
+    );
   }
 
   @override
