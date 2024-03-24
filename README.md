@@ -30,3 +30,27 @@ For Android Studio:
 For VS Code:
 1. There is a launch.json file for it. 
 2. You mfs can select the DEV or PROD there.
+
+## Mason
+1. Activate mason
+   ```cmd
+   dart pub global activate mason_cli
+   ```
+2. Go to mason folder
+   ```cmd
+   cd mason
+   ```
+3. Get mason bricks
+   ```cmd
+   mason get
+   ```
+   
+## Create a page with mason
+```cmd
+mason make feature_page -o ../lib/features/ --on-conflict overwrite --feature_name [yourFeatureName]
+```   
+
+## Create a component with mason
+```cmd
+mason make feature_component -o ../lib/features/ --on-conflict overwrite --feature_name [yourFeatureName]
+```

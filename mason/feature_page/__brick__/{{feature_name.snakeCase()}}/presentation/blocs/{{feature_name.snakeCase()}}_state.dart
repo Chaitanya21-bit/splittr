@@ -12,20 +12,20 @@ sealed class {{feature_name.pascalCase()}}State extends BaseState with _${{featu
     required {{feature_name.pascalCase()}}StateStore store,
   }) = ChangeLoaderState;
 
-  const factory {{feature_name.pascalCase()}}State.onException({
+  const factory {{feature_name.pascalCase()}}State.onFailure({
     required {{feature_name.pascalCase()}}StateStore store,
-    required Exception exception,
-  }) = OnException;
+    required Failure failure,
+  }) = OnFailure;
 
   @override
-  BaseState getExceptionState(
-    Exception exception,
+  BaseState getFailureState(
+    Failure failure,
   ) =>
-      {{feature_name.pascalCase()}}State.onException(
+      {{feature_name.pascalCase()}}State.onFailure(
         store: store.copyWith(
           loading: false,
         ),
-        exception: exception,
+        failure: failure,
       );
 
   @override
