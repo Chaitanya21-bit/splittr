@@ -66,4 +66,9 @@ final class AuthRepository implements IAuthRepository {
       };
     }
   }
+
+  @override
+  Future<void> logout() async {
+    await _firebaseAuth.signOut();
+  }
 }

@@ -16,4 +16,6 @@ abstract interface class IAuthRepository {
     required String otp,
     required String verificationId,
   });
+
+  Future<void> logout();
 }

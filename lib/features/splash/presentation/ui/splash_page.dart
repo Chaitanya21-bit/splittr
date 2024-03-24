@@ -27,8 +27,11 @@ class SplashPage extends BasePage<SplashBloc> {
 
   void _handleState(BuildContext context, SplashState state) {
     return switch (state) {
-      UserAuthorized _ => _navigateToDashboardPage(context),
-      _ => _navigateToLoginPage(context),
+      _ => state.store.splashShown && state.store.authChecked
+          ? state.store.isAuthorized
+              ? _navigateToDashboardPage(context)
+              : _navigateToLoginPage(context)
+          : null,
     };
   }
 

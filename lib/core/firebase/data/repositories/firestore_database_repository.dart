@@ -41,6 +41,21 @@ final class FirestoreDatabaseRepository
     };
   }
 
+  @override
+  FutureEitherFailure<UserDto> fetchUser(String uid) async {
+    try {
+      final snapshot = await _userCollection.doc(uid).get();
+
+      if (snapshot.data()?.isNotEmpty ?? false) {
+        return right(UserDto.fromJson(snapshot.data() ?? {}));
+      }
+
+      return left(const Failure(message: 'User Not Found'));
+    } catch (_) {
+      return left(const Failure(message: 'Failed to fetch user'));
+    }
+  }
+
   Map<String, dynamic> _createdAtTimeStamp() {
     return {
       'createdAt': FieldValue.serverTimestamp(),
@@ -51,5 +66,12 @@ final class FirestoreDatabaseRepository
     return {
       'updatedAt': FieldValue.serverTimestamp(),
     };
+  }
+
+  @override
+  Future<void> deleteUser(String uid) async {
+    try {
+      await _userCollection.doc(uid).delete();
+    } catch (_) {}
   }
 }

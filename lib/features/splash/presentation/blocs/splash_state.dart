@@ -8,6 +8,10 @@ sealed class SplashState extends BaseState with _$SplashState {
     required SplashStateStore store,
   }) = Initial;
 
+  const factory SplashState.showedSplash({
+    required SplashStateStore store,
+  }) = ShowedSplash;
+
   const factory SplashState.userAuthorized({
     required SplashStateStore store,
   }) = UserAuthorized;
@@ -15,6 +19,10 @@ sealed class SplashState extends BaseState with _$SplashState {
   const factory SplashState.userUnauthorized({
     required SplashStateStore store,
   }) = UserUnauthorized;
+
+  const factory SplashState.userNotFound({
+    required SplashStateStore store,
+  }) = UserNotFound;
 
   const factory SplashState.changeLoaderState({
     required SplashStateStore store,
@@ -50,6 +58,9 @@ sealed class SplashState extends BaseState with _$SplashState {
 @freezed
 class SplashStateStore with _$SplashStateStore {
   const factory SplashStateStore({
+    @Default(false) bool splashShown,
+    @Default(false) bool authChecked,
+    @Default(false) bool isAuthorized,
     @Default(false) bool loading,
   }) = _SplashStateStore;
 }
