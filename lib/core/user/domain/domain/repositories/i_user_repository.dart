@@ -6,7 +6,7 @@ abstract interface class IUserRepository {
 
   FutureEitherFailure<User> updateUser(User user);
 
-  FutureEitherFailure<User> fetchUser(String uid);
+  FutureEitherFailure<User> fetchUser(String userId);
 
-  Future<void> deleteUser(String uid);
+  Future<void> deleteUser(String userId);
 }

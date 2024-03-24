@@ -4,19 +4,19 @@ import 'package:injectable/injectable.dart';
 import 'package:splittr/core/base/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
 
-part 'transactions_bloc.freezed.dart';
+part 'personal_transaction_bloc.freezed.dart';
 
-part 'transactions_event.dart';
+part 'personal_transaction_event.dart';
 
-part 'transactions_state.dart';
+part 'personal_transaction_state.dart';
 
 @injectable
-final class TransactionsBloc
-    extends BaseBloc<TransactionsEvent, TransactionsState> {
-  TransactionsBloc()
+final class PersonalTransactionBloc
+    extends BaseBloc<PersonalTransactionEvent, PersonalTransactionState> {
+  PersonalTransactionBloc()
       : super(
-          const TransactionsState.initial(
-            store: TransactionsStateStore(),
+          const PersonalTransactionState.initial(
+            store: PersonalTransactionStateStore(),
           ),
         );
 
@@ -25,13 +25,13 @@ final class TransactionsBloc
     on<_Started>(_onStarted);
   }
 
-  void _onStarted(_Started event, Emitter<TransactionsState> emit) {}
+  void _onStarted(_Started event, Emitter<PersonalTransactionState> emit) {}
 
   @override
   void started({
     Map<String, dynamic>? args,
   }) {
-    add(const TransactionsEvent.started());
+    add(const PersonalTransactionEvent.started());
   }
 
   @override

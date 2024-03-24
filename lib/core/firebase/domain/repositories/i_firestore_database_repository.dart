@@ -6,7 +6,7 @@ abstract interface class IFirestoreDatabaseRepository {
 
   FutureEitherFailure<UserDto> updateUser(UserDto user);
 
-  FutureEitherFailure<UserDto> fetchUser(String uid);
+  FutureEitherFailure<UserDto> fetchUser(String userId);
 
-  Future<void> deleteUser(String uid);
+  Future<void> deleteUser(String userId);
 }

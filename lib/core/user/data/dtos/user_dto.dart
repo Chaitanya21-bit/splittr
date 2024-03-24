@@ -4,12 +4,12 @@ part 'user_dto.g.dart';
 
 @JsonSerializable()
 class UserDto {
-  final String? uid;
+  final String? userId;
   final String? name;
   final String? phoneNo;
 
   const UserDto({
-    required this.uid,
+    required this.userId,
     required this.name,
     required this.phoneNo,
   });

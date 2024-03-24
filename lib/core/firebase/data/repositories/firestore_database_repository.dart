@@ -22,11 +22,11 @@ final class FirestoreDatabaseRepository
   @override
   FutureEitherFailureVoid saveUser(UserDto user) async {
     try {
-      if (user.uid == null) {
-        return left(const Failure(message: 'No uid present'));
+      if (user.userId == null) {
+        return left(const Failure(message: 'No userId present'));
       }
       await _userCollection
-          .doc(user.uid)
+          .doc(user.userId)
           .set(user.toJson()..addAll(_timeStamps()));
       return right(unit);
     } catch (e) {
@@ -37,11 +37,11 @@ final class FirestoreDatabaseRepository
   @override
   FutureEitherFailure<UserDto> updateUser(UserDto user) async {
     try {
-      if (user.uid == null) {
-        return left(const Failure(message: 'No uid present'));
+      if (user.userId == null) {
+        return left(const Failure(message: 'No userId present'));
       }
       await _userCollection
-          .doc(user.uid)
+          .doc(user.userId)
           .update(user.toJson()..addAll(_updatedAtTimeStamp()));
       return right(user);
     } catch (e) {
@@ -50,9 +50,9 @@ final class FirestoreDatabaseRepository
   }
 
   @override
-  FutureEitherFailure<UserDto> fetchUser(String uid) async {
+  FutureEitherFailure<UserDto> fetchUser(String userId) async {
     try {
-      final snapshot = await _userCollection.doc(uid).get();
+      final snapshot = await _userCollection.doc(userId).get();
 
       if (snapshot.data()?.isNotEmpty ?? false) {
         return right(UserDto.fromJson(snapshot.data() ?? {}));
@@ -65,9 +65,9 @@ final class FirestoreDatabaseRepository
   }
 
   @override
-  Future<void> deleteUser(String uid) async {
+  Future<void> deleteUser(String userId) async {
     try {
-      await _userCollection.doc(uid).delete();
+      await _userCollection.doc(userId).delete();
     } catch (_) {}
   }
 

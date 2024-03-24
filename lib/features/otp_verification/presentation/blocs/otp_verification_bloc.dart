@@ -98,7 +98,7 @@ final class OtpVerificationBloc
     );
     final userSavedOrFailure = await _userRepository.saveUser(
       User(
-        uid: _authRepository.userId,
+        userId: _authRepository.userId,
         phoneNo: state.store.phoneNumber,
       ),
     );

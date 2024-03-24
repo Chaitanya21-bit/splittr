@@ -53,6 +53,6 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   }
 
   void _showSnackBar(BuildContext context) {
-    showSnackBar(context,'Otp Verified');
+    showSnackBar(context, 'Otp Verified');
   }
 }
