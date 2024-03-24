@@ -15,6 +15,9 @@ final class AuthRepository implements IAuthRepository {
   bool get isUserSignedIn => _firebaseAuth.currentUser != null;
 
   @override
+  String? get userId => _firebaseAuth.currentUser?.uid;
+
+  @override
   Future<void> sendOtp({
     required String phoneNumber,
     required OtpSentCallback onOtpSent,
@@ -36,7 +39,7 @@ final class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> verifyOtp({
+  FutureEitherFailureVoid verifyOtp({
     required String otp,
     required String verificationId,
   }) async {

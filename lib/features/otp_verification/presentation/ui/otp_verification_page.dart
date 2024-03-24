@@ -5,7 +5,7 @@ import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/otp_verification/presentation/blocs/otp_verification_bloc.dart';
-import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
+import 'package:splittr/utils/utils.dart';
 
 part 'otp_verification_form.dart';
 
@@ -30,7 +30,8 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
 
   void _handleState(BuildContext context, OtpVerificationState state) {
     return switch (state) {
-      VerifiedOtp() => _navigateToDashboard(context),
+      VerifiedOtp() => _showSnackBar(context),
+      UserSaved() => _navigateToDashboard(context),
       _ => null,
     };
   }
@@ -49,5 +50,9 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
 
   void _navigateToDashboard(BuildContext context) {
     RouteHandler.push(context, RouteId.dashboard);
+  }
+
+  void _showSnackBar(BuildContext context) {
+    showSnackBar(context,'Otp Verified');
   }
 }
