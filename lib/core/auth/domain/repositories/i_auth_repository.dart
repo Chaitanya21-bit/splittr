@@ -12,7 +12,7 @@ abstract interface class IAuthRepository {
     int? forceResendingToken,
   });
 
-  Future<Either<Failure,Unit>> verifyOtp({
+  Future<Either<Failure, Unit>> verifyOtp({
     required String otp,
     required String verificationId,
   });
