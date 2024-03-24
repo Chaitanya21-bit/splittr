@@ -34,11 +34,19 @@ final class FirestoreDatabaseRepository
     }
   }
 
-  Map<String, dynamic> _timeStamps() {
-    return {
-      ..._createdAtTimeStamp(),
-      ..._updatedAtTimeStamp(),
-    };
+  @override
+  FutureEitherFailure<UserDto> updateUser(UserDto user) async {
+    try {
+      if (user.uid == null) {
+        return left(const Failure(message: 'No uid present'));
+      }
+      await _userCollection
+          .doc(user.uid)
+          .update(user.toJson()..addAll(_updatedAtTimeStamp()));
+      return right(user);
+    } catch (e) {
+      return left(const Failure(message: 'Failed to update data'));
+    }
   }
 
   @override
@@ -56,6 +64,20 @@ final class FirestoreDatabaseRepository
     }
   }
 
+  @override
+  Future<void> deleteUser(String uid) async {
+    try {
+      await _userCollection.doc(uid).delete();
+    } catch (_) {}
+  }
+
+  Map<String, dynamic> _timeStamps() {
+    return {
+      ..._createdAtTimeStamp(),
+      ..._updatedAtTimeStamp(),
+    };
+  }
+
   Map<String, dynamic> _createdAtTimeStamp() {
     return {
       'createdAt': FieldValue.serverTimestamp(),
@@ -66,12 +88,5 @@ final class FirestoreDatabaseRepository
     return {
       'updatedAt': FieldValue.serverTimestamp(),
     };
-  }
-
-  @override
-  Future<void> deleteUser(String uid) async {
-    try {
-      await _userCollection.doc(uid).delete();
-    } catch (_) {}
   }
 }

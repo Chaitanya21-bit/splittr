@@ -4,6 +4,8 @@ import 'package:splittr/utils/utils.dart';
 abstract interface class IFirestoreDatabaseRepository {
   FutureEitherFailureVoid saveUser(UserDto user);
 
+  FutureEitherFailure<UserDto> updateUser(UserDto user);
+
   FutureEitherFailure<UserDto> fetchUser(String uid);
 
   Future<void> deleteUser(String uid);

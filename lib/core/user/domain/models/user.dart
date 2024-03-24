@@ -13,10 +13,7 @@ class User with _$User {
 
   const User._();
 
-  static User? fromDto(UserDto? dto) {
-    if (dto == null) {
-      return null;
-    }
+  factory User.fromDto(UserDto dto) {
     return User(
       uid: dto.uid,
       name: dto.name,
