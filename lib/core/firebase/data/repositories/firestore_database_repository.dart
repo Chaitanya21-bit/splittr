@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:splittr/constants/constants.dart';
+import 'package:splittr/constants/string_constants/string_constants.dart';
 import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/core/firebase/constants/collection_keys.dart';
 import 'package:splittr/core/firebase/domain/repositories/i_firestore_database_repository.dart';
@@ -54,8 +56,24 @@ final class FirestoreDatabaseRepository
     try {
       final snapshot = await _userCollection.doc(userId).get();
 
-      if (snapshot.data()?.isNotEmpty ?? false) {
-        return right(UserDto.fromJson(snapshot.data() ?? {}));
+      final json = snapshot.data();
+
+      if (json != null && json.isNotEmpty) {
+        if (json.containsKey(StringConstants.createdAt)) {
+          json[StringConstants.createdAt] =
+              (json[StringConstants.createdAt] as Timestamp)
+                  .toDate()
+                  .toIso8601String();
+        }
+
+        if (json.containsKey(StringConstants.updatedAt)) {
+          json[StringConstants.updatedAt] =
+              (json[StringConstants.updatedAt] as Timestamp)
+                  .toDate()
+                  .toIso8601String();
+        }
+
+        return right(UserDto.fromJson(json));
       }
 
       return left(const Failure(message: 'User Not Found'));
@@ -80,13 +98,13 @@ final class FirestoreDatabaseRepository
 
   Map<String, dynamic> _createdAtTimeStamp() {
     return {
-      'createdAt': FieldValue.serverTimestamp(),
+      StringConstants.createdAt: FieldValue.serverTimestamp(),
     };
   }
 
   Map<String, dynamic> _updatedAtTimeStamp() {
     return {
-      'updatedAt': FieldValue.serverTimestamp(),
+      StringConstants.updatedAt: FieldValue.serverTimestamp(),
     };
   }
 }
