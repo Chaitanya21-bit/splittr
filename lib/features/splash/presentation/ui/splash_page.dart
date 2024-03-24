@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/constants/constants.dart';
-import 'package:splittr/core/base_page/base_page.dart';
+import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
@@ -27,8 +27,11 @@ class SplashPage extends BasePage<SplashBloc> {
 
   void _handleState(BuildContext context, SplashState state) {
     return switch (state) {
-      UserAuthorized _ => _navigateToDashboardPage(context),
-      _ => _navigateToLoginPage(context),
+      _ => state.store.splashShown && state.store.authChecked
+          ? state.store.isAuthorized
+              ? _navigateToDashboardPage(context)
+              : _navigateToLoginPage(context)
+          : null,
     };
   }
 

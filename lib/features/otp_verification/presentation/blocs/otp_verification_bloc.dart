@@ -3,8 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/auth/domain/repositories/i_auth_repository.dart';
-import 'package:splittr/core/base_bloc/base_bloc.dart';
+import 'package:splittr/core/base/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
+import 'package:splittr/core/user/domain/domain/repositories/i_user_repository.dart';
+import 'package:splittr/core/user/domain/models/user.dart';
 
 part 'otp_verification_bloc.freezed.dart';
 
@@ -16,9 +18,11 @@ part 'otp_verification_state.dart';
 final class OtpVerificationBloc
     extends BaseBloc<OtpVerificationEvent, OtpVerificationState> {
   final IAuthRepository _authRepository;
+  final IUserRepository _userRepository;
 
   OtpVerificationBloc(
     this._authRepository,
+    this._userRepository,
   ) : super(
           const OtpVerificationState.initial(
             store: OtpVerificationStateStore(),
@@ -30,6 +34,7 @@ final class OtpVerificationBloc
     on<_Started>(_onStarted);
     on<_OtpChanged>(_onOtpChanged);
     on<_VerifyButtonClicked>(_onVerifyButtonClicked);
+    on<_OtpVerified>(_onOtpVerified);
   }
 
   void _onStarted(
@@ -78,8 +83,30 @@ final class OtpVerificationBloc
         emit: emit,
         failure: failure,
       ),
+      (_) => otpVerified(),
+    );
+  }
+
+  Future<void> _onOtpVerified(
+    _,
+    Emitter<OtpVerificationState> emit,
+  ) async {
+    emit(
+      OtpVerificationState.verifiedOtp(
+        store: state.store,
+      ),
+    );
+    final userSavedOrFailure = await _userRepository.saveUser(
+      User(
+        uid: _authRepository.userId,
+        phoneNo: state.store.phoneNumber,
+      ),
+    );
+
+    userSavedOrFailure.fold(
+      (failure) => handleFailure(emit: emit, failure: failure),
       (_) => emit(
-        OtpVerificationState.verifiedOtp(
+        OtpVerificationState.userSaved(
           store: state.store.copyWith(loading: false),
         ),
       ),
@@ -113,5 +140,9 @@ final class OtpVerificationBloc
 
   void verifyButtonClicked() {
     add(const OtpVerificationEvent.verifyButtonClicked());
+  }
+
+  void otpVerified() {
+    add(const OtpVerificationEvent.otpVerified());
   }
 }

@@ -17,6 +17,10 @@ sealed class OtpVerificationState extends BaseState
     required OtpVerificationStateStore store,
   }) = VerifiedOtp;
 
+  const factory OtpVerificationState.userSaved({
+    required OtpVerificationStateStore store,
+  }) = UserSaved;
+
   const factory OtpVerificationState.changeLoaderState({
     required OtpVerificationStateStore store,
   }) = ChangeLoaderState;

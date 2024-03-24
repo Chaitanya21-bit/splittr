@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_bloc/base_bloc.dart';
+import 'package:splittr/core/base/base_bloc/base_bloc.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 abstract class BasePage<B extends BaseBloc> extends StatelessWidget {

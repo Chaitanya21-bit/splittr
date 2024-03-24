@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:splittr/core/base_page/base_page.dart';
+import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/{{feature_name.snakeCase()}}/presentation/blocs/{{feature_name.snakeCase()}}_bloc.dart';
 
