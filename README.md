@@ -16,7 +16,7 @@ Before running the below command install [firebase cli](https://firebase.google.
 
 ## Build Runner
 ```flutter
-flutter dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 ## Configure flutter run for dev and prod
