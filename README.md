@@ -22,6 +22,7 @@ dart run build_runner build --delete-conflicting-outputs
 ## Configure flutter run for dev and prod
 
 For Android Studio:
+If DEV and PROD are not visible do the following:
 1. Go to edit configuration.
 2. Add name - DEV or PROD.
 3. Add dart entry point as ```main_dev.dart``` for DEV and ```main_prod.dart``` for PROD.
