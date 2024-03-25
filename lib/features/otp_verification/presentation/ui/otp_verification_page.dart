@@ -31,7 +31,6 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
 
   void _handleState(BuildContext context, OtpVerificationState state) {
     return switch (state) {
-      VerifiedOtp() => _showSnackBar(context),
       UserAuthenticateSuccessful() => _onUserAuthenticateSuccessful(
           context: context,
           state: state,
@@ -61,6 +60,9 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
     required UserAuthenticateSuccessful state,
   }) {
     getBloc<GlobalBloc>(context).userUpdated(state.user);
+
+    _showSnackBar(context);
+
     _navigateToDashboard(context);
   }
 
