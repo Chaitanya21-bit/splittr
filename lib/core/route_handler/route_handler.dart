@@ -85,8 +85,8 @@ class RouteHandler {
 
   static Future<Map<String, dynamic>?> pushAndRemoveUntil(
     BuildContext context,
-    RouteId routeId,
-    bool Function(Route<dynamic>) predicate, {
+    RouteId routeId, {
+    bool Function(Route<dynamic>)? predicate,
     Map<String, dynamic>? args,
   }) async {
     if (!context.mounted) {
@@ -96,7 +96,7 @@ class RouteHandler {
     final returnedArgs = await Navigator.pushNamedAndRemoveUntil(
       context,
       routeId.name,
-      predicate,
+      predicate ?? (_) => false,
       arguments: args,
     );
 

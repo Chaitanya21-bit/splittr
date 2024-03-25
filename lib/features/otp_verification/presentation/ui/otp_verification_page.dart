@@ -31,7 +31,7 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   void _handleState(BuildContext context, OtpVerificationState state) {
     return switch (state) {
       VerifiedOtp() => _showSnackBar(context),
-      UserSaved() => _navigateToDashboard(context),
+      UserAuthenticateSuccessful() => _navigateToDashboard(context),
       _ => null,
     };
   }
@@ -49,7 +49,7 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   }
 
   void _navigateToDashboard(BuildContext context) {
-    RouteHandler.push(context, RouteId.dashboard);
+    RouteHandler.pushAndRemoveUntil(context, RouteId.dashboard);
   }
 
   void _showSnackBar(BuildContext context) {

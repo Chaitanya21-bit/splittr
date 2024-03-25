@@ -14,8 +14,16 @@ final class UserRepository implements IUserRepository {
   );
 
   @override
-  FutureEitherFailureVoid saveUser(User user) {
-    return _firestoreDatabaseRepository.saveUser(user.toDto());
+  FutureEitherFailure<User> saveUser(User user) async {
+    final userSavedOrFailure =
+        await _firestoreDatabaseRepository.saveUser(user.toDto());
+
+    return userSavedOrFailure.fold(
+      left,
+      (userDto) => right(
+        User.fromDto(userDto),
+      ),
+    );
   }
 
   @override

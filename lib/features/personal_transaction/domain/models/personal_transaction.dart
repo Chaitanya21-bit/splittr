@@ -11,7 +11,7 @@ class PersonalTransaction with _$PersonalTransaction {
     String? title,
     double? amount,
     String? note,
-    String? category,
+    String? category, // TODO(Saurabh): Add enum
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _PersonalTransaction;

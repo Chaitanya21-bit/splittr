@@ -22,7 +22,7 @@ final class FirestoreDatabaseRepository
             .collection(FirebaseFirestoreCollectionKeys.users);
 
   @override
-  FutureEitherFailureVoid saveUser(UserDto user) async {
+  FutureEitherFailure<UserDto> saveUser(UserDto user) async {
     try {
       if (user.userId == null) {
         return left(const Failure(message: 'No userId present'));
@@ -30,7 +30,7 @@ final class FirestoreDatabaseRepository
       await _userCollection
           .doc(user.userId)
           .set(user.toJson()..addAll(_timeStamps()));
-      return right(unit);
+      return right(user);
     } catch (e) {
       return left(const Failure(message: 'Failed to save data'));
     }
