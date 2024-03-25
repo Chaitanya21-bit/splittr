@@ -5,9 +5,9 @@ class _DashboardForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Text(
-        'Dashboard Page',
+        'Dashboard Page ${getBloc<GlobalBloc>(context).state.store.user}',
       ),
     );
   }

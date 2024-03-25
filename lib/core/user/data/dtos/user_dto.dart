@@ -6,12 +6,12 @@ part 'user_dto.g.dart';
 class UserDto {
   final String? userId;
   final String? name;
-  final String? phoneNo;
+  final String? phoneNumber;
 
   const UserDto({
     required this.userId,
     required this.name,
-    required this.phoneNo,
+    required this.phoneNumber,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>

@@ -8,7 +8,7 @@ class User with _$User {
   const factory User({
     String? userId,
     String? name,
-    String? phoneNo,
+    String? phoneNumber,
   }) = _User;
 
   const User._();
@@ -17,7 +17,7 @@ class User with _$User {
     return User(
       userId: dto.userId,
       name: dto.name,
-      phoneNo: dto.phoneNo,
+      phoneNumber: dto.phoneNumber,
     );
   }
 
@@ -25,7 +25,7 @@ class User with _$User {
     return UserDto(
       userId: userId,
       name: name,
-      phoneNo: phoneNo,
+      phoneNumber: phoneNumber,
     );
   }
 }

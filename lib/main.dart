@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:splittr/constants/env/env.dart';
 import 'package:splittr/core/app_config/i_app_config.dart';
 import 'package:splittr/core/designs/theme/app_theme.dart';
+import 'package:splittr/core/global/presentation/ui/global_blocs_widget.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/core/route_handler/route_observer.dart';
 import 'package:splittr/di/injection.dart';
@@ -26,15 +27,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appConfig.appName,
-      debugShowCheckedModeBanner: false,
-      initialRoute: RouteId.splash.name,
-      onGenerateRoute: RouteHandler.generateRoute,
-      theme: AppTheme.theme,
-      navigatorObservers: [
-        CustomNavigatorObserver(),
-      ],
+    return GlobalBlocsWidget(
+      child: MaterialApp(
+        title: appConfig.appName,
+        debugShowCheckedModeBanner: false,
+        initialRoute: RouteId.splash.name,
+        onGenerateRoute: RouteHandler.generateRoute,
+        theme: AppTheme.theme,
+        navigatorObservers: [
+          CustomNavigatorObserver(),
+        ],
+      ),
     );
   }
 }

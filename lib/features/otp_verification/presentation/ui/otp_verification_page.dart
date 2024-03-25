@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
+import 'package:splittr/core/global/presentation/blocs/global_bloc.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/otp_verification/presentation/blocs/otp_verification_bloc.dart';
@@ -31,7 +32,10 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   void _handleState(BuildContext context, OtpVerificationState state) {
     return switch (state) {
       VerifiedOtp() => _showSnackBar(context),
-      UserAuthenticateSuccessful() => _navigateToDashboard(context),
+      UserAuthenticateSuccessful() => _onUserAuthenticateSuccessful(
+          context: context,
+          state: state,
+        ),
       _ => null,
     };
   }
@@ -48,11 +52,19 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
     return getIt<OtpVerificationBloc>()..started(args: args);
   }
 
-  void _navigateToDashboard(BuildContext context) {
-    RouteHandler.pushAndRemoveUntil(context, RouteId.dashboard);
-  }
-
   void _showSnackBar(BuildContext context) {
     showSnackBar(context, 'Otp Verified');
+  }
+
+  void _onUserAuthenticateSuccessful({
+    required BuildContext context,
+    required UserAuthenticateSuccessful state,
+  }) {
+    getBloc<GlobalBloc>(context).userUpdated(state.user);
+    _navigateToDashboard(context);
+  }
+
+  void _navigateToDashboard(BuildContext context) {
+    RouteHandler.pushAndRemoveUntil(context, RouteId.dashboard);
   }
 }
