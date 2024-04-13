@@ -5,6 +5,7 @@ import 'package:splittr/core/auth/domain/repositories/i_auth_repository.dart';
 import 'package:splittr/core/base/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/core/user/domain/domain/repositories/i_user_repository.dart';
+import 'package:splittr/core/user/domain/models/user.dart';
 
 part 'splash_bloc.freezed.dart';
 
@@ -65,7 +66,6 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
           await _userRepository.fetchUser(_authRepository.userId ?? '');
       return userOrFailure.fold(
         (_) {
-          _userRepository.deleteUser(_authRepository.userId ?? '');
           _authRepository.logout();
 
           emit(
@@ -77,11 +77,12 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
             ),
           );
         },
-        (_) => emit(
+        (user) => emit(
           SplashState.userAuthorized(
             store: state.store.copyWith(
               authChecked: true,
               isAuthorized: true,
+              user: user,
             ),
           ),
         ),

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:splittr/constants/constants.dart';
+import 'package:splittr/constants/string_constants/string_constants.dart';
 import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/core/firebase/constants/collection_keys.dart';
 import 'package:splittr/core/firebase/domain/repositories/i_firestore_database_repository.dart';
@@ -20,15 +22,15 @@ final class FirestoreDatabaseRepository
             .collection(FirebaseFirestoreCollectionKeys.users);
 
   @override
-  FutureEitherFailureVoid saveUser(UserDto user) async {
+  FutureEitherFailure<UserDto> saveUser(UserDto user) async {
     try {
-      if (user.uid == null) {
-        return left(const Failure(message: 'No uid present'));
+      if (user.userId == null) {
+        return left(const Failure(message: 'No userId present'));
       }
       await _userCollection
-          .doc(user.uid)
+          .doc(user.userId)
           .set(user.toJson()..addAll(_timeStamps()));
-      return right(unit);
+      return right(user);
     } catch (e) {
       return left(const Failure(message: 'Failed to save data'));
     }
@@ -37,11 +39,11 @@ final class FirestoreDatabaseRepository
   @override
   FutureEitherFailure<UserDto> updateUser(UserDto user) async {
     try {
-      if (user.uid == null) {
-        return left(const Failure(message: 'No uid present'));
+      if (user.userId == null) {
+        return left(const Failure(message: 'No userId present'));
       }
       await _userCollection
-          .doc(user.uid)
+          .doc(user.userId)
           .update(user.toJson()..addAll(_updatedAtTimeStamp()));
       return right(user);
     } catch (e) {
@@ -50,12 +52,28 @@ final class FirestoreDatabaseRepository
   }
 
   @override
-  FutureEitherFailure<UserDto> fetchUser(String uid) async {
+  FutureEitherFailure<UserDto> fetchUser(String userId) async {
     try {
-      final snapshot = await _userCollection.doc(uid).get();
+      final snapshot = await _userCollection.doc(userId).get();
 
-      if (snapshot.data()?.isNotEmpty ?? false) {
-        return right(UserDto.fromJson(snapshot.data() ?? {}));
+      final json = snapshot.data();
+
+      if (json != null && json.isNotEmpty) {
+        if (json.containsKey(StringConstants.createdAt)) {
+          json[StringConstants.createdAt] =
+              (json[StringConstants.createdAt] as Timestamp)
+                  .toDate()
+                  .toIso8601String();
+        }
+
+        if (json.containsKey(StringConstants.updatedAt)) {
+          json[StringConstants.updatedAt] =
+              (json[StringConstants.updatedAt] as Timestamp)
+                  .toDate()
+                  .toIso8601String();
+        }
+
+        return right(UserDto.fromJson(json));
       }
 
       return left(const Failure(message: 'User Not Found'));
@@ -65,9 +83,9 @@ final class FirestoreDatabaseRepository
   }
 
   @override
-  Future<void> deleteUser(String uid) async {
+  Future<void> deleteUser(String userId) async {
     try {
-      await _userCollection.doc(uid).delete();
+      await _userCollection.doc(userId).delete();
     } catch (_) {}
   }
 
@@ -80,13 +98,13 @@ final class FirestoreDatabaseRepository
 
   Map<String, dynamic> _createdAtTimeStamp() {
     return {
-      'createdAt': FieldValue.serverTimestamp(),
+      StringConstants.createdAt: FieldValue.serverTimestamp(),
     };
   }
 
   Map<String, dynamic> _updatedAtTimeStamp() {
     return {
-      'updatedAt': FieldValue.serverTimestamp(),
+      StringConstants.updatedAt: FieldValue.serverTimestamp(),
     };
   }
 }

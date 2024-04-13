@@ -73,11 +73,14 @@ final class OtpVerificationBloc
     if (otp?.length != 6) {
       return;
     }
+
     changeLoaderState(emit: emit, loading: true);
+
     final verifyOtpOrFailure = await _authRepository.verifyOtp(
       otp: otp ?? '',
       verificationId: state.store.verificationId ?? '',
     );
+
     verifyOtpOrFailure.fold(
       (failure) => handleFailure(
         emit: emit,
@@ -96,18 +99,33 @@ final class OtpVerificationBloc
         store: state.store,
       ),
     );
-    final userSavedOrFailure = await _userRepository.saveUser(
-      User(
-        uid: _authRepository.userId,
-        phoneNo: state.store.phoneNumber,
-      ),
-    );
 
-    userSavedOrFailure.fold(
-      (failure) => handleFailure(emit: emit, failure: failure),
-      (_) => emit(
-        OtpVerificationState.userSaved(
+    final userOrFailure =
+        await _userRepository.fetchUser(_authRepository.userId ?? '');
+
+    await userOrFailure.fold<Future<void>>(
+      (failure) async {
+        final userSavedOrFailure = await _userRepository.saveUser(
+          User(
+            userId: _authRepository.userId,
+            phoneNumber: state.store.phoneNumber,
+          ),
+        );
+
+        userSavedOrFailure.fold(
+          (failure) => handleFailure(emit: emit, failure: failure),
+          (user) => emit(
+            OtpVerificationState.userAuthenticateSuccessful(
+              store: state.store.copyWith(loading: false),
+              user: user,
+            ),
+          ),
+        );
+      },
+      (user) async => emit(
+        OtpVerificationState.userAuthenticateSuccessful(
           store: state.store.copyWith(loading: false),
+          user: user,
         ),
       ),
     );

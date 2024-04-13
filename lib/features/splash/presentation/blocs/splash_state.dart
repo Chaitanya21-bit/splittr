@@ -58,6 +58,7 @@ sealed class SplashState extends BaseState with _$SplashState {
 @freezed
 class SplashStateStore with _$SplashStateStore {
   const factory SplashStateStore({
+    User? user,
     @Default(false) bool splashShown,
     @Default(false) bool authChecked,
     @Default(false) bool isAuthorized,

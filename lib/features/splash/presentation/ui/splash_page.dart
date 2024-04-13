@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
+import 'package:splittr/core/global/presentation/blocs/global_bloc.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
+import 'package:splittr/core/user/domain/models/user.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/splash/presentation/blocs/splash_bloc.dart';
+import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 part 'splash_form.dart';
 
@@ -29,7 +32,10 @@ class SplashPage extends BasePage<SplashBloc> {
     return switch (state) {
       _ => state.store.splashShown && state.store.authChecked
           ? state.store.isAuthorized
-              ? _navigateToDashboardPage(context)
+              ? _userAuthorized(
+                  context: context,
+                  user: state.store.user,
+                )
               : _navigateToLoginPage(context)
           : null,
     };
@@ -45,6 +51,16 @@ class SplashPage extends BasePage<SplashBloc> {
     Map<String, dynamic>? args,
   }) {
     return getIt<SplashBloc>()..started();
+  }
+
+  void _userAuthorized({
+    required BuildContext context,
+    required User? user,
+  }) {
+    if (user != null) {
+      getBloc<GlobalBloc>(context).userUpdated(user);
+    }
+    _navigateToDashboardPage(context);
   }
 
   void _navigateToDashboardPage(BuildContext context) {
