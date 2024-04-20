@@ -12,13 +12,11 @@ import 'package:splittr/utils/typedefs/typedefs.dart';
 @Singleton(as: IFirestoreDatabaseRepository)
 final class FirestoreDatabaseRepository
     implements IFirestoreDatabaseRepository {
-  final FirebaseFirestore _firebaseFirestoreDb;
-
   final CollectionReference<Map<String, dynamic>> _userCollection;
 
   FirestoreDatabaseRepository(
-    this._firebaseFirestoreDb,
-  ) : _userCollection = _firebaseFirestoreDb
+    FirebaseFirestore firebaseFirestoreDb,
+  ) : _userCollection = firebaseFirestoreDb
             .collection(FirebaseFirestoreCollectionKeys.users);
 
   @override
