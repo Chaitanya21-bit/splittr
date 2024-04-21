@@ -3,8 +3,53 @@ targets:
     builders:
       freezed:
         options:
+          format: false
           map: false
           when:
             when: false
             maybe_when: false
             when_or_null: false
+        generate_for:
+          - lib/core/global/presentation/blocs/global_bloc.dart
+          - lib/core/user/domain/models/user.dart
+          - lib/features/dashboard/presentation/blocs/dashboard_bloc.dart
+          - lib/features/group_dashboard/presentation/blocs/group_dashboard_bloc.dart
+          - lib/features/groups/presentation/blocs/groups_bloc.dart
+          - lib/features/login/presentation/blocs/login_bloc.dart
+          - lib/features/otp_verification/presentation/blocs/otp_verification_bloc.dart
+          - lib/features/personal_transaction/domain/models/personal_transaction.dart
+          - lib/features/personal_transaction/presentation/blocs/personal_transaction_bloc.dart
+          - lib/features/profile/presentation/blocs/profile_bloc.dart
+          - lib/features/quick_settle/presentation/blocs/quick_settle_bloc.dart
+          - lib/features/quick_split/presentation/blocs/quick_split_bloc.dart
+          - lib/features/signup/presentation/blocs/signup_bloc.dart
+          - lib/features/splash/presentation/blocs/splash_bloc.dart
+
+
+      json_serializable:
+        options:
+          explicit_to_json: true
+        generate_for:
+          - lib/core/user/data/dtos/user_dto.dart
+          - lib/features/personal_transaction/data/dtos/personal_transaction_dto.dart
+
+      injectable_generator:injectable_builder:
+        generate_for:
+          - lib/core/auth/data/repositories/auth_repository.dart
+          - lib/core/firebase/data/repositories/firestore_database_repository.dart
+          - lib/core/global/presentation/blocs/global_bloc.dart
+          - lib/core/user/data/repositories/user_repository.dart
+          - lib/di/injection.dart
+          - lib/di/injection_register_module.dart
+          - lib/features/dashboard/presentation/blocs/dashboard_bloc.dart
+          - lib/features/group_dashboard/presentation/blocs/group_dashboard_bloc.dart
+          - lib/features/groups/presentation/blocs/groups_bloc.dart
+          - lib/features/login/presentation/blocs/login_bloc.dart
+          - lib/features/otp_verification/presentation/blocs/otp_verification_bloc.dart
+          - lib/features/personal_transaction/domain/models/personal_transaction.dart
+          - lib/features/personal_transaction/presentation/blocs/personal_transaction_bloc.dart
+          - lib/features/profile/presentation/blocs/profile_bloc.dart
+          - lib/features/quick_settle/presentation/blocs/quick_settle_bloc.dart
+          - lib/features/quick_split/presentation/blocs/quick_split_bloc.dart
+          - lib/features/signup/presentation/blocs/signup_bloc.dart
+          - lib/features/splash/presentation/blocs/splash_bloc.dart
