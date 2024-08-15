@@ -8,9 +8,7 @@ import 'package:splittr/core/user/domain/domain/repositories/i_user_repository.d
 import 'package:splittr/core/user/domain/models/user.dart';
 
 part 'splash_bloc.freezed.dart';
-
 part 'splash_event.dart';
-
 part 'splash_state.dart';
 
 @injectable
@@ -46,7 +44,7 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
     _,
     Emitter<SplashState> emit,
   ) async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 3));
 
     emit(
       SplashState.showedSplash(

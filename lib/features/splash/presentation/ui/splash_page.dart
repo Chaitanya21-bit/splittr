@@ -36,7 +36,7 @@ class SplashPage extends BasePage<SplashBloc> {
                   context: context,
                   user: state.store.user,
                 )
-              : _navigateToLoginPage(context)
+              : _navigateToAuthLandingPage(context)
           : null,
     };
   }
@@ -69,5 +69,9 @@ class SplashPage extends BasePage<SplashBloc> {
 
   void _navigateToLoginPage(BuildContext context) {
     RouteHandler.pushReplacement(context, RouteId.login);
+  }
+
+  void _navigateToAuthLandingPage(BuildContext context) {
+    RouteHandler.pushReplacement(context, RouteId.authLanding);
   }
 }

@@ -12,6 +12,7 @@ targets:
         generate_for:
           - lib/core/global/presentation/blocs/global_bloc.dart
           - lib/core/user/domain/models/user.dart
+          - lib/features/auth_landing/presentation/blocs/auth_landing_bloc.dart
           - lib/features/dashboard/presentation/blocs/dashboard_bloc.dart
           - lib/features/group_dashboard/presentation/blocs/group_dashboard_bloc.dart
           - lib/features/groups/presentation/blocs/groups_bloc.dart
@@ -41,6 +42,7 @@ targets:
           - lib/core/user/data/repositories/user_repository.dart
           - lib/di/injection.dart
           - lib/di/injection_register_module.dart
+          - lib/features/auth_landing/presentation/blocs/auth_landing_bloc.dart
           - lib/features/dashboard/presentation/blocs/dashboard_bloc.dart
           - lib/features/group_dashboard/presentation/blocs/group_dashboard_bloc.dart
           - lib/features/groups/presentation/blocs/groups_bloc.dart

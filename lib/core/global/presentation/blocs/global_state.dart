@@ -1,8 +1,7 @@
 part of 'global_bloc.dart';
 
 @freezed
-sealed class GlobalState extends BaseState
-    with _$GlobalState {
+sealed class GlobalState extends BaseState with _$GlobalState {
   const GlobalState._();
 
   const factory GlobalState.initial({
