@@ -8,7 +8,9 @@ import 'package:splittr/core/user/domain/domain/repositories/i_user_repository.d
 import 'package:splittr/core/user/domain/models/user.dart';
 
 part 'splash_bloc.freezed.dart';
+
 part 'splash_event.dart';
+
 part 'splash_state.dart';
 
 @injectable
