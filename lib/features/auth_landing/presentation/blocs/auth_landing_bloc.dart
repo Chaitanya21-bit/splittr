@@ -5,13 +5,12 @@ import 'package:splittr/core/base/base_bloc/base_bloc.dart';
 import 'package:splittr/core/failure/failure.dart';
 
 part 'auth_landing_bloc.freezed.dart';
-
 part 'auth_landing_event.dart';
-
 part 'auth_landing_state.dart';
 
 @injectable
-final class AuthLandingBloc extends BaseBloc<AuthLandingEvent, AuthLandingState> {
+final class AuthLandingBloc
+    extends BaseBloc<AuthLandingEvent, AuthLandingState> {
   AuthLandingBloc()
       : super(
           const AuthLandingState.initial(

@@ -67,10 +67,6 @@ class SplashPage extends BasePage<SplashBloc> {
     RouteHandler.pushReplacement(context, RouteId.dashboard);
   }
 
-  void _navigateToLoginPage(BuildContext context) {
-    RouteHandler.pushReplacement(context, RouteId.login);
-  }
-
   void _navigateToAuthLandingPage(BuildContext context) {
     RouteHandler.pushReplacement(context, RouteId.authLanding);
   }

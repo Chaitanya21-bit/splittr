@@ -80,9 +80,7 @@ class _SignupForm extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: AppTransparentButton(
                       text: 'SignUp',
-                      onTap: () {
-                        print('Signup');
-                      },
+                      onTap: () {},
                     ),
                   ),
                   const SizedBox(
