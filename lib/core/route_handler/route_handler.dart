@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splittr/core/route_handler/route_id.dart';
+import 'package:splittr/features/auth_landing/presentation/ui/auth_landing_page.dart';
 import 'package:splittr/features/dashboard/presentation/ui/dashboard_page.dart';
 import 'package:splittr/features/group_dashboard/presentation/ui/group_dashboard_page.dart';
 import 'package:splittr/features/login/presentation/ui/login_page.dart';
@@ -43,6 +44,7 @@ class RouteHandler {
         RouteId.quickSettle => QuickSettlePage(args: args),
         RouteId.quickSplit => QuickSplitPage(args: args),
         RouteId.otpVerification => OtpVerificationPage(args: args),
+        RouteId.authLanding => AuthLandingPage(args: args),
       },
     );
   }

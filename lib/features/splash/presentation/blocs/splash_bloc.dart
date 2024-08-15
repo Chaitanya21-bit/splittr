@@ -46,7 +46,7 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
     _,
     Emitter<SplashState> emit,
   ) async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 3));
 
     emit(
       SplashState.showedSplash(

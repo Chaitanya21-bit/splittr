@@ -27,18 +27,29 @@ class PrimaryTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onChanged: onChanged,
-      onEditingComplete: () => _onEditingComplete(context),
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      maxLength: maxLength,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        border: const OutlineInputBorder(),
+    return SizedBox(
+      height: 40, // Set the height
+      width: 300, // Set the width
+      child: TextFormField(
+        controller: controller,
+        onChanged: onChanged,
+        onEditingComplete: () => _onEditingComplete(context),
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        maxLength: maxLength,
+        obscureText: obscureText,
+        style: const TextStyle(
+          fontSize: 13, // Reduce the font size
+        ),
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: hintText,
+          border: const OutlineInputBorder(),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 12, // Increase vertical padding
+            horizontal: 16, // Increase horizontal padding
+          ),
+        ),
       ),
     );
   }
