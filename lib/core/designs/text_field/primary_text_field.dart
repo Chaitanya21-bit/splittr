@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:splittr/utils/keyboard/keyboard_utils.dart';
 
 class PrimaryTextField extends StatelessWidget {
-  final String labelText;
-  final String hintText;
+  final String? labelText;
+  final String? hintText;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final VoidCallback? onEditingComplete;
@@ -14,8 +14,8 @@ class PrimaryTextField extends StatelessWidget {
 
   const PrimaryTextField({
     super.key,
-    required this.labelText,
-    required this.hintText,
+    this.labelText,
+    this.hintText,
     this.controller,
     this.onChanged,
     this.onEditingComplete,
