@@ -66,6 +66,7 @@ class _QuickSplitForm extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
+              padding: const EdgeInsets.all(8),
               physics: const BouncingScrollPhysics(),
               itemCount: 10,
               itemBuilder: (context, index) {
@@ -86,16 +87,20 @@ class _QuickSplitForm extends StatelessWidget {
               color: AppColors.blueButtonColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const ListTile(
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              leading: Text(
+            child: ListTile(
+              onTap: () {
+                RouteHandler.push(context, RouteId.quickSettle);
+              },
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              leading: const Text(
                 'Check Split',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                 ),
               ),
-              trailing: Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white,
               ),
