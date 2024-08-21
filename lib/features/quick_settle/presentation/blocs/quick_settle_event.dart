@@ -2,5 +2,9 @@ part of 'quick_settle_bloc.dart';
 
 @freezed
 class QuickSettleEvent extends BaseEvent with _$QuickSettleEvent {
-  const factory QuickSettleEvent.started() = _Started;
+  const factory QuickSettleEvent.started({
+    required List<({double amount, String name})> peopleRecord,
+  }) = _Started;
+  const factory QuickSettleEvent.calculateTransactions() =
+      _CalculateTransactions;
 }

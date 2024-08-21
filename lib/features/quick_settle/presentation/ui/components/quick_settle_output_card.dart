@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 
 class QuickSettleOutputCard extends StatelessWidget {
-  const QuickSettleOutputCard({super.key});
+  final String sender;
+  final String receiver;
+  final String amount;
+  const QuickSettleOutputCard({
+    super.key,
+    required this.sender,
+    required this.receiver,
+    required this.amount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +24,13 @@ class QuickSettleOutputCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            'Name 1',
-            style: TextStyle(color: Colors.black),
+          Text(
+            sender,
           ),
           Column(
             children: [
-              const Text(
-                'Amount',
-                style: TextStyle(color: Colors.black),
+              Text(
+                amount,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -49,9 +55,8 @@ class QuickSettleOutputCard extends StatelessWidget {
               ),
             ],
           ),
-          const Text(
-            'Name 2',
-            style: TextStyle(color: Colors.black),
+          Text(
+            receiver,
           ),
         ],
       ),

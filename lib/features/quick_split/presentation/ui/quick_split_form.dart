@@ -29,7 +29,10 @@ class _QuickSplitForm extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  getBloc<QuickSplitBloc>(context)
+                      .addPerson(name: 'New', amount: 0);
+                },
                 child: Container(
                   width: 75,
                   height: 31,
@@ -65,13 +68,30 @@ class _QuickSplitForm extends StatelessWidget {
             height: 15,
           ),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              physics: const BouncingScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return QuickSplitInputCard(
-                  onDelete: () {},
+            child: BlocBuilder<QuickSplitBloc, QuickSplitState>(
+              builder: (context, state) {
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: state.store.peopleRecord.length,
+                  itemBuilder: (context, index) {
+                    return QuickSplitInputCard(
+                      onDelete: () {
+                        getBloc<QuickSplitBloc>(context)
+                            .deletePerson(index: index);
+                      },
+                      onPersonNameChanged: (name) {
+                        getBloc<QuickSplitBloc>(context)
+                            .nameChanged(index: index, name: name);
+                      },
+                      onAmountChanged: (amount) {
+                        getBloc<QuickSplitBloc>(context).amountChanged(
+                          index: index,
+                          amount: double.parse(amount),
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),
@@ -89,7 +109,9 @@ class _QuickSplitForm extends StatelessWidget {
             ),
             child: ListTile(
               onTap: () {
-                RouteHandler.push(context, RouteId.quickSettle);
+                getBloc<QuickSplitBloc>(context).quickSettleClicked();
+                print(
+                    getBloc<QuickSplitBloc>(context).state.store.peopleRecord);
               },
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

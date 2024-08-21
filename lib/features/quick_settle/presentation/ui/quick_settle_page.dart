@@ -58,6 +58,6 @@ class QuickSettlePage extends BasePage<QuickSettleBloc> {
     required BuildContext context,
     Map<String, dynamic>? args,
   }) {
-    return getIt<QuickSettleBloc>()..started();
+    return getIt<QuickSettleBloc>()..started(args: args);
   }
 }

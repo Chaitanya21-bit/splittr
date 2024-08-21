@@ -53,37 +53,45 @@ class _QuickSettleForm extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              padding: const EdgeInsets.only(top: 18, left: 26, bottom: 20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: AppColors.darkGreyColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Total Amount',
-                    style: TextStyle(fontSize: 15),
+            BlocBuilder<QuickSettleBloc, QuickSettleState>(
+              builder: (context, state) {
+                final total = state.store.total;
+                final numberOfPeople = state.store.peopleRecord.length;
+                final splitPerPerson = state.store.individualShare;
+                return Container(
+                  padding: const EdgeInsets.only(top: 18, left: 26, bottom: 20),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: AppColors.darkGreyColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  SizedBox(
-                    height: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        'Total Amount: ${total.toStringAsFixed(2)}',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Number Of People: $numberOfPeople',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Split Per Person: '
+                        '${splitPerPerson.toStringAsFixed(2)}',
+                        style: const TextStyle(fontSize: 15),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Number Of People',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Split Per Person',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ],
-              ),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
@@ -115,12 +123,30 @@ class _QuickSettleForm extends StatelessWidget {
               height: 10,
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8),
-                physics: const BouncingScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return const QuickSettleOutputCard();
+              child: BlocBuilder<QuickSettleBloc, QuickSettleState>(
+                builder: (context, state) {
+                  final transactions = state.store.finalTransaction;
+
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
+                      final transaction = transactions[index];
+                      final sender = transaction.keys.first;
+                      final details = transaction[sender]!.split('|');
+                      final receiver = details[0];
+                      final amount = double.parse(details[1]);
+
+                      return QuickSettleOutputCard(
+                        sender: sender,
+                        receiver: receiver,
+                        amount: amount < 0
+                            ? (-1 * amount).toString()
+                            : amount.toString(),
+                      );
+                    },
+                  );
                 },
               ),
             ),

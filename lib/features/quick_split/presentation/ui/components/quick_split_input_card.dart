@@ -4,7 +4,14 @@ import 'package:splittr/core/designs/text_field/primary_text_field.dart';
 
 class QuickSplitInputCard extends StatelessWidget {
   final VoidCallback onDelete;
-  const QuickSplitInputCard({super.key, required this.onDelete});
+  final ValueChanged<String> onPersonNameChanged;
+  final ValueChanged<String> onAmountChanged;
+  const QuickSplitInputCard({
+    super.key,
+    required this.onDelete,
+    required this.onPersonNameChanged,
+    required this.onAmountChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,30 +25,39 @@ class QuickSplitInputCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Name',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                PrimaryTextField(),
+                PrimaryTextField(
+                  onChanged: onPersonNameChanged,
+                ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Amount', // Replace with your label text
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 PrimaryTextField(
+                  onChanged: onAmountChanged,
                   keyboardType: TextInputType.number,
                 ),
               ],
