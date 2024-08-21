@@ -4,4 +4,5 @@ final class StringConstants {
   static const phoneNumber = 'phoneNumber';
   static const createdAt = 'createdAt';
   static const updatedAt = 'updatedAt';
+  static const peopleRecords = 'peopleRecords';
 }

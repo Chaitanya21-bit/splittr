@@ -43,5 +43,11 @@ sealed class QuickSettleState extends BaseState with _$QuickSettleState {
 class QuickSettleStateStore with _$QuickSettleStateStore {
   const factory QuickSettleStateStore({
     @Default(false) bool loading,
+    @Default([]) List<({String name, double amount})> peopleRecord,
+    @Default(0.0) double total,
+    @Default(0.0) double individualShare,
+    @Default([]) List<double> individualShareList,
+    @Default([]) List<Map<String, String>> finalTransaction,
+    @Default([]) List<SplitTransaction> tags,
   }) = _QuickSettleStateStore;
 }

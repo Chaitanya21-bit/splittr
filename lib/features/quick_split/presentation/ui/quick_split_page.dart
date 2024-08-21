@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:splittr/constants/constants.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/components/background_wrapper.dart';
@@ -7,6 +8,7 @@ import 'package:splittr/core/route_handler/route_handler.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_split/presentation/blocs/quick_split_bloc.dart';
 import 'package:splittr/features/quick_split/presentation/ui/components/quick_split_input_card.dart';
+import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 part 'quick_split_form.dart';
 
@@ -48,7 +50,28 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
     );
   }
 
-  void _handleState(BuildContext context, QuickSplitState state) {}
+  void _handleState(BuildContext context, QuickSplitState state) {
+    return switch (state) {
+      QuickSettle _ => _navigateToQuickSettlePage(
+          context: context,
+          state: state,
+        ),
+      _ => () {},
+    };
+  }
+
+  void _navigateToQuickSettlePage({
+    required BuildContext context,
+    required QuickSplitState state,
+  }) {
+    RouteHandler.push(
+      context,
+      RouteId.quickSettle,
+      args: {
+        StringConstants.peopleRecords: state.store.peopleRecord,
+      },
+    );
+  }
 
   Widget _handleWidget(BuildContext context, QuickSplitState state) {
     return const _QuickSplitForm();

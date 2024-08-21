@@ -17,6 +17,26 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
     required Failure failure,
   }) = OnFailure;
 
+  const factory QuickSplitState.nameChange({
+    required QuickSplitStateStore store,
+  }) = NameChange;
+
+  const factory QuickSplitState.amountChange({
+    required QuickSplitStateStore store,
+  }) = AmountChange;
+
+  const factory QuickSplitState.addedPerson({
+    required QuickSplitStateStore store,
+  }) = AddedPerson;
+
+  const factory QuickSplitState.deletedPerson({
+    required QuickSplitStateStore store,
+  }) = DeletedPerson;
+
+  const factory QuickSplitState.quickSettle({
+    required QuickSplitStateStore store,
+  }) = QuickSettle;
+
   @override
   BaseState getFailureState(
     Failure failure,
@@ -43,5 +63,10 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
 class QuickSplitStateStore with _$QuickSplitStateStore {
   const factory QuickSplitStateStore({
     @Default(false) bool loading,
+    @Default([
+      (name: '', amount: 0),
+      (name: '', amount: 0),
+    ])
+    List<({String name, double amount})> peopleRecord,
   }) = _QuickSplitStateStore;
 }
