@@ -33,6 +33,15 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
     required QuickSplitStateStore store,
   }) = DeletedPerson;
 
+  const factory QuickSplitState.invalidAmount({
+    required QuickSplitStateStore store,
+    required String invalidAmount,
+  }) = InvalidAmount;
+
+  const factory QuickSplitState.emptyName({
+    required QuickSplitStateStore store,
+  }) = EmptyName;
+
   const factory QuickSplitState.quickSettle({
     required QuickSplitStateStore store,
   }) = QuickSettle;
@@ -62,11 +71,11 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
 @freezed
 class QuickSplitStateStore with _$QuickSplitStateStore {
   const factory QuickSplitStateStore({
-    @Default(false) bool loading,
     @Default([
-      (name: '', amount: 0),
-      (name: '', amount: 0),
+      (name: '', amount: ''),
+      (name: '', amount: ''),
     ])
-    List<({String name, double amount})> peopleRecord,
+    List<({String name, String amount})> peopleRecords,
+    @Default(false) bool loading,
   }) = _QuickSplitStateStore;
 }

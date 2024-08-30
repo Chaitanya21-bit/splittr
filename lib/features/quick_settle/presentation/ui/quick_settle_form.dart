@@ -99,7 +99,9 @@ class _QuickSettleForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 240),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  getBloc<QuickSettleBloc>(context).toggleListView();
+                },
                 child: Container(
                   width: 80,
                   height: 31,
@@ -137,14 +139,23 @@ class _QuickSettleForm extends StatelessWidget {
                       final details = transaction[sender]!.split('|');
                       final receiver = details[0];
                       final amount = double.parse(details[1]);
-
-                      return QuickSettleOutputCard(
-                        sender: sender,
-                        receiver: receiver,
-                        amount: amount < 0
-                            ? (-1 * amount).toString()
-                            : amount.toString(),
-                      );
+                      if (state.store.toggleCard) {
+                        return QuickSettleOutputArrowCard(
+                          sender: sender,
+                          receiver: receiver,
+                          amount: amount < 0
+                              ? (-1 * amount).toString()
+                              : amount.toString(),
+                        );
+                      } else {
+                        return QuickSettleOutputTextCard(
+                          sender: sender,
+                          receiver: receiver,
+                          amount: amount < 0
+                              ? (-1 * amount).toString()
+                              : amount.toString(),
+                        );
+                      }
                     },
                   );
                 },

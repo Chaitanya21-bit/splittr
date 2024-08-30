@@ -31,31 +31,31 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
 
   void _onAddPerson(_AddPerson event, Emitter<QuickSplitState> emit) {
     final updatedPeople =
-        List<({double amount, String name})>.from(state.store.peopleRecord)
-          ..add((name: event.name, amount: event.amount));
+        List<({String amount, String name})>.from(state.store.peopleRecords)
+          ..add((name: '', amount: '0'));
     emit(
       QuickSplitState.addedPerson(
-        store: state.store.copyWith(peopleRecord: updatedPeople),
+        store: state.store.copyWith(peopleRecords: updatedPeople),
       ),
     );
   }
 
   void _onDeletePerson(_DeletePerson event, Emitter<QuickSplitState> emit) {
     final updatedPeopleRecord =
-        List<({double amount, String name})>.from(state.store.peopleRecord)
+        List<({String amount, String name})>.from(state.store.peopleRecords)
           ..removeAt(event.index);
 
     emit(
       QuickSplitState.deletedPerson(
-        store: state.store.copyWith(peopleRecord: updatedPeopleRecord),
+        store: state.store.copyWith(peopleRecords: updatedPeopleRecord),
       ),
     );
   }
 
   void _onNameChanged(_NameChanged event, Emitter<QuickSplitState> emit) {
-    final existingRecord = state.store.peopleRecord[event.index];
+    final existingRecord = state.store.peopleRecords[event.index];
     final records =
-        List<({double amount, String name})>.from(state.store.peopleRecord)
+        List<({String amount, String name})>.from(state.store.peopleRecords)
           ..replaceRange(
             event.index,
             event.index + 1,
@@ -65,16 +65,16 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     emit(
       QuickSplitState.nameChange(
         store: state.store.copyWith(
-          peopleRecord: records,
+          peopleRecords: records,
         ),
       ),
     );
   }
 
   void _onAmountChanged(_AmountChanged event, Emitter<QuickSplitState> emit) {
-    final existingRecord = state.store.peopleRecord[event.index];
+    final existingRecord = state.store.peopleRecords[event.index];
     final records =
-        List<({double amount, String name})>.from(state.store.peopleRecord)
+        List<({String amount, String name})>.from(state.store.peopleRecords)
           ..replaceRange(
             event.index,
             event.index + 1,
@@ -84,7 +84,7 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     emit(
       QuickSplitState.amountChange(
         store: state.store.copyWith(
-          peopleRecord: records,
+          peopleRecords: records,
         ),
       ),
     );
@@ -94,22 +94,49 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     _QuickSettleClicked event,
     Emitter<QuickSplitState> emit,
   ) {
+    changeLoaderState(emit: emit, loading: true);
+    for (final peopleRecord in state.store.peopleRecords) {
+      final amount = double.tryParse(peopleRecord.amount);
+      if (amount == null || amount < 0) {
+        emit(
+          QuickSplitState.invalidAmount(
+            store: state.store.copyWith(
+              loading: false,
+            ),
+            invalidAmount: peopleRecord.amount,
+          ),
+        );
+        return;
+      }
+      if (peopleRecord.name.isEmpty) {
+        emit(
+          QuickSplitState.emptyName(
+            store: state.store.copyWith(
+              loading: false,
+            ),
+          ),
+        );
+        return;
+      }
+    }
+
     emit(
       QuickSplitState.quickSettle(
         store: state.store.copyWith(
-          peopleRecord: state.store.peopleRecord,
+          loading: false,
+          peopleRecords: state.store.peopleRecords,
         ),
       ),
     );
   }
 
-  void addPerson({required String name, required double amount}) {
+  void addPerson() {
     add(
-      QuickSplitEvent.addPerson(name: name, amount: amount),
+      const QuickSplitEvent.addPerson(),
     );
   }
 
-  void amountChanged({required int index, required double amount}) {
+  void amountChanged({required int index, required String amount}) {
     add(
       QuickSplitEvent.amountChanged(index: index, amount: amount),
     );

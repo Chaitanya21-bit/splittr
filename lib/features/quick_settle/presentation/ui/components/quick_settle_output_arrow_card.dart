@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 
-class QuickSettleOutputCard extends StatelessWidget {
+class QuickSettleOutputArrowCard extends StatelessWidget {
   final String sender;
   final String receiver;
   final String amount;
-  const QuickSettleOutputCard({
+  const QuickSettleOutputArrowCard({
     super.key,
     required this.sender,
     required this.receiver,
