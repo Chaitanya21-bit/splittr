@@ -24,6 +24,7 @@ final class QuickSettleBloc
   void handleEvents() {
     on<_Started>(_onStarted);
     on<_CalculateTransactions>(_onCalculateTransactions);
+    on<_ToggleListView>(_onToggleListView);
   }
 
   void _onStarted(_Started event, Emitter<QuickSettleState> emit) {
@@ -129,6 +130,17 @@ final class QuickSettleBloc
     );
   }
 
+  void _onToggleListView(
+      _ToggleListView event, Emitter<QuickSettleState> emit) {
+    emit(
+      QuickSettleState.initial(
+        store: state.store.copyWith(
+          toggleCard: !state.store.toggleCard,
+        ),
+      ),
+    );
+  }
+
   @override
   void started({
     Map<String, dynamic>? args,
@@ -139,4 +151,8 @@ final class QuickSettleBloc
 
   @override
   bool get isLoading => state.store.loading;
+
+  void toggleListView() {
+    add(const QuickSettleEvent.toggleListView());
+  }
 }

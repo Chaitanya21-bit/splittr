@@ -9,6 +9,7 @@ import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_split/presentation/blocs/quick_split_bloc.dart';
 import 'package:splittr/features/quick_split/presentation/ui/components/quick_split_input_card.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
+import 'package:splittr/utils/snack_bar/snack_bar.dart';
 
 part 'quick_split_form.dart';
 
@@ -52,6 +53,10 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
 
   void _handleState(BuildContext context, QuickSplitState state) {
     return switch (state) {
+      InvalidAmount(:final invalidAmount) => invalidAmount.isEmpty
+          ? showSnackBar(context, 'Empty amount are not allowed')
+          : showSnackBar(context, '$invalidAmount is an invalid amount'),
+      EmptyName() => showSnackBar(context, 'Empty names are not allowed'),
       QuickSettle _ => _navigateToQuickSettlePage(
           context: context,
           state: state,
@@ -68,7 +73,13 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
       context,
       RouteId.quickSettle,
       args: {
-        StringConstants.peopleRecords: state.store.peopleRecord,
+        StringConstants.peopleRecords:
+            state.store.peopleRecords.map((peopleRecord) {
+          return (
+            name: peopleRecord.name,
+            amount: double.tryParse(peopleRecord.amount) ?? 0
+          );
+        }).toList(),
       },
     );
   }

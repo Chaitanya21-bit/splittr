@@ -7,4 +7,6 @@ class QuickSettleEvent extends BaseEvent with _$QuickSettleEvent {
   }) = _Started;
   const factory QuickSettleEvent.calculateTransactions() =
       _CalculateTransactions;
+
+  const factory QuickSettleEvent.toggleListView() = _ToggleListView;
 }

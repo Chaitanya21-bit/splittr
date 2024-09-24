@@ -29,10 +29,7 @@ class _QuickSplitForm extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: GestureDetector(
-                onTap: () {
-                  getBloc<QuickSplitBloc>(context)
-                      .addPerson(name: 'New', amount: 0);
-                },
+                onTap: getBloc<QuickSplitBloc>(context).addPerson,
                 child: Container(
                   width: 75,
                   height: 31,
@@ -73,7 +70,7 @@ class _QuickSplitForm extends StatelessWidget {
                 return ListView.builder(
                   padding: const EdgeInsets.all(8),
                   physics: const BouncingScrollPhysics(),
-                  itemCount: state.store.peopleRecord.length,
+                  itemCount: state.store.peopleRecords.length,
                   itemBuilder: (context, index) {
                     return QuickSplitInputCard(
                       onDelete: () {
@@ -87,7 +84,7 @@ class _QuickSplitForm extends StatelessWidget {
                       onAmountChanged: (amount) {
                         getBloc<QuickSplitBloc>(context).amountChanged(
                           index: index,
-                          amount: double.parse(amount),
+                          amount: amount,
                         );
                       },
                     );
@@ -108,11 +105,7 @@ class _QuickSplitForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: ListTile(
-              onTap: () {
-                getBloc<QuickSplitBloc>(context).quickSettleClicked();
-                print(
-                    getBloc<QuickSplitBloc>(context).state.store.peopleRecord);
-              },
+              onTap: getBloc<QuickSplitBloc>(context).quickSettleClicked,
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               leading: const Text(

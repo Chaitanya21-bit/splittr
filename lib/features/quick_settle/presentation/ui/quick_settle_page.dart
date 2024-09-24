@@ -5,7 +5,9 @@ import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/components/background_wrapper.dart';
 import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_settle/presentation/blocs/quick_settle_bloc.dart';
-import 'package:splittr/features/quick_settle/presentation/ui/components/quick_settle_output_card.dart';
+import 'package:splittr/features/quick_settle/presentation/ui/components/quick_settle_output_arrow_card.dart';
+import 'package:splittr/features/quick_settle/presentation/ui/components/quick_settle_output_text_card.dart';
+import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 part 'quick_settle_form.dart';
 
