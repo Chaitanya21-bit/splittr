@@ -7,7 +7,9 @@ import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/features/quick_settle/dataclass/split_transaction.dart';
 
 part 'quick_settle_bloc.freezed.dart';
+
 part 'quick_settle_event.dart';
+
 part 'quick_settle_state.dart';
 
 @injectable
@@ -131,7 +133,9 @@ final class QuickSettleBloc
   }
 
   void _onToggleListView(
-      _ToggleListView event, Emitter<QuickSettleState> emit) {
+    _ToggleListView event,
+    Emitter<QuickSettleState> emit,
+  ) {
     emit(
       QuickSettleState.initial(
         store: state.store.copyWith(

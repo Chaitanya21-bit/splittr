@@ -50,3 +50,9 @@ mason/.mason
 mason/mason-lock.json
 
 firebase_options*.dart
+/firebase.json
+
+# FVM Version Cache
+.fvm/
+/.fvmrc
+/.vscode/settings.json
