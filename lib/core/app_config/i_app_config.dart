@@ -9,9 +9,9 @@ part 'dev_app_config.dart';
 
 part 'prod_app_config.dart';
 
-IAppConfig appConfig = const DevAppConfig();
+late final IAppConfig appConfig;
 
-sealed class IAppConfig {
+abstract interface class IAppConfig {
   Env get env;
 
   FirebaseOptions get firebaseOptions;
@@ -20,8 +20,8 @@ sealed class IAppConfig {
 
   factory IAppConfig.init(Env env) {
     return switch (env) {
-      Env.dev => const DevAppConfig(),
-      Env.prod => const ProdAppConfig(),
+      Env.dev => const DevAppConfig._(),
+      Env.prod => const ProdAppConfig._(),
     };
   }
 }

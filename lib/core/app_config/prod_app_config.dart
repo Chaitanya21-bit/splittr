@@ -1,7 +1,7 @@
 part of 'i_app_config.dart';
 
 final class ProdAppConfig implements IAppConfig {
-  const ProdAppConfig();
+  const ProdAppConfig._();
 
   @override
   Env get env => Env.prod;
