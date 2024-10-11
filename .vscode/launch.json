@@ -12,13 +12,35 @@
       ]
     },
     {
-      "name": "PROD",
+      "name": "Dev Release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--release"
+      ]
+    },
+    {
+      "name": "Prod",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_prod.dart",
       "args": [
         "--flavor",
         "prod"
+      ]
+    },
+    {
+      "name": "Prod Release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_prod.dart",
+      "args": [
+        "--flavor",
+        "prod",
+        "--release"
       ]
     }
   ]

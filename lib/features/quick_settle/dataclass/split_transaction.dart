@@ -5,9 +5,12 @@ class SplitTransaction {
 
   SplitTransaction(this.sender, this.receiver, this.amount);
 
-  factory SplitTransaction.fromJson(json) {
-    return SplitTransaction(json['sender'] as String,
-        json['receiver'] as String, json['amount'] as double,);
+  factory SplitTransaction.fromJson(Map<String, dynamic> json) {
+    return SplitTransaction(
+      json['sender'] as String,
+      json['receiver'] as String,
+      json['amount'] as double,
+    );
   }
 
   Map<String, dynamic> toJson() => {

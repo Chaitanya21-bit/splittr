@@ -3,16 +3,14 @@
 Before running the below command install [firebase cli](https://firebase.google.com/docs/cli) and [flutterfire](https://firebase.google.com/docs/flutter/setup?platform=android).
 
 - Dev
-    1. ```cmd
-       flutterfire configure --platforms=android --android-package-name=com.example.splittr.dev --out=lib/core/firebase/firebase_options_dev.dart
-       ```
-    2. (IMP) Create a dev folder inside android/app/src/ and move the ```google-services.json``` file to dev folder.
-    
+    ```cmd
+    flutterfire configure --platforms=android --android-package-name=com.example.splittr.dev --android-out=android/app/src/dev/google-services.json --out=lib/core/firebase/firebase_options_dev.dart
+    ```
+
 - Prod
-    1. ```cmd
-       flutterfire configure --platforms=android --android-package-name=com.example.splittr --out=lib/core/firebase/firebase_options_prod.dart
-       ```
-    2. (IMP) Create a prod folder inside android/app/src/ and move the ```google-services.json``` file to prod folder.
+    ```cmd
+    flutterfire configure --platforms=android --android-package-name=com.example.splittr --android-out=android/app/src/prod/google-services.json --out=lib/core/firebase/firebase_options_prod.dart
+    ```
 
 ## Build Runner
 ```flutter
@@ -54,4 +52,15 @@ mason make feature_page -o ../lib/features/ --on-conflict overwrite --feature_na
 ## Create a component with mason
 ```cmd
 mason make feature_component -o ../lib/features/ --on-conflict overwrite --feature_name [yourFeatureName]
+```
+
+## Clean
+```flutter
+ flutter pub cache clean
+```
+```flutter
+ flutter pub cache repair
+```
+```flutter
+ flutter clean
 ```
