@@ -14,7 +14,7 @@ import 'package:splittr/utils/extensions/enum_extensions.dart';
 
 export 'route_id.dart';
 
-class RouteHandler {
+final class RouteHandler {
   const RouteHandler._();
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -22,9 +22,9 @@ class RouteHandler {
 
     if (routeId == null) {
       return MaterialPageRoute(
-        builder: (_) => const Scaffold(
+        builder: (_) => Scaffold(
           body: Center(
-            child: Text('ERROR'),
+            child: Text('Invalid Route ${settings.name}'),
           ),
         ),
       );
@@ -54,10 +54,6 @@ class RouteHandler {
     RouteId routeId, {
     Map<String, dynamic>? args,
   }) async {
-    if (!context.mounted) {
-      return null;
-    }
-
     final returnedArgs = await Navigator.pushNamed(
       context,
       routeId.name,
@@ -72,10 +68,6 @@ class RouteHandler {
     RouteId routeId, {
     Map<String, dynamic>? args,
   }) async {
-    if (!context.mounted) {
-      return null;
-    }
-
     final returnedArgs = await Navigator.pushReplacementNamed(
       context,
       routeId.name,
@@ -91,10 +83,6 @@ class RouteHandler {
     bool Function(Route<dynamic>)? predicate,
     Map<String, dynamic>? args,
   }) async {
-    if (!context.mounted) {
-      return null;
-    }
-
     final returnedArgs = await Navigator.pushNamedAndRemoveUntil(
       context,
       routeId.name,
@@ -103,5 +91,15 @@ class RouteHandler {
     );
 
     return returnedArgs as Map<String, dynamic>?;
+  }
+
+  static void pop(
+    BuildContext context, {
+    Map<String, dynamic>? args,
+  }) {
+    Navigator.pop(
+      context,
+      args,
+    );
   }
 }
