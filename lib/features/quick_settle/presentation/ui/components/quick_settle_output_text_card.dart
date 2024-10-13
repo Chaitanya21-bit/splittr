@@ -22,9 +22,36 @@ class QuickSettleOutputTextCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
-        child: Text(
-          '$sender has to pay $amount to $receiver.',
-          style: const TextStyle(fontSize: 16),
+        child: RichText(
+          text: TextSpan(
+            style: const TextStyle(
+              fontSize: 16,
+              color: AppColors.blackColor,
+            ),
+            children: [
+              TextSpan(
+                text: sender,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ), // Sender in bold
+              const TextSpan(text: ' has to pay '),
+              TextSpan(
+                text: '$amount Rs',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ), // Amount in bold
+              const TextSpan(text: ' to '),
+              TextSpan(
+                text: receiver,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ), // Receiver in bold
+              const TextSpan(text: '.'),
+            ],
+          ),
         ),
       ),
     );
