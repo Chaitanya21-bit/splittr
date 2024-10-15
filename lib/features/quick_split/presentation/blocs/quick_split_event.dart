@@ -19,4 +19,6 @@ class QuickSplitEvent extends BaseEvent with _$QuickSplitEvent {
   }) = _AmountChanged;
 
   const factory QuickSplitEvent.quickSettleClicked() = _QuickSettleClicked;
+
+  const factory QuickSplitEvent.clearData() = _ClearData;
 }

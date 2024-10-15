@@ -26,39 +26,75 @@ class _QuickSplitForm extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 33),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                onTap: getBloc<QuickSplitBloc>(context).addPerson,
-                child: Container(
-                  width: 75,
-                  height: 31,
-                  decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.add_box,
-                        color: AppColors.blackColor,
-                        size: 16,
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        'Add',
-                        style: TextStyle(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onTap: getBloc<QuickSplitBloc>(context).addPerson,
+                  child: Container(
+                    width: 75,
+                    height: 31,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.add_box,
                           color: AppColors.blackColor,
-                          fontSize: 14,
+                          size: 16,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          'Add',
+                          style: TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+                const SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: getBloc<QuickSplitBloc>(context).clearData,
+                  child: Container(
+                    width: 75,
+                    height: 31,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.clear_all,
+                          color: AppColors.blackColor,
+                          size: 16,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          'Clear',
+                          style: TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(

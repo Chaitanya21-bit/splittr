@@ -144,16 +144,16 @@ class _QuickSettleForm extends StatelessWidget {
                           sender: sender,
                           receiver: receiver,
                           amount: amount < 0
-                              ? (-1 * amount).toString()
-                              : amount.toString(),
+                              ? (-1 * amount).toStringAsFixed(2)
+                              : amount.toStringAsFixed(2),
                         );
                       } else {
                         return QuickSettleOutputTextCard(
                           sender: sender,
                           receiver: receiver,
                           amount: amount < 0
-                              ? (-1 * amount).toString()
-                              : amount.toString(),
+                              ? (-1 * amount).toStringAsFixed(2)
+                              : amount.toStringAsFixed(2),
                         );
                       }
                     },
@@ -205,7 +205,20 @@ class _QuickSettleForm extends StatelessWidget {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      final summary = getBloc<QuickSettleBloc>(context)
+                          .state
+                          .store
+                          .summaryMap;
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SummaryBottomSheet(
+                            summaryMap: summary,
+                          );
+                        },
+                      );
+                    },
                     child: Container(
                       height: 50,
                       margin: const EdgeInsets.symmetric(horizontal: 20),

@@ -48,6 +48,7 @@ class QuickSettleStateStore with _$QuickSettleStateStore {
     @Default(0.0) double individualShare,
     @Default([]) List<double> individualShareList,
     @Default([]) List<Map<String, String>> finalTransaction,
+    @Default({}) Map<String, List<Map<String, double>>> summaryMap,
     @Default([]) List<SplitTransaction> tags,
     @Default(true) bool toggleCard,
   }) = _QuickSettleStateStore;

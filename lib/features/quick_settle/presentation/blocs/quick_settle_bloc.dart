@@ -7,9 +7,7 @@ import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/features/quick_settle/dataclass/split_transaction.dart';
 
 part 'quick_settle_bloc.freezed.dart';
-
 part 'quick_settle_event.dart';
-
 part 'quick_settle_state.dart';
 
 @injectable
@@ -67,6 +65,7 @@ final class QuickSettleBloc
         List.from(state.store.individualShareList);
     final List<Map<String, String>> finalTransaction = [];
     final List<SplitTransaction> tags = [];
+    final Map<String, List<Map<String, double>>> summaryMap = {};
 
     int i = 0;
     int j = people.length - 1;
@@ -122,10 +121,26 @@ final class QuickSettleBloc
       }
     }
 
+    for (final item in finalTransaction) {
+      final String giver = item.keys.first;
+      final String value = item.values.first;
+
+      final List<String> splitValue = value.split('|');
+      final String receiver = splitValue[0];
+      final double amount = double.parse(splitValue[1]);
+
+      if (!summaryMap.containsKey(receiver)) {
+        summaryMap[receiver] = [];
+      }
+
+      summaryMap[receiver]!.add({giver: amount});
+    }
+
     emit(
       QuickSettleState.initial(
         store: state.store.copyWith(
           finalTransaction: finalTransaction,
+          summaryMap: summaryMap,
           tags: tags,
         ),
       ),

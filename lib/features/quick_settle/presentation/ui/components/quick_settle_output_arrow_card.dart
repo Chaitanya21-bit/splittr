@@ -30,7 +30,7 @@ class QuickSettleOutputArrowCard extends StatelessWidget {
           Column(
             children: [
               Text(
-                amount,
+                '$amount Rs',
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
