@@ -1,7 +1,7 @@
 part of 'i_app_config.dart';
 
 final class DevAppConfig implements IAppConfig {
-  const DevAppConfig();
+  const DevAppConfig._();
 
   @override
   Env get env => Env.dev;
