@@ -7,7 +7,9 @@ import 'package:splittr/core/failure/failure.dart';
 import 'package:splittr/features/quick_settle/dataclass/split_transaction.dart';
 
 part 'quick_settle_bloc.freezed.dart';
+
 part 'quick_settle_event.dart';
+
 part 'quick_settle_state.dart';
 
 @injectable
