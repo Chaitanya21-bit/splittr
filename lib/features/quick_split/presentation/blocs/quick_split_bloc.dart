@@ -25,6 +25,7 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
     on<_NameChanged>(_onNameChanged);
     on<_AmountChanged>(_onAmountChanged);
     on<_QuickSettleClicked>(_onQuickSettleClicked);
+    on<_ClearData>(_onClearData);
   }
 
   void _onStarted(_Started event, Emitter<QuickSplitState> emit) {}
@@ -127,6 +128,22 @@ final class QuickSplitBloc extends BaseBloc<QuickSplitEvent, QuickSplitState> {
           peopleRecords: state.store.peopleRecords,
         ),
       ),
+    );
+  }
+
+  void _onClearData(_ClearData event, Emitter<QuickSplitState> emit) {
+    emit(
+      QuickSplitState.initial(
+        store: state.store.copyWith(
+          peopleRecords: [],
+        ),
+      ),
+    );
+  }
+
+  void clearData() {
+    add(
+      const QuickSplitEvent.clearData(),
     );
   }
 
