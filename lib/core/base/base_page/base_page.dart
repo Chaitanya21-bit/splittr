@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_bloc/base_bloc.dart';
+import 'package:splittr/di/injection.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
 abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
@@ -15,23 +16,18 @@ abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
 
   Widget buildScreen(BuildContext context);
 
-  B getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  });
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<B>(
-      create: (_) => getImplementedBloc(
-        context: context,
-        args: args,
-      ),
+      create: (_) => getIt<B>()
+        ..started(
+          args: args,
+        ),
       child: Stack(
         children: [
           buildScreen(context),
           if (showFullScreenLoader) ...[
-            _Loader<B>(),
+            _FullScreenLoader<B>(),
           ],
         ],
       ),
@@ -39,8 +35,8 @@ abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
   }
 }
 
-class _Loader<B extends BaseBloc> extends StatelessWidget {
-  const _Loader({
+class _FullScreenLoader<B extends BaseBloc> extends StatelessWidget {
+  const _FullScreenLoader({
     super.key,
   });
 

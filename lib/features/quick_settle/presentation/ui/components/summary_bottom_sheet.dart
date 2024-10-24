@@ -85,7 +85,7 @@ class SummaryBottomSheet extends StatelessWidget {
 
                                     if (amount < 0)
                                       Text(
-                                        '${(amount * -1).toStringAsFixed(2)} Rs',
+                                        '''${(amount * -1).toStringAsFixed(2)} Rs''',
                                         style: const TextStyle(
                                           fontSize: 16,
                                         ),

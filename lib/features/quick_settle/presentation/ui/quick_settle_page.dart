@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page//base_page.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/components/background_wrapper.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_settle/presentation/blocs/quick_settle_bloc.dart';
 import 'package:splittr/features/quick_settle/presentation/ui/components/quick_settle_output_arrow_card.dart';
 import 'package:splittr/features/quick_settle/presentation/ui/components/quick_settle_output_text_card.dart';
@@ -54,13 +53,5 @@ class QuickSettlePage extends BasePage<QuickSettleBloc> {
 
   Widget _handleWidget(BuildContext context, QuickSettleState state) {
     return const _QuickSettleForm();
-  }
-
-  @override
-  QuickSettleBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<QuickSettleBloc>()..started(args: args);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/profile/presentation/blocs/profile_bloc.dart';
 
 part 'profile_form.dart';
@@ -26,13 +25,5 @@ class ProfilePage extends BasePage<ProfileBloc> {
 
   Widget _handleWidget(BuildContext context, ProfileState state) {
     return const _ProfileForm();
-  }
-
-  @override
-  ProfileBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<ProfileBloc>()..started();
   }
 }
