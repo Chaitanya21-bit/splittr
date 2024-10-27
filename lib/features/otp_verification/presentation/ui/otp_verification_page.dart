@@ -4,7 +4,6 @@ import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/global/presentation/blocs/global_bloc.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/otp_verification/presentation/blocs/otp_verification_bloc.dart';
 import 'package:splittr/utils/utils.dart';
 
@@ -41,14 +40,6 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
 
   Widget _handleWidget(BuildContext context, OtpVerificationState state) {
     return const _OtpVerificationForm();
-  }
-
-  @override
-  OtpVerificationBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<OtpVerificationBloc>()..started(args: args);
   }
 
   void _showSnackBar(BuildContext context) {

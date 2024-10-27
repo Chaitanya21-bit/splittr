@@ -5,7 +5,6 @@ import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/components/background_wrapper.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/quick_split/presentation/blocs/quick_split_bloc.dart';
 import 'package:splittr/features/quick_split/presentation/ui/components/quick_split_input_card.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
@@ -86,13 +85,5 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
 
   Widget _handleWidget(BuildContext context, QuickSplitState state) {
     return const _QuickSplitForm();
-  }
-
-  @override
-  QuickSplitBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<QuickSplitBloc>()..started();
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
 import 'package:splittr/core/global/presentation/blocs/global_bloc.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/dashboard/presentation/blocs/dashboard_bloc.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 
@@ -28,13 +27,5 @@ class DashboardPage extends BasePage<DashboardBloc> {
 
   Widget _handleWidget(BuildContext context, DashboardState state) {
     return const _DashboardForm();
-  }
-
-  @override
-  DashboardBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<DashboardBloc>()..started();
   }
 }

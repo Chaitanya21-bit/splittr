@@ -6,7 +6,6 @@ import 'package:splittr/core/designs/button/app_transparent_button.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/login/presentation/blocs/login_bloc.dart';
 import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 import 'package:splittr/utils/utils.dart';
@@ -62,13 +61,5 @@ class LoginPage extends BasePage<LoginBloc> {
 
   Widget _handleWidget(BuildContext context, LoginState state) {
     return const _LoginForm();
-  }
-
-  @override
-  LoginBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<LoginBloc>()..started();
   }
 }

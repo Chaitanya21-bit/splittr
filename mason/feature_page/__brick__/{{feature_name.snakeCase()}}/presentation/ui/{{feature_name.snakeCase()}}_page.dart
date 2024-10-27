@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/{{feature_name.snakeCase()}}/presentation/blocs/{{feature_name.snakeCase()}}_bloc.dart';
 
 part '{{feature_name.snakeCase()}}_form.dart';
@@ -26,13 +25,5 @@ class {{feature_name.pascalCase()}}Page extends BasePage<{{feature_name.pascalCa
 
   Widget _handleWidget(BuildContext context, {{feature_name.pascalCase()}}State state) {
     return const _{{feature_name.pascalCase()}}Form();
-  }
-
-  @override
-  {{feature_name.pascalCase()}}Bloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<{{feature_name.pascalCase()}}Bloc>()..started();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:splittr/core/base/base_page/base_page.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/group_dashboard/presentation/blocs/group_dashboard_bloc.dart';
 
 part 'group_dashboard_form.dart';
@@ -26,13 +25,5 @@ class GroupDashboardPage extends BasePage<GroupDashboardBloc> {
 
   Widget _handleWidget(BuildContext context, GroupDashboardState state) {
     return const _GroupDashboardForm();
-  }
-
-  @override
-  GroupDashboardBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<GroupDashboardBloc>()..started();
   }
 }

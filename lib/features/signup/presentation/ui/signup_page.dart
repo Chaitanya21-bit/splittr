@@ -5,7 +5,6 @@ import 'package:splittr/core/designs/button/app_transparent_button.dart';
 import 'package:splittr/core/designs/color/app_colors.dart';
 import 'package:splittr/core/designs/designs.dart';
 import 'package:splittr/core/route_handler/route_handler.dart';
-import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/signup/presentation/blocs/signup_bloc.dart';
 
 part 'signup_form.dart';
@@ -30,13 +29,5 @@ class SignupPage extends BasePage<SignupBloc> {
 
   Widget _handleWidget(BuildContext context, SignupState state) {
     return const _SignupForm();
-  }
-
-  @override
-  SignupBloc getImplementedBloc({
-    required BuildContext context,
-    Map<String, dynamic>? args,
-  }) {
-    return getIt<SignupBloc>()..started();
   }
 }
