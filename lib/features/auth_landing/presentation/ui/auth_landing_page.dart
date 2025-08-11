@@ -11,10 +11,7 @@ import 'package:splittr/features/auth_landing/presentation/blocs/auth_landing_bl
 part 'auth_landing_form.dart';
 
 class AuthLandingPage extends BasePage<AuthLandingBloc> {
-  const AuthLandingPage({
-    super.key,
-    required super.args,
-  });
+  const AuthLandingPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {

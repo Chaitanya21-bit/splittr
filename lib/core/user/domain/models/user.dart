@@ -5,13 +5,7 @@ part 'user.freezed.dart';
 
 @freezed
 class User with _$User {
-  const factory User({
-    String? userId,
-    String? name,
-    String? phoneNumber,
-  }) = _User;
-
-  const User._();
+  const User({this.userId, this.name, this.phoneNumber});
 
   factory User.fromDto(UserDto dto) {
     return User(
@@ -22,10 +16,15 @@ class User with _$User {
   }
 
   UserDto toDto() {
-    return UserDto(
-      userId: userId,
-      name: name,
-      phoneNumber: phoneNumber,
-    );
+    return UserDto(userId: userId, name: name, phoneNumber: phoneNumber);
   }
+
+  @override
+  final String? name;
+
+  @override
+  final String? phoneNumber;
+
+  @override
+  final String? userId;
 }

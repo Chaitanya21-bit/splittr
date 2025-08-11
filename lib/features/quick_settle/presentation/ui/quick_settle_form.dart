@@ -11,9 +11,7 @@ class _QuickSettleForm extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 240),
               child: Row(
@@ -31,9 +29,7 @@ class _QuickSettleForm extends StatelessWidget {
                       color: AppColors.whiteColor,
                     ),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
+                  const SizedBox(width: 5),
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors.lightGrey,
@@ -50,9 +46,7 @@ class _QuickSettleForm extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             BlocBuilder<QuickSettleBloc, QuickSettleState>(
               builder: (context, state) {
                 final total = state.store.total;
@@ -73,16 +67,12 @@ class _QuickSettleForm extends StatelessWidget {
                         'Total Amount: ${total.toStringAsFixed(2)}',
                         style: const TextStyle(fontSize: 15),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Text(
                         'Number Of People: $numberOfPeople',
                         style: const TextStyle(fontSize: 15),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 10),
                       Text(
                         'Split Per Person: '
                         '${splitPerPerson.toStringAsFixed(2)}',
@@ -93,9 +83,7 @@ class _QuickSettleForm extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 240),
               child: GestureDetector(
@@ -121,9 +109,7 @@ class _QuickSettleForm extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Expanded(
               child: BlocBuilder<QuickSettleBloc, QuickSettleState>(
                 builder: (context, state) {
@@ -194,9 +180,7 @@ class _QuickSettleForm extends StatelessWidget {
                                 fontSize: 16,
                               ),
                             ),
-                            SizedBox(
-                              width: 24,
-                            ),
+                            SizedBox(width: 24),
                           ],
                         ),
                       ),
@@ -206,16 +190,13 @@ class _QuickSettleForm extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      final summary = getBloc<QuickSettleBloc>(context)
-                          .state
-                          .store
-                          .summaryMap;
+                      final summary = getBloc<QuickSettleBloc>(
+                        context,
+                      ).state.store.summaryMap;
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return SummaryBottomSheet(
-                            summaryMap: summary,
-                          );
+                          return SummaryBottomSheet(summaryMap: summary);
                         },
                       );
                     },

@@ -39,7 +39,7 @@ final class AuthRepository implements IAuthRepository {
   }
 
   @override
-  FutureEitherFailureVoid verifyOtp({
+  FutureEitherFailureUnit verifyOtp({
     required String otp,
     required String verificationId,
   }) async {
@@ -53,8 +53,9 @@ final class AuthRepository implements IAuthRepository {
     } on FirebaseAuthException catch (e) {
       return switch (e.message) {
         // TODO(Saurabh): Add proper message
-        'account-exists-with-different-credential' =>
-          left(const Failure(message: 'Failed')),
+        'account-exists-with-different-credential' => left(
+          const Failure(message: 'Failed'),
+        ),
         'invalid-credential' => left(const Failure(message: 'Failed')),
         'operation-not-allowed' => left(const Failure(message: 'Failed')),
         'user-disabled' => left(const Failure(message: 'Failed')),
@@ -62,7 +63,7 @@ final class AuthRepository implements IAuthRepository {
         'wrong-password' => left(const Failure(message: 'Failed')),
         'invalid-verification-code' => left(const Failure(message: 'Failed')),
         'invalid-verification-id' => left(const Failure(message: 'Failed')),
-        _ => left(const Failure(message: 'Failed'))
+        _ => left(const Failure(message: 'Failed')),
       };
     }
   }

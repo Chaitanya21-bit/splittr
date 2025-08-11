@@ -14,16 +14,16 @@ class SplitTransaction {
   }
 
   Map<String, dynamic> toJson() => {
-        'sender': sender,
-        'receiver': receiver,
-        'amount': amount,
-      };
+    'sender': sender,
+    'receiver': receiver,
+    'amount': amount,
+  };
 
-// static FinalTransaction fromJson(Map<String, dynamic> json) {
-//   return FinalTransaction(
-//       sender: json['sender'],
-//       receiver: json["receiver"],
-//       amount: double.parse(json['amount'].toString())
-//   );
-// }
+  // static FinalTransaction fromJson(Map<String, dynamic> json) {
+  //   return FinalTransaction(
+  //       sender: json['sender'],
+  //       receiver: json["receiver"],
+  //       amount: double.parse(json['amount'].toString())
+  //   );
+  // }
 }

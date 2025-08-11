@@ -18,30 +18,22 @@ sealed class GroupDashboardState extends BaseState with _$GroupDashboardState {
   }) = OnFailure;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
-      GroupDashboardState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
-        failure: failure,
-      );
+  BaseState getFailureState(Failure failure) => GroupDashboardState.onFailure(
+    store: store.copyWith(loading: false),
+    failure: failure,
+  );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
+  BaseState getLoaderState({required bool loading}) =>
       GroupDashboardState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
+        store: store.copyWith(loading: loading),
       );
 }
 
 @freezed
 class GroupDashboardStateStore with _$GroupDashboardStateStore {
-  const factory GroupDashboardStateStore({
-    @Default(false) bool loading,
-  }) = _GroupDashboardStateStore;
+  const GroupDashboardStateStore({this.loading = false});
+
+  @override
+  final bool loading;
 }

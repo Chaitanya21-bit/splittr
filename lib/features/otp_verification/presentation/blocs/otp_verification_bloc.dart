@@ -20,14 +20,10 @@ final class OtpVerificationBloc
   final IAuthRepository _authRepository;
   final IUserRepository _userRepository;
 
-  OtpVerificationBloc(
-    this._authRepository,
-    this._userRepository,
-  ) : super(
-          const OtpVerificationState.initial(
-            store: OtpVerificationStateStore(),
-          ),
-        );
+  OtpVerificationBloc(this._authRepository, this._userRepository)
+    : super(
+        const OtpVerificationState.initial(store: OtpVerificationStateStore()),
+      );
 
   @override
   void handleEvents() {
@@ -37,10 +33,7 @@ final class OtpVerificationBloc
     on<_OtpVerified>(_onOtpVerified);
   }
 
-  void _onStarted(
-    _Started event,
-    Emitter<OtpVerificationState> emit,
-  ) {
+  void _onStarted(_Started event, Emitter<OtpVerificationState> emit) {
     emit(
       OtpVerificationState.initial(
         store: state.store.copyWith(
@@ -52,15 +45,10 @@ final class OtpVerificationBloc
     );
   }
 
-  void _onOtpChanged(
-    _OtpChanged event,
-    Emitter<OtpVerificationState> emit,
-  ) {
+  void _onOtpChanged(_OtpChanged event, Emitter<OtpVerificationState> emit) {
     emit(
       OtpVerificationState.otpChange(
-        store: state.store.copyWith(
-          otp: event.otp,
-        ),
+        store: state.store.copyWith(otp: event.otp),
       ),
     );
   }
@@ -82,30 +70,19 @@ final class OtpVerificationBloc
     );
 
     verifyOtpOrFailure.fold(
-      (failure) => handleFailure(
-        emit: emit,
-        failure: failure,
-      ),
+      (failure) => handleFailure(emit: emit, failure: failure),
       (_) => otpVerified(),
     );
   }
 
-  Future<void> _onOtpVerified(
-    _,
-    Emitter<OtpVerificationState> emit,
-  ) async {
-    emit(
-      OtpVerificationState.verifiedOtp(
-        store: state.store,
-      ),
-    );
+  Future<void> _onOtpVerified(_, Emitter<OtpVerificationState> emit) async {
+    emit(OtpVerificationState.verifiedOtp(store: state.store));
 
-    final userOrFailure =
-        await _userRepository.fetchUser(_authRepository.userId ?? '');
+    final userOrFailure = await _userRepository.getUser();
 
     await userOrFailure.fold<Future<void>>(
       (failure) async {
-        final userSavedOrFailure = await _userRepository.saveUser(
+        final userSavedOrFailure = await _userRepository.createUser(
           User(
             userId: _authRepository.userId,
             phoneNumber: state.store.phoneNumber,
@@ -132,9 +109,7 @@ final class OtpVerificationBloc
   }
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     final phoneNumber = args?[StringConstants.phoneNumber] as String?;
     final verificationId = args?[StringConstants.verificationId] as String?;
     final forceResendingToken =

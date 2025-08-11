@@ -12,12 +12,7 @@ part 'profile_state.dart';
 
 @injectable
 final class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
-  ProfileBloc()
-      : super(
-          const ProfileState.initial(
-            store: ProfileStateStore(),
-          ),
-        );
+  ProfileBloc() : super(const ProfileState.initial(store: ProfileStateStore()));
 
   @override
   void handleEvents() {
@@ -27,9 +22,7 @@ final class ProfileBloc extends BaseBloc<ProfileEvent, ProfileState> {
   void _onStarted(_Started event, Emitter<ProfileState> emit) {}
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const ProfileEvent.started());
   }
 

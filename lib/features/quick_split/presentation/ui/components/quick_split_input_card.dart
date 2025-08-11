@@ -32,14 +32,9 @@ class QuickSplitInputCard extends StatelessWidget {
               children: [
                 const Text(
                   'Name',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
-                PrimaryTextField(
-                  onChanged: onPersonNameChanged,
-                ),
+                PrimaryTextField(onChanged: onPersonNameChanged),
               ],
             ),
           ),
@@ -51,10 +46,7 @@ class QuickSplitInputCard extends StatelessWidget {
               children: [
                 const Text(
                   'Amount', // Replace with your label text
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 PrimaryTextField(
                   onChanged: onAmountChanged,

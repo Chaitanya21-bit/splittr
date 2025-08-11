@@ -24,27 +24,16 @@ class QuickSettleOutputArrowCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            sender,
-          ),
+          Text(sender),
           Column(
             children: [
-              Text(
-                '$amount Rs',
-              ),
+              Text('$amount Rs'),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    width: 120,
-                    height: 2,
-                    color: Colors.black,
-                  ),
+                  Container(width: 120, height: 2, color: Colors.black),
                   Transform.translate(
-                    offset: const Offset(
-                      -4,
-                      0,
-                    ),
+                    offset: const Offset(-4, 0),
                     child: const Icon(
                       Icons.arrow_forward_outlined,
                       color: Colors.black,
@@ -55,9 +44,7 @@ class QuickSettleOutputArrowCard extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            receiver,
-          ),
+          Text(receiver),
         ],
       ),
     );

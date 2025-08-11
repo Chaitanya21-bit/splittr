@@ -8,11 +8,7 @@ class UserDto {
   final String? name;
   final String? phoneNumber;
 
-  const UserDto({
-    required this.userId,
-    required this.name,
-    required this.phoneNumber,
-  });
+  const UserDto({this.userId, this.name, this.phoneNumber});
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
       _$UserDtoFromJson(json);

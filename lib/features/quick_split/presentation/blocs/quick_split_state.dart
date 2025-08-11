@@ -4,9 +4,8 @@ part of 'quick_split_bloc.dart';
 sealed class QuickSplitState extends BaseState with _$QuickSplitState {
   const QuickSplitState._();
 
-  const factory QuickSplitState.initial({
-    required QuickSplitStateStore store,
-  }) = Initial;
+  const factory QuickSplitState.initial({required QuickSplitStateStore store}) =
+      Initial;
 
   const factory QuickSplitState.changeLoaderState({
     required QuickSplitStateStore store,
@@ -47,35 +46,28 @@ sealed class QuickSplitState extends BaseState with _$QuickSplitState {
   }) = QuickSettle;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
-      QuickSplitState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
-        failure: failure,
-      );
+  BaseState getFailureState(Failure failure) => QuickSplitState.onFailure(
+    store: store.copyWith(loading: false),
+    failure: failure,
+  );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
+  BaseState getLoaderState({required bool loading}) =>
       QuickSplitState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
+        store: store.copyWith(loading: loading),
       );
 }
 
 @freezed
 class QuickSplitStateStore with _$QuickSplitStateStore {
-  const factory QuickSplitStateStore({
-    @Default([
-      (name: '', amount: ''),
-      (name: '', amount: ''),
-    ])
-    List<({String name, String amount})> peopleRecords,
-    @Default(false) bool loading,
-  }) = _QuickSplitStateStore;
+  const QuickSplitStateStore({
+    this.loading = false,
+    this.peopleRecords = const [(name: '', amount: ''), (name: '', amount: '')],
+  });
+
+  @override
+  final bool loading;
+
+  @override
+  final List<({String name, String amount})> peopleRecords;
 }

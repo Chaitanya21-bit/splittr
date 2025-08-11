@@ -1,3 +1,5 @@
 part of 'base_bloc.dart';
 
-abstract class BaseEvent {}
+abstract class BaseEvent {
+  const BaseEvent();
+}

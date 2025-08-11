@@ -19,75 +19,44 @@ final class SplashBloc extends BaseBloc<SplashEvent, SplashState> {
   final IAuthRepository _authRepository;
   final IUserRepository _userRepository;
 
-  SplashBloc(
-    this._authRepository,
-    this._userRepository,
-  ) : super(
-          const SplashState.initial(
-            store: SplashStateStore(),
-          ),
-        );
+  SplashBloc(this._authRepository, this._userRepository)
+    : super(const SplashState.initial(store: SplashStateStore()));
 
   @override
   void handleEvents() {
     on<_Started>(_onStarted);
   }
 
-  Future<void> _onStarted(
-    _,
-    Emitter<SplashState> emit,
-  ) async {
-    final (_, userOrFailure) = await (
-      _showSplash(),
-      _checkAuth(),
-    ).wait;
+  Future<void> _onStarted(_, Emitter<SplashState> emit) async {
+    final (_, userOrFailure) = await (_showSplash(), _checkAuth()).wait;
 
     userOrFailure.fold(
-      (_) => emit(
-        SplashState.userUnauthorized(
-          store: state.store,
-        ),
-      ),
-      (user) => emit(
-        SplashState.userAuthorized(
-          store: state.store,
-          user: user,
-        ),
-      ),
+      (_) => emit(SplashState.userUnauthorized(store: state.store)),
+      (user) =>
+          emit(SplashState.userAuthorized(store: state.store, user: user)),
     );
   }
 
   Future<void> _showSplash() async {
-    await Future.delayed(
-      const Duration(seconds: 3),
-    );
+    await Future.delayed(const Duration(seconds: 3));
   }
 
   Future<Either<Failure, User>> _checkAuth() async {
     if (_authRepository.isUserSignedIn) {
-      final userOrFailure =
-          await _userRepository.fetchUser(_authRepository.userId ?? '');
-      return userOrFailure.fold(
-        (_) {
-          _authRepository.logout();
+      final userOrFailure = await _userRepository.getUser();
 
-          return userOrFailure;
-        },
-        right,
-      );
+      return userOrFailure.fold((_) {
+        _authRepository.logout();
+
+        return userOrFailure;
+      }, right);
     }
 
-    return left(
-      const Failure(
-        message: 'Not Signed In',
-      ),
-    );
+    return left(const Failure(message: 'Not Signed In'));
   }
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const SplashEvent.started());
   }
 

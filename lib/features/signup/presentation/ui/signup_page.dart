@@ -10,10 +10,7 @@ import 'package:splittr/features/signup/presentation/blocs/signup_bloc.dart';
 part 'signup_form.dart';
 
 class SignupPage extends BasePage<SignupBloc> {
-  const SignupPage({
-    super.key,
-    required super.args,
-  });
+  const SignupPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {

@@ -8,24 +8,17 @@ import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 part 'dashboard_form.dart';
 
 class DashboardPage extends BasePage<DashboardBloc> {
-  const DashboardPage({
-    super.key,
-    required super.args,
-  });
+  const DashboardPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<DashboardBloc, DashboardState>(
+      body: BlocListener<DashboardBloc, DashboardState>(
         listener: _handleState,
-        builder: _handleWidget,
+        child: const _DashboardForm(),
       ),
     );
   }
 
   void _handleState(BuildContext context, DashboardState state) {}
-
-  Widget _handleWidget(BuildContext context, DashboardState state) {
-    return const _DashboardForm();
-  }
 }

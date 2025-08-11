@@ -1,5 +1,5 @@
-import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:splittr/core/auth/domain/repositories/i_auth_repository.dart';
 import 'package:splittr/core/firebase/domain/repositories/i_firestore_database_repository.dart';
 import 'package:splittr/core/user/domain/domain/repositories/i_user_repository.dart';
 import 'package:splittr/core/user/domain/models/user.dart';
@@ -8,52 +8,29 @@ import 'package:splittr/utils/typedefs/typedefs.dart';
 @Singleton(as: IUserRepository)
 final class UserRepository implements IUserRepository {
   final IFirestoreDatabaseRepository _firestoreDatabaseRepository;
+  final IAuthRepository _authRepository;
 
-  UserRepository(
-    this._firestoreDatabaseRepository,
-  );
+  UserRepository(this._firestoreDatabaseRepository, this._authRepository);
 
   @override
-  FutureEitherFailure<User> saveUser(User user) async {
-    final userSavedOrFailure =
-        await _firestoreDatabaseRepository.saveUser(user.toDto());
+  FutureEitherFailure<User> getUser() async {
+    return _firestoreDatabaseRepository.getUser(_authRepository.userId ?? '');
+  }
 
-    return userSavedOrFailure.fold(
-      left,
-      (userDto) => right(
-        User.fromDto(userDto),
-      ),
-    );
+  @override
+  FutureEitherFailure<User> createUser(User user) async {
+    return _firestoreDatabaseRepository.createUser(user.toDto());
   }
 
   @override
   FutureEitherFailure<User> updateUser(User user) async {
-    final userDtoOrFailure =
-        await _firestoreDatabaseRepository.updateUser(user.toDto());
-
-    return userDtoOrFailure.fold(
-      left,
-      (userDto) => right(
-        User.fromDto(userDto),
-      ),
-    );
+    return _firestoreDatabaseRepository.updateUser(user.toDto());
   }
 
   @override
-  FutureEitherFailure<User> fetchUser(String userId) async {
-    final userDtoOrFailure =
-        await _firestoreDatabaseRepository.fetchUser(userId);
-
-    return userDtoOrFailure.fold(
-      left,
-      (userDto) => right(
-        User.fromDto(userDto),
-      ),
+  FutureEitherFailureUnit deleteUser() async {
+    return _firestoreDatabaseRepository.deleteUser(
+      _authRepository.userId ?? '',
     );
-  }
-
-  @override
-  Future<void> deleteUser(String userId) async {
-    await _firestoreDatabaseRepository.deleteUser(userId);
   }
 }

@@ -1,4 +1,1 @@
-enum Env {
-  dev,
-  prod;
-}
+enum Env { dev, prod }

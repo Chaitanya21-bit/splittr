@@ -4,9 +4,8 @@ part of 'dashboard_bloc.dart';
 sealed class DashboardState extends BaseState with _$DashboardState {
   const DashboardState._();
 
-  const factory DashboardState.initial({
-    required DashboardStateStore store,
-  }) = Initial;
+  const factory DashboardState.initial({required DashboardStateStore store}) =
+      Initial;
 
   const factory DashboardState.changeLoaderState({
     required DashboardStateStore store,
@@ -18,30 +17,20 @@ sealed class DashboardState extends BaseState with _$DashboardState {
   }) = OnFailure;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
-      DashboardState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
-        failure: failure,
-      );
+  BaseState getFailureState(Failure failure) => DashboardState.onFailure(
+    store: store.copyWith(loading: false),
+    failure: failure,
+  );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
-      DashboardState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
-      );
+  BaseState getLoaderState({required bool loading}) =>
+      DashboardState.changeLoaderState(store: store.copyWith(loading: loading));
 }
 
 @freezed
 class DashboardStateStore with _$DashboardStateStore {
-  const factory DashboardStateStore({
-    @Default(false) bool loading,
-  }) = _DashboardStateStore;
+  const DashboardStateStore({this.loading = false});
+
+  @override
+  final bool loading;
 }

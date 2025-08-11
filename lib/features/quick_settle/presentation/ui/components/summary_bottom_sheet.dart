@@ -68,8 +68,9 @@ class SummaryBottomSheet extends StatelessWidget {
                               final double amount = giverMap.values.first;
 
                               return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 4,
+                                ),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -86,16 +87,12 @@ class SummaryBottomSheet extends StatelessWidget {
                                     if (amount < 0)
                                       Text(
                                         '''${(amount * -1).toStringAsFixed(2)} Rs''',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                        style: const TextStyle(fontSize: 16),
                                       )
                                     else
                                       Text(
                                         '${amount.toStringAsFixed(2)} Rs',
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                        ),
+                                        style: const TextStyle(fontSize: 16),
                                       ),
                                   ],
                                 ),

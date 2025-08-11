@@ -10,16 +10,13 @@ import 'package:splittr/utils/utils.dart';
 part 'otp_verification_form.dart';
 
 class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
-  const OtpVerificationPage({
-    super.key,
-    required super.args,
-  });
+  const OtpVerificationPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<OtpVerificationBloc, OtpVerificationState>(
-        buildWhen: (_, __) {
+        buildWhen: (_, _) {
           return false;
         },
         listener: _handleState,
@@ -31,9 +28,9 @@ class OtpVerificationPage extends BasePage<OtpVerificationBloc> {
   void _handleState(BuildContext context, OtpVerificationState state) {
     return switch (state) {
       UserAuthenticateSuccessful() => _onUserAuthenticateSuccessful(
-          context: context,
-          state: state,
-        ),
+        context: context,
+        state: state,
+      ),
       _ => null,
     };
   }

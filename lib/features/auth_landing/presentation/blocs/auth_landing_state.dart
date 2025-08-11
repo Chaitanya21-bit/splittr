@@ -18,30 +18,22 @@ sealed class AuthLandingState extends BaseState with _$AuthLandingState {
   }) = OnFailure;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
-      AuthLandingState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
-        failure: failure,
-      );
+  BaseState getFailureState(Failure failure) => AuthLandingState.onFailure(
+    store: store.copyWith(loading: false),
+    failure: failure,
+  );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
+  BaseState getLoaderState({required bool loading}) =>
       AuthLandingState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
+        store: store.copyWith(loading: loading),
       );
 }
 
 @freezed
 class AuthLandingStateStore with _$AuthLandingStateStore {
-  const factory AuthLandingStateStore({
-    @Default(false) bool loading,
-  }) = _AuthLandingStateStore;
+  const AuthLandingStateStore({this.loading = false});
+
+  @override
+  final bool loading;
 }

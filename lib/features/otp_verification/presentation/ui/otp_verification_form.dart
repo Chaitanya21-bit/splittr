@@ -13,12 +13,11 @@ class _OtpVerificationForm extends StatelessWidget {
           OtpTextField(
             onChanged: getBloc<OtpVerificationBloc>(context).otpChanged,
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           ElevatedButton(
-            onPressed:
-                getBloc<OtpVerificationBloc>(context).verifyButtonClicked,
+            onPressed: getBloc<OtpVerificationBloc>(
+              context,
+            ).verifyButtonClicked,
             child: const Text('Go'),
           ),
         ],

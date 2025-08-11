@@ -2,7 +2,10 @@ part of 'quick_split_bloc.dart';
 
 @freezed
 class QuickSplitEvent extends BaseEvent with _$QuickSplitEvent {
+  const QuickSplitEvent._();
+
   const factory QuickSplitEvent.started() = _Started;
+
   const factory QuickSplitEvent.addPerson() = _AddPerson;
 
   const factory QuickSplitEvent.deletePerson({required int index}) =

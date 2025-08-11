@@ -5,18 +5,40 @@ part 'personal_transaction.freezed.dart';
 
 @freezed
 class PersonalTransaction with _$PersonalTransaction {
-  const factory PersonalTransaction({
-    String? transactionId,
-    String? userId,
-    String? title,
-    double? amount,
-    String? note,
-    String? category, // TODO(Saurabh): Add enum
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) = _PersonalTransaction;
+  const PersonalTransaction({
+    this.transactionId,
+    this.userId,
+    this.title,
+    this.amount,
+    this.note,
+    this.category, // TODO(Saurabh): Add enum
+    this.createdAt,
+    this.updatedAt,
+  });
 
-  const PersonalTransaction._();
+  @override
+  final double? amount;
+
+  @override
+  final String? category;
+
+  @override
+  final DateTime? createdAt;
+
+  @override
+  final String? note;
+
+  @override
+  final String? title;
+
+  @override
+  final String? transactionId;
+
+  @override
+  final DateTime? updatedAt;
+
+  @override
+  final String? userId;
 
   factory PersonalTransaction.fromDto(PersonalTransactionDto dto) {
     return PersonalTransaction(

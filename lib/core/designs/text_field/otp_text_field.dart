@@ -4,10 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class OtpTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
 
-  const OtpTextField({
-    super.key,
-    this.onChanged,
-  });
+  const OtpTextField({super.key, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +23,9 @@ class OtpTextField extends StatelessWidget {
         activeColor: color,
         inactiveColor: color,
         selectedColor: color,
-        activeFillColor: color.withOpacity(0.1),
-        inactiveFillColor: color.withOpacity(0.1),
-        selectedFillColor: color.withOpacity(0.1),
+        activeFillColor: color.withValues(alpha: 0.1),
+        inactiveFillColor: color.withValues(alpha: 0.1),
+        selectedFillColor: color.withValues(alpha: 0.1),
         errorBorderColor: color,
       ),
     );
