@@ -12,12 +12,7 @@ part 'signup_state.dart';
 
 @injectable
 final class SignupBloc extends BaseBloc<SignupEvent, SignupState> {
-  SignupBloc()
-      : super(
-          const SignupState.initial(
-            store: SignupStateStore(),
-          ),
-        );
+  SignupBloc() : super(const SignupState.initial(store: SignupStateStore()));
 
   @override
   void handleEvents() {
@@ -27,9 +22,7 @@ final class SignupBloc extends BaseBloc<SignupEvent, SignupState> {
   void _onStarted(_Started event, Emitter<SignupState> emit) {}
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const SignupEvent.started());
   }
 

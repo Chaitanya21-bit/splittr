@@ -27,9 +27,7 @@ class AppTransparentButton extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: const TextStyle(
-              color: AppColors.blackColor,
-            ),
+            style: const TextStyle(color: AppColors.blackColor),
           ),
         ),
       ),

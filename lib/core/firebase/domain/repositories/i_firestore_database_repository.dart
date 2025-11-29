@@ -1,12 +1,13 @@
 import 'package:splittr/core/user/data/dtos/user_dto.dart';
+import 'package:splittr/core/user/domain/models/user.dart';
 import 'package:splittr/utils/utils.dart';
 
 abstract interface class IFirestoreDatabaseRepository {
-  FutureEitherFailure<UserDto> saveUser(UserDto user);
+  FutureEitherFailure<User> getUser(String userId);
 
-  FutureEitherFailure<UserDto> updateUser(UserDto user);
+  FutureEitherFailure<User> createUser(UserDto user);
 
-  FutureEitherFailure<UserDto> fetchUser(String userId);
+  FutureEitherFailure<User> updateUser(UserDto user);
 
-  Future<void> deleteUser(String userId);
+  FutureEitherFailureUnit deleteUser(String userId);
 }

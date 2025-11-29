@@ -32,34 +32,36 @@ sealed class OtpVerificationState extends BaseState
   }) = OnFailure;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
-      OtpVerificationState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
-        failure: failure,
-      );
+  BaseState getFailureState(Failure failure) => OtpVerificationState.onFailure(
+    store: store.copyWith(loading: false),
+    failure: failure,
+  );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
+  BaseState getLoaderState({required bool loading}) =>
       OtpVerificationState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
+        store: store.copyWith(loading: loading),
       );
 }
 
 @freezed
 class OtpVerificationStateStore with _$OtpVerificationStateStore {
-  const factory OtpVerificationStateStore({
-    String? phoneNumber,
-    String? verificationId,
-    int? forceResendingToken,
-    String? otp,
-    @Default(false) bool loading,
-  }) = _OtpVerificationStateStore;
+  const OtpVerificationStateStore({
+    this.loading = false,
+    this.phoneNumber,
+    this.verificationId,
+    this.forceResendingToken,
+    this.otp,
+  });
+
+  @override
+  final String? phoneNumber;
+  @override
+  final String? verificationId;
+  @override
+  final int? forceResendingToken;
+  @override
+  final String? otp;
+  @override
+  final bool loading;
 }

@@ -14,11 +14,9 @@ part 'group_dashboard_state.dart';
 final class GroupDashboardBloc
     extends BaseBloc<GroupDashboardEvent, GroupDashboardState> {
   GroupDashboardBloc()
-      : super(
-          const GroupDashboardState.initial(
-            store: GroupDashboardStateStore(),
-          ),
-        );
+    : super(
+        const GroupDashboardState.initial(store: GroupDashboardStateStore()),
+      );
 
   @override
   void handleEvents() {
@@ -28,9 +26,7 @@ final class GroupDashboardBloc
   void _onStarted(_Started event, Emitter<GroupDashboardState> emit) {}
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const GroupDashboardEvent.started());
   }
 

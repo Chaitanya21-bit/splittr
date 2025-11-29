@@ -15,29 +15,19 @@ abstract class BaseBloc<Event extends BaseEvent, State extends BaseState>
 
   void handleEvents();
 
-  void started({
-    Map<String, dynamic>? args,
-  });
+  void started({Map<String, dynamic>? args});
 
   void changeLoaderState({
     required Emitter<BaseState> emit,
     required bool loading,
   }) {
-    emit(
-      state.getLoaderState(
-        loading: loading,
-      ),
-    );
+    emit(state.getLoaderState(loading: loading));
   }
 
   void handleFailure({
     required Emitter<BaseState> emit,
     required Failure failure,
   }) {
-    emit(
-      state.getFailureState(
-        failure,
-      ),
-    );
+    emit(state.getFailureState(failure));
   }
 }

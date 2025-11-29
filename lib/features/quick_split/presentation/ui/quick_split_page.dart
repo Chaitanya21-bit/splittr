@@ -13,10 +13,7 @@ import 'package:splittr/utils/snack_bar/snack_bar.dart';
 part 'quick_split_form.dart';
 
 class QuickSplitPage extends BasePage<QuickSplitBloc> {
-  const QuickSplitPage({
-    super.key,
-    required super.args,
-  });
+  const QuickSplitPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {
@@ -52,14 +49,15 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
 
   void _handleState(BuildContext context, QuickSplitState state) {
     return switch (state) {
-      InvalidAmount(:final invalidAmount) => invalidAmount.isEmpty
-          ? showSnackBar(context, 'Empty amount are not allowed')
-          : showSnackBar(context, '$invalidAmount is an invalid amount'),
+      InvalidAmount(:final invalidAmount) =>
+        invalidAmount.isEmpty
+            ? showSnackBar(context, 'Empty amount are not allowed')
+            : showSnackBar(context, '$invalidAmount is an invalid amount'),
       EmptyName() => showSnackBar(context, 'Empty names are not allowed'),
       QuickSettle _ => _navigateToQuickSettlePage(
-          context: context,
-          state: state,
-        ),
+        context: context,
+        state: state,
+      ),
       _ => () {},
     };
   }
@@ -72,11 +70,12 @@ class QuickSplitPage extends BasePage<QuickSplitBloc> {
       context,
       RouteId.quickSettle,
       args: {
-        StringConstants.peopleRecords:
-            state.store.peopleRecords.map((peopleRecord) {
+        StringConstants.peopleRecords: state.store.peopleRecords.map((
+          peopleRecord,
+        ) {
           return (
             name: peopleRecord.name,
-            amount: double.tryParse(peopleRecord.amount) ?? 0
+            amount: double.tryParse(peopleRecord.amount) ?? 0,
           );
         }).toList(),
       },

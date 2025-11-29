@@ -19,30 +19,23 @@ sealed class PersonalTransactionState extends BaseState
   }) = OnFailure;
 
   @override
-  BaseState getFailureState(
-    Failure failure,
-  ) =>
+  BaseState getFailureState(Failure failure) =>
       PersonalTransactionState.onFailure(
-        store: store.copyWith(
-          loading: false,
-        ),
+        store: store.copyWith(loading: false),
         failure: failure,
       );
 
   @override
-  BaseState getLoaderState({
-    required bool loading,
-  }) =>
+  BaseState getLoaderState({required bool loading}) =>
       PersonalTransactionState.changeLoaderState(
-        store: store.copyWith(
-          loading: loading,
-        ),
+        store: store.copyWith(loading: loading),
       );
 }
 
 @freezed
 class PersonalTransactionStateStore with _$PersonalTransactionStateStore {
-  const factory PersonalTransactionStateStore({
-    @Default(false) bool loading,
-  }) = _PersonalTransactionStateStore;
+  const PersonalTransactionStateStore({this.loading = false});
+
+  @override
+  final bool loading;
 }

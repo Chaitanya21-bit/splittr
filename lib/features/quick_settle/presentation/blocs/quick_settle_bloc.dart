@@ -16,11 +16,7 @@ part 'quick_settle_state.dart';
 final class QuickSettleBloc
     extends BaseBloc<QuickSettleEvent, QuickSettleState> {
   QuickSettleBloc()
-      : super(
-          const QuickSettleState.initial(
-            store: QuickSettleStateStore(),
-          ),
-        );
+    : super(const QuickSettleState.initial(store: QuickSettleStateStore()));
 
   @override
   void handleEvents() {
@@ -63,8 +59,9 @@ final class QuickSettleBloc
     Emitter<QuickSettleState> emit,
   ) {
     final people = state.store.peopleRecord;
-    final List<double> individualShareList =
-        List.from(state.store.individualShareList);
+    final List<double> individualShareList = List.from(
+      state.store.individualShareList,
+    );
     final List<Map<String, String>> finalTransaction = [];
     final List<SplitTransaction> tags = [];
     final Map<String, List<Map<String, double>>> summaryMap = {};
@@ -75,9 +72,9 @@ final class QuickSettleBloc
     while (i < j) {
       final double sum = individualShareList[i] + individualShareList[j];
       if (sum > 0) {
-        finalTransaction.add(
-          {people[i].name: '${people[j].name}|${individualShareList[i]}'},
-        );
+        finalTransaction.add({
+          people[i].name: '${people[j].name}|${individualShareList[i]}',
+        });
 
         tags.add(
           SplitTransaction(
@@ -90,9 +87,9 @@ final class QuickSettleBloc
         individualShareList[j] = sum;
         i++;
       } else if (sum < 0) {
-        finalTransaction.add(
-          {people[i].name: '${people[j].name}|-${individualShareList[j]}'},
-        );
+        finalTransaction.add({
+          people[i].name: '${people[j].name}|-${individualShareList[j]}',
+        });
 
         tags.add(
           SplitTransaction(
@@ -105,9 +102,9 @@ final class QuickSettleBloc
         individualShareList[i] = sum;
         j--;
       } else {
-        finalTransaction.add(
-          {people[i].name: '${people[j].name}|${individualShareList[i]}'},
-        );
+        finalTransaction.add({
+          people[i].name: '${people[j].name}|${individualShareList[i]}',
+        });
 
         tags.add(
           SplitTransaction(
@@ -155,17 +152,13 @@ final class QuickSettleBloc
   ) {
     emit(
       QuickSettleState.initial(
-        store: state.store.copyWith(
-          toggleCard: !state.store.toggleCard,
-        ),
+        store: state.store.copyWith(toggleCard: !state.store.toggleCard),
       ),
     );
   }
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     final peopleRecords = args?[StringConstants.peopleRecords];
     add(QuickSettleEvent.started(peopleRecord: peopleRecords));
   }

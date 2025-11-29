@@ -10,9 +10,7 @@ class _QuickSplitForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 36),
             child: Text(
@@ -46,9 +44,7 @@ class _QuickSplitForm extends StatelessWidget {
                           color: AppColors.blackColor,
                           size: 16,
                         ),
-                        SizedBox(
-                          width: 4,
-                        ),
+                        SizedBox(width: 4),
                         Text(
                           'Add',
                           style: TextStyle(
@@ -60,9 +56,7 @@ class _QuickSplitForm extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 GestureDetector(
                   onTap: getBloc<QuickSplitBloc>(context).clearData,
                   child: Container(
@@ -80,9 +74,7 @@ class _QuickSplitForm extends StatelessWidget {
                           color: AppColors.blackColor,
                           size: 16,
                         ),
-                        SizedBox(
-                          width: 4,
-                        ),
+                        SizedBox(width: 4),
                         Text(
                           'Clear',
                           style: TextStyle(
@@ -97,9 +89,7 @@ class _QuickSplitForm extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Expanded(
             child: BlocBuilder<QuickSplitBloc, QuickSplitState>(
               builder: (context, state) {
@@ -110,18 +100,19 @@ class _QuickSplitForm extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return QuickSplitInputCard(
                       onDelete: () {
-                        getBloc<QuickSplitBloc>(context)
-                            .deletePerson(index: index);
+                        getBloc<QuickSplitBloc>(
+                          context,
+                        ).deletePerson(index: index);
                       },
                       onPersonNameChanged: (name) {
-                        getBloc<QuickSplitBloc>(context)
-                            .nameChanged(index: index, name: name);
+                        getBloc<QuickSplitBloc>(
+                          context,
+                        ).nameChanged(index: index, name: name);
                       },
                       onAmountChanged: (amount) {
-                        getBloc<QuickSplitBloc>(context).amountChanged(
-                          index: index,
-                          amount: amount,
-                        );
+                        getBloc<QuickSplitBloc>(
+                          context,
+                        ).amountChanged(index: index, amount: amount);
                       },
                     );
                   },
@@ -129,9 +120,7 @@ class _QuickSplitForm extends StatelessWidget {
               },
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 15),
           Container(
             width: 325,
             height: 70,
@@ -142,14 +131,13 @@ class _QuickSplitForm extends StatelessWidget {
             ),
             child: ListTile(
               onTap: getBloc<QuickSplitBloc>(context).quickSettleClicked,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
               leading: const Text(
                 'Check Split',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
               trailing: const Icon(
                 Icons.arrow_forward_ios,

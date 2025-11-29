@@ -8,5 +8,5 @@ enum RouteId {
   groupDashboard,
   quickSettle,
   quickSplit,
-  otpVerification;
+  otpVerification,
 }

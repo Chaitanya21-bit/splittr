@@ -24,30 +24,21 @@ class QuickSettleOutputTextCard extends StatelessWidget {
       child: Center(
         child: RichText(
           text: TextSpan(
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.blackColor,
-            ),
+            style: const TextStyle(fontSize: 16, color: AppColors.blackColor),
             children: [
               TextSpan(
                 text: sender,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ), // Sender in bold
               const TextSpan(text: ' has to pay '),
               TextSpan(
                 text: '$amount Rs',
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ), // Amount in bold
               const TextSpan(text: ' to '),
               TextSpan(
                 text: receiver,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ), // Receiver in bold
               const TextSpan(text: '.'),
             ],

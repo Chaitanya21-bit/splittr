@@ -12,17 +12,17 @@ import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 part 'splash_form.dart';
 
 class SplashPage extends BasePage<SplashBloc> {
-  const SplashPage({
-    super.key,
-    required super.args,
-  });
+  const SplashPage({super.key, required super.args});
+
+  @override
+  bool get showFullScreenLoader => false;
 
   @override
   Widget buildScreen(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<SplashBloc, SplashState>(
+      body: BlocListener<SplashBloc, SplashState>(
         listener: _handleState,
-        builder: _handleWidget,
+        child: const _SplashForm(),
       ),
     );
   }
@@ -30,22 +30,15 @@ class SplashPage extends BasePage<SplashBloc> {
   void _handleState(BuildContext context, SplashState state) {
     return switch (state) {
       UserAuthorized(:final user) => _userAuthorized(
-          context: context,
-          user: user,
-        ),
+        context: context,
+        user: user,
+      ),
       UserUnauthorized _ => _navigateToAuthLandingPage(context),
       _ => () {},
     };
   }
 
-  Widget _handleWidget(BuildContext context, SplashState state) {
-    return const _SplashForm();
-  }
-
-  void _userAuthorized({
-    required BuildContext context,
-    required User user,
-  }) {
+  void _userAuthorized({required BuildContext context, required User user}) {
     getBloc<GlobalBloc>(context).userUpdated(user);
 
     _navigateToDashboardPage(context);

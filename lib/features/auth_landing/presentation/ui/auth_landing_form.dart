@@ -20,9 +20,7 @@ class _AuthLandingForm extends StatelessWidget {
             borderColor: AppColors.blackColor,
             textColor: AppColors.whiteColor,
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           AppFillButton(
             text: 'Login',
             onTap: () {
@@ -32,9 +30,7 @@ class _AuthLandingForm extends StatelessWidget {
             borderColor: AppColors.whiteColor,
             textColor: AppColors.whiteColor,
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           AppFillButton(
             text: 'SignUp',
             onTap: () {
@@ -44,9 +40,7 @@ class _AuthLandingForm extends StatelessWidget {
             borderColor: AppColors.whiteColor,
             textColor: AppColors.denimColor,
           ),
-          const SizedBox(
-            height: 60,
-          ),
+          const SizedBox(height: 60),
         ],
       ),
     );

@@ -1,0 +1,60 @@
+# ----------------------
+# Flutter & Dart Basics
+# ----------------------
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# ----------------------
+# Dependencies
+# ----------------------
+.pub-cache/
+pubspec.lock
+
+# ----------------------
+# Firebase & FlutterFire (Recursive)
+# ----------------------
+# CLI Configuration for Hosting/Emulators
+**/firebase.json
+
+# FlutterFire Auto-generated ID file
+**/firebase_app_id_file.json
+
+# Generated Dart initialization file
+**/firebase_options.dart
+**/firebase_options_dev.dart
+**/firebase_options_prod.dart
+
+# Native Android Config
+**/google-services.json
+
+# Native iOS/macOS Config
+**/GoogleService-Info.plist
+
+# ----------------------
+# Native: Android
+# ----------------------
+[cite_start]# [cite: 8] We exclude Gradle internals as we use Kotlin DSL where possible
+android/.gradle/
+**/local.properties
+**/*.ap_
+**/*.apk
+
+# ----------------------
+# Native: iOS / macOS
+# ----------------------
+[cite_start]# [cite: 9] We assume CocoaPods usage; Pods are managed externally
+**/Pods/
+**/*.app
+**/*.ipa
+**/*.xcodeproj/project.xcworkspace
+**/*.xcworkspace
+
+# ----------------------
+# IDE & Version Control
+# ----------------------
+.idea/
+.vscode/
+.git/
+.fvm/

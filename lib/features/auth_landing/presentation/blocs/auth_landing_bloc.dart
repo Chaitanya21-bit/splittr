@@ -12,11 +12,7 @@ part 'auth_landing_state.dart';
 final class AuthLandingBloc
     extends BaseBloc<AuthLandingEvent, AuthLandingState> {
   AuthLandingBloc()
-      : super(
-          const AuthLandingState.initial(
-            store: AuthLandingStateStore(),
-          ),
-        );
+    : super(const AuthLandingState.initial(store: AuthLandingStateStore()));
 
   @override
   void handleEvents() {
@@ -26,9 +22,7 @@ final class AuthLandingBloc
   void _onStarted(_Started event, Emitter<AuthLandingState> emit) {}
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const AuthLandingEvent.started());
   }
 

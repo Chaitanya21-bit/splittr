@@ -9,14 +9,13 @@ class _LoginForm extends StatelessWidget {
       children: [
         // Blue background
         ClipRRect(
-          borderRadius:
-              const BorderRadius.vertical(bottom: Radius.circular(32)),
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(32),
+          ),
           child: FractionallySizedBox(
             heightFactor: 0.55,
             alignment: Alignment.topCenter,
-            child: Container(
-              color: AppColors.blueBgColor,
-            ),
+            child: Container(color: AppColors.blueBgColor),
           ),
         ),
         // Centered white card
@@ -24,25 +23,22 @@ class _LoginForm extends StatelessWidget {
           child: Card(
             color: AppColors.whiteColor,
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(20), // Optional: Rounded corners
+              borderRadius: BorderRadius.circular(
+                20,
+              ), // Optional: Rounded corners
             ),
             elevation: 4, // Optional: Add shadow to the card
-            margin:
-                const EdgeInsets.all(16), // Optional: Margin around the card
+            margin: const EdgeInsets.all(
+              16,
+            ), // Optional: Margin around the card
             child: Padding(
               padding: const EdgeInsets.all(16), // Padding inside the card
               child: Column(
                 mainAxisSize: MainAxisSize.min, // Minimize height of the card
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Welcome back',
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const Text('Welcome back', style: TextStyle(fontSize: 25)),
+                  const SizedBox(height: 50),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: PrimaryTextField(
@@ -52,9 +48,7 @@ class _LoginForm extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: PrimaryTextField(
@@ -64,9 +58,7 @@ class _LoginForm extends StatelessWidget {
                       obscureText: true,
                     ),
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
+                  const SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: AppTransparentButton(
@@ -74,17 +66,13 @@ class _LoginForm extends StatelessWidget {
                       onTap: getBloc<LoginBloc>(context).sendOtpClicked,
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
+                  const SizedBox(height: 16),
                   RichText(
                     text: TextSpan(
                       children: [
                         const TextSpan(
                           text: 'New User? ',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                          style: TextStyle(color: Colors.black),
                         ),
                         WidgetSpan(
                           child: GestureDetector(

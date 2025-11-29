@@ -13,16 +13,13 @@ import 'package:splittr/utils/utils.dart';
 part 'login_form.dart';
 
 class LoginPage extends BasePage<LoginBloc> {
-  const LoginPage({
-    super.key,
-    required super.args,
-  });
+  const LoginPage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<LoginBloc, LoginState>(
-        buildWhen: (_, __) {
+        buildWhen: (_, _) {
           return false;
         },
         listener: _handleState,
@@ -34,9 +31,9 @@ class LoginPage extends BasePage<LoginBloc> {
   void _handleState(BuildContext context, LoginState state) {
     return switch (state) {
       OtpSent _ => _navigateToLoginOtpVerificationPage(
-          context: context,
-          state: state,
-        ),
+        context: context,
+        state: state,
+      ),
       _ => () {},
     };
   }

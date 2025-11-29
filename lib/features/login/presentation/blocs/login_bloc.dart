@@ -18,11 +18,7 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   final IAuthRepository _authRepository;
 
   LoginBloc(this._authRepository)
-      : super(
-          const LoginState.initial(
-            store: LoginStateStore(),
-          ),
-        );
+    : super(const LoginState.initial(store: LoginStateStore()));
 
   @override
   void handleEvents() {
@@ -41,17 +37,12 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   ) {
     emit(
       LoginState.phoneNumberChange(
-        store: state.store.copyWith(
-          phoneNumber: event.phoneNumber,
-        ),
+        store: state.store.copyWith(phoneNumber: event.phoneNumber),
       ),
     );
   }
 
-  Future<void> _onSendOtpClicked(
-    _,
-    Emitter<LoginState> emit,
-  ) async {
+  Future<void> _onSendOtpClicked(_, Emitter<LoginState> emit) async {
     final phoneNumber = state.store.phoneNumber;
 
     if (phoneNumber == null || phoneNumber.length != 10) {
@@ -91,22 +82,16 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   }
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const LoginEvent.started());
   }
 
   void phoneNumberChanged(String phoneNumber) {
-    add(
-      LoginEvent.phoneNumberChanged(phoneNumber: phoneNumber),
-    );
+    add(LoginEvent.phoneNumberChanged(phoneNumber: phoneNumber));
   }
 
   void sendOtpClicked() {
-    add(
-      const LoginEvent.sendOtpClicked(),
-    );
+    add(const LoginEvent.sendOtpClicked());
   }
 
   void otpCreated(String verificationId, int? forceResendingToken) {
@@ -119,9 +104,7 @@ final class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   }
 
   void verificationFailed(String errorMessage) {
-    add(
-      LoginEvent.verificationFailed(errorMessage: errorMessage),
-    );
+    add(LoginEvent.verificationFailed(errorMessage: errorMessage));
   }
 
   @override

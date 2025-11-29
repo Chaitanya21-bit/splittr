@@ -13,21 +13,15 @@ Future<void> mainCommon(Env env) async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: appConfig.firebaseOptions,
-  );
+  await Firebase.initializeApp(options: appConfig.firebaseOptions);
 
   configureDependencies(env);
 
-  runApp(
-    const MyApp(),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-  });
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +32,7 @@ class MyApp extends StatelessWidget {
         initialRoute: RouteId.splash.name,
         onGenerateRoute: RouteHandler.generateRoute,
         theme: AppTheme.theme,
-        navigatorObservers: [
-          CustomNavigatorObserver(),
-        ],
+        navigatorObservers: [CustomNavigatorObserver()],
       ),
     );
   }

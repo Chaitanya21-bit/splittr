@@ -14,11 +14,11 @@ part 'personal_transaction_state.dart';
 final class PersonalTransactionBloc
     extends BaseBloc<PersonalTransactionEvent, PersonalTransactionState> {
   PersonalTransactionBloc()
-      : super(
-          const PersonalTransactionState.initial(
-            store: PersonalTransactionStateStore(),
-          ),
-        );
+    : super(
+        const PersonalTransactionState.initial(
+          store: PersonalTransactionStateStore(),
+        ),
+      );
 
   @override
   void handleEvents() {
@@ -28,9 +28,7 @@ final class PersonalTransactionBloc
   void _onStarted(_Started event, Emitter<PersonalTransactionState> emit) {}
 
   @override
-  void started({
-    Map<String, dynamic>? args,
-  }) {
+  void started({Map<String, dynamic>? args}) {
     add(const PersonalTransactionEvent.started());
   }
 

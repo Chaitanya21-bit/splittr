@@ -5,10 +5,6 @@ class _GroupDashboardForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'GroupDashboard Page',
-      ),
-    );
+    return const Center(child: Text('GroupDashboard Page'));
   }
 }

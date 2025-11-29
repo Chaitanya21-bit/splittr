@@ -7,10 +7,7 @@ import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
   final Map<String, dynamic>? args;
 
-  const BasePage({
-    super.key,
-    required this.args,
-  });
+  const BasePage({super.key, required this.args});
 
   bool get showFullScreenLoader => true;
 
@@ -19,16 +16,11 @@ abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<B>(
-      create: (_) => getIt<B>()
-        ..started(
-          args: args,
-        ),
+      create: (_) => getIt<B>()..started(args: args),
       child: Stack(
         children: [
           buildScreen(context),
-          if (showFullScreenLoader) ...[
-            _FullScreenLoader<B>(),
-          ],
+          if (showFullScreenLoader) ...[_FullScreenLoader<B>()],
         ],
       ),
     );
@@ -36,9 +28,7 @@ abstract class BasePage<B extends BaseBloc> extends StatelessWidget {
 }
 
 class _FullScreenLoader<B extends BaseBloc> extends StatelessWidget {
-  const _FullScreenLoader({
-    super.key,
-  });
+  const _FullScreenLoader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +37,8 @@ class _FullScreenLoader<B extends BaseBloc> extends StatelessWidget {
       builder: (context, state) {
         if (getBloc<B>(context).isLoading) {
           return ColoredBox(
-            color: Colors.grey.withOpacity(0.4),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            color: Colors.grey.withValues(alpha: 0.4),
+            child: const Center(child: CircularProgressIndicator()),
           );
         }
         return const SizedBox();

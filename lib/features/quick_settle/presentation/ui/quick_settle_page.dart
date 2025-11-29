@@ -12,10 +12,7 @@ import 'package:splittr/utils/bloc_utils/bloc_utils.dart';
 part 'quick_settle_form.dart';
 
 class QuickSettlePage extends BasePage<QuickSettleBloc> {
-  const QuickSettlePage({
-    super.key,
-    required super.args,
-  });
+  const QuickSettlePage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {

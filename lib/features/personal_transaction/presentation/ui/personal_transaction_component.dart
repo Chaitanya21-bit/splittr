@@ -4,9 +4,7 @@ import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/personal_transaction/presentation/blocs/personal_transaction_bloc.dart';
 
 class PersonalTransactionComponent extends StatelessWidget {
-  const PersonalTransactionComponent({
-    super.key,
-  });
+  const PersonalTransactionComponent({super.key});
 
   @override
   Widget build(BuildContext context) {

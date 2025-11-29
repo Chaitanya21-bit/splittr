@@ -6,10 +6,7 @@ import 'package:splittr/features/profile/presentation/blocs/profile_bloc.dart';
 part 'profile_form.dart';
 
 class ProfilePage extends BasePage<ProfileBloc> {
-  const ProfilePage({
-    super.key,
-    required super.args,
-  });
+  const ProfilePage({super.key, required super.args});
 
   @override
   Widget buildScreen(BuildContext context) {

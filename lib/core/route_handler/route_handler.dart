@@ -23,9 +23,7 @@ final class RouteHandler {
     if (routeId == null) {
       return MaterialPageRoute(
         builder: (_) => Scaffold(
-          body: Center(
-            child: Text('Invalid Route ${settings.name}'),
-          ),
+          body: Center(child: Text('Invalid Route ${settings.name}')),
         ),
       );
     }
@@ -93,13 +91,7 @@ final class RouteHandler {
     return returnedArgs as Map<String, dynamic>?;
   }
 
-  static void pop(
-    BuildContext context, {
-    Map<String, dynamic>? args,
-  }) {
-    Navigator.pop(
-      context,
-      args,
-    );
+  static void pop(BuildContext context, {Map<String, dynamic>? args}) {
+    Navigator.pop(context, args);
   }
 }

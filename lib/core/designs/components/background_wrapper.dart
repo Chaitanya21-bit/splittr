@@ -15,14 +15,13 @@ class BackgroundWrapper extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius:
-              const BorderRadius.vertical(bottom: Radius.circular(32)),
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(32),
+          ),
           child: FractionallySizedBox(
             heightFactor: heightFactor,
             alignment: Alignment.topCenter,
-            child: Container(
-              color: AppColors.blueBgColor,
-            ),
+            child: Container(color: AppColors.blueBgColor),
           ),
         ),
         child,

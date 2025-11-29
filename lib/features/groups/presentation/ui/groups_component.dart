@@ -4,9 +4,7 @@ import 'package:splittr/di/injection.dart';
 import 'package:splittr/features/groups/presentation/blocs/groups_bloc.dart';
 
 class GroupsComponent extends StatelessWidget {
-  const GroupsComponent({
-    super.key,
-  });
+  const GroupsComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
